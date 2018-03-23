@@ -1,0 +1,10 @@
+:root {
+    --accent: #69F0AE; /**icon-fg, icon-hover-bg, progressbar-complete, input-field-border,
+                             selected-word-fg, selected-def-fg, list-item-border, list-item-hover-border */
+    
+    --accent-two: #70BCED; /* */
+    --main: #3B3F42;
+    --second: #5f605d;
+    --third: #383838;
+    --fourth: #828281;
+}

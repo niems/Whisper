@@ -1,0 +1,5 @@
+.info-pane-container {
+    height: inherit;
+    color: white;
+    background: var(--info-pane-bg);
+}

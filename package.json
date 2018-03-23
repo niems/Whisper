@@ -1,0 +1,25 @@
+{
+  "name": "whisper",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "electron": "^1.8.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.1",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "electron": "1.8.4",
+    "react-scripts": "1.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron ."
+  },
+  "main": "src/main.js",
+  "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 && electron ."
+}

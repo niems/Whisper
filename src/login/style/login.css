@@ -1,0 +1,170 @@
+.login-pane-container {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+    
+    background-color: var(--login-pane-container-bg);
+}
+
+/**INPUTFIELD SETUP*/
+.login-pane {
+    -webkit-app-region: no-drag;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+
+    background-color: var(--login-pane-bg);
+}
+
+/*displays header message*/
+.login-pane-header {
+    text-align: center;
+}
+
+h5[id='login-header'] {
+    font-size: 1.5em;
+
+    color: var(--login-header-fg);
+}
+
+p[id='login-header-info'] {
+    font-size: 0.85em;
+    font-style: italic;
+
+    color: var(--login-header-info-fg);
+}
+/*end header message setup*/
+
+.login-display {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 5px 0px;
+
+    border-style: none none solid none;
+    border-width: 1px;
+
+    text-align: center;
+    background-color: var(--login-display-bg);
+}
+
+.login-inputfield-icon {
+    float: left;
+    max-width: min-content;
+    
+    padding: 2px 3px;
+    
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+
+    color: var(--login-icon-fg);
+    background-color: var(--login-icon-bg);
+}
+
+i[id='usernameIcon'] {
+    background-image: url('./images/user_24dp.png');
+}
+
+i[id='passwordIcon'] {
+    background-image: url('./images/lock_24dp.png');
+}
+
+.login-inputfield {
+    float: left;
+    width: 1%;
+
+    outline: none;
+    border-style: none;
+    border-radius: 0px 6px 6px 0px;
+    padding: 2px 3px;   
+
+    text-align: center;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: normal;
+
+    color: var(--login-inputfield-fg);
+    background-color: var(--login-inputfield-bg);
+
+    transition: all 0.5s;
+}
+
+.login-inputfield:focus {
+    width: 90%;
+}
+
+button[id='loginButton'] {
+    align-self: flex-start;
+    font-size: 1.1em;
+    font-weight: bold;
+    font-style: italic;
+
+    outline: none;
+    padding: 2px 15px;
+    margin: 5px;
+
+    border-style: none;
+    border-radius: 6px;
+
+    color: var(--login-button-fg);
+    background-color: var(--login-button-bg);
+    box-shadow: 1px 2px 5px var(--login-button-border);
+
+    transition: all 0.4s;
+}
+
+button[id='loginButton']:hover {
+    color: var(--login-button-hover-fg);
+    background-color: var(--login-button-hover-bg);
+}
+
+button[id='loginButton']:focus {
+    color: var(--login-button-hover-fg);
+    background-color: var(--login-button-hover-bg);
+}
+
+/*END INPUTFIELD SETUP*/
+
+/**TITLEBAR SETUP */
+.titlebar-container {
+    -webkit-app-region: drag;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+
+    border-style: none none solid none;
+    border-width: 0.1em;
+
+    font-weight: bold;
+    padding: 5px;
+    margin-top: 4px;
+
+    background-color: var(--titlebar-bg);
+    border-color: var(--titlebar-border);
+}
+
+.titlebar-icon {
+    -webkit-app-region: no-drag;
+    color: var(--titlebar-icon-fg);
+
+    transition: all 0.4s;
+}
+
+.titlebar-icon:hover {
+    color: var(--titlebar-icon-hover-fg);
+    transform: rotateZ(180deg);
+}
+/**END TITLEBAR SETUP*/

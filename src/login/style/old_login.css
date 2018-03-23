@@ -1,0 +1,169 @@
+.login-pane-container {
+    width: inherit;
+    height: inherit;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    flex: 1 auto;
+    
+     background: var(--login-container-pane-bg);
+}
+
+.titlebar-pane {
+    -webkit-app-region: drag;
+    width: inherit;
+
+    border-radius: 4px 4px 0px 0px;
+    border-width: 0.01em;
+    border-style: none none solid none;
+
+    background-color:  var(--titlebar-bg);/*var(--titlebar-bg);*/
+    border-color: var(--titlebar-border);
+    /*box-shadow: 3px 4px 6px var(--titlebar-bg);*/
+}
+
+.titlebar-icon-container {
+    max-width: 5%;
+    float: right;
+    padding: 3px;
+}
+
+.titlebar-icon-container:hover {
+
+}
+
+.titlebar-icon 
+{
+    -webkit-app-region: no-drag;
+    width: inherit;
+    height: inherit;
+
+    text-align: center;
+
+    color: var(--titlebar-icon-fg);
+
+    transition: all 0.4s;
+}
+
+.titlebar-icon:hover {
+    color: var(--titlebar-icon-hover-fg);
+    border-radius: 10px;
+    transform: rotateZ(180deg);
+}
+
+h5[id='titlebar'] {
+    height: 5vh;
+}
+
+.login-pane {
+    -webkit-app-region: no-drag;
+    width: inherit;
+    height: inherit;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0px 0px 5px 5px;
+    border-style: none;
+
+    background: var(--main-dark); /*var(--login-pane-bg);*/
+}
+
+.login-area {
+    width: 99%;
+    height: 99%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+    background-color: var(--login-area-bg);    
+}
+
+.login-input {    
+    width: 60%;
+    padding: 0.35em 2em; 
+    margin: 0.1em 0em;
+
+    text-align: justify;
+    font-size: 1.25em;
+    outline: none;
+    border-style: none;
+    border-radius: 8px;
+
+    color: var(--login-input-fg);
+    background-color: var(--login-input-bg);
+    border-color: var(--login-input-border);
+
+    transition: all 0.5s;
+}
+
+.login-input:focus {
+    width: 95%;
+    margin-right: 1%;
+    background-color: var(--login-input-hover-bg);
+}
+
+i[id='email-verification'] {
+    margin-left: 0px;
+    transition: all 0.5s;
+}
+
+i[id='email-verification']:hover {
+    margin-left: 100%;
+}
+
+input[id='email-verification'] {
+    background-image: url('./images/email_24dp.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='username'] {
+    background-image: url('./images/user_24dp.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='password'] {
+    background-image: url('./images/lock_24dp.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='password-confirm'] {
+    background-image: url('./images/lock_24dp.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+button[id='login-submit'] {
+    align-self: flex-start;
+
+    outline: none;
+    padding: 0.3em 1.3em;
+    margin: 0.5em 0em 1em 6em;
+
+    border-style: solid;
+    border-width: 0.1em;
+    border-radius: 10px;
+
+    color: var(--login-submit-fg);
+    background: var(--login-submit-bg);
+    border-color: var(--login-submit-border);
+
+    transition: all 0.4s;
+}
+
+button[id='login-submit']:hover {
+}
