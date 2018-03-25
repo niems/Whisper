@@ -5,7 +5,7 @@ import './style/login.css'
 function DisplayTitlebar({ onClose }) {
     return (
         <div className='titlebar-container'>
-            <small id='app-title'>Whisper</small>
+            <i className='material-icons' id='titlebar-menu-icon'>list</i>
             <i className='material-icons titlebar-icon' id='close-app' onClick={onClose}>data_usage</i>
         </div>
     );
