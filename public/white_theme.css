@@ -2,7 +2,7 @@
     --accent: #21D47E;
     --accent-transparent: rgba(33, 212, 126, 0.65);
     --accent-dark-transparent: rgba(33, 212, 126, 0.5);
-    --accent-two-transparent: rgba(255, 0, 0, 0.68);  
+    --accent-two-transparent: rgba(203, 67, 70, 0.9);  
 
 
     --main-light-transparent: rgba(255, 255, 255, 0.7);
@@ -11,10 +11,10 @@
     --main-darker-transparent: rgba(0, 0, 0, 0.6);
 
 
-    --main-dark: #252525;
+    --main-dark: #2A2A2A;
     --main-darker: #1E1E1E;
     
-    --white-transparent: rgba(255, 255, 255, 0.85);
+    --white-transparent: rgba(244, 244, 244, 0.85);
 
     --dark-transparent: rgba(0, 0, 0, 0.4);
     --darkest-transparent: rgba(0, 0, 0, 0.8);
@@ -23,21 +23,52 @@
     --info-gradient-light: #3B3F42;
 
 
+    /*SCROLLBAR SETUP*/
+    --scrollbar-track-bg: var(--main-darker);
+    --scrollbar-thumb-bg: var(--main-transparent);
+    /*END SCROLLBAR SETUP*/
+    
+
+
     /*TITLEBAR SETUP*/
     --titlebar-bg: var(--main-dark);
-    --titlebar-border: var(--main-light-transparent);
+    --titlebar-border: var(--main-transparent);
 
     --titlebar-appname-bg: inherit;
     --titlebar-appname-fg: var(--main-light-transparent);
 
     --titlebar-icon-bg: inherit;
     --titlebar-icon-fg: var(--main-light-transparent);
-    --titlebar-icon-hover-fg: var(--accent-two-transparent);
+    --titlebar-icon-hover-fg: var(--accent-transparent);
+    --titlebar-exit-hover-fg: var(--accent-two-transparent);
+    /*END TITLEBAR SETUP*/
 
-    /*MAIN DISPLAY SETUP*/
+    /*CHAT.JS SETUP*/
+    --chat-pane-container-bg: var(--main-dark);
+
+    --display-titlebar-container-bg: var(--main-darker);
+
+    --display-users-container-bg: var(--main-darker);
+
+    --display-user-list-container-bg: inherit;
+    --display-user-listgroup-bg: var(--main-dark);
+    
+    --displayed-user-bg: inherit;
+    --displayed-user-fg: var(--white-transparent);
+    --displayed-user-border: var(--white-transparent);
+    --displayed-user-hover-fg: var(--accent);
+
+    --display-users-input-bg: inherit;
+    --display-users-input-fg: var(--white-transparent);
+    --display-users-input-border: var(--white-transparent);
+
+
+    /*END CHAT.JS SETUP*/
+
+    /*MAIN LOGIN.JS DISPLAY SETUP*/
     --login-pane-container-bg: var(--main-dark);
     
-    --login-pane-bg: var(--main-light-transparent);
+    --login-pane-bg: var(--white-transparent);
 
     --login-header-fg: var(--main-dark);
     --login-header-info-fg: var(--main-dark-transparent);
@@ -57,5 +88,6 @@
     --login-button-hover-bg: var(--accent);
     --login-button-hover-fg: var(--main-darker);
     --login-button-hover-border: var(--accent-transparent);
+    /*END  LOGIN.JS DISPLAY SETUP*/
     
 }

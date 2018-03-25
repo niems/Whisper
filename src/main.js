@@ -8,7 +8,9 @@ let mainWindow;
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 400, height: 600, alwaysOnTop: true, frame: false});
+    //400x600 - login
+    //750x500 - chat page
+    mainWindow = new BrowserWindow({width: 750, height: 500, alwaysOnTop: true, frame: false});
     //Menu.setApplicationMenu(null);
     // and load the index.html of the app.
     //mainWindow.setOpacity(0.99);

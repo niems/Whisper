@@ -1,8 +1,28 @@
 :root {
+    /*blue theme*/
+    --accent: #29C8E8;
+    --accent-two:  #26F053;
+    --accent-transparent: rgba(41, 200, 232, 0.65);
+    --accent-dark-transparent: rgba(41, 200, 232, 0.5);
+    --accent-two-transparent: rgba(38, 240, 83, 0.5);  
+
+    --accent-red-transparent: rgba(255, 0, 0, 0.5);
+    --accent-white-transparent: rgba(255, 255, 255, 0.3);
+    
+    --main-darkest: #252C2C;
+    --main-darker: #2A2B2F;
+    --main-dark: #464C62;
+
+    --main-dark-transparent: rgba(70, 76, 98, 0.4);
+    --main-darker-transparent: rgba(53, 62, 79, 0.6);
+
+
+
+    /*
     --accent: #21D47E;
     --accent-transparent: rgba(33, 212, 126, 0.65);
     --accent-dark-transparent: rgba(33, 212, 126, 0.5);
-    --accent-two-transparent: rgba(255, 0, 0, 0.68);  
+    --accent-two-transparent: rgba(255, 0, 0, 68);  
 
 
     --main-light-transparent: rgba(255, 255, 255, 0.7);
@@ -21,29 +41,29 @@
 
     --info-gradient-dark: #11171B;
     --info-gradient-light: #3B3F42;
-
+    */
 
     /*TITLEBAR SETUP*/
-    --titlebar-bg: var(--main-dark);
-    --titlebar-border: var(--main-light-transparent);
+    --titlebar-bg: var(--main-darkest);
+    --titlebar-border: var(--main-darker);
 
     --titlebar-appname-bg: inherit;
-    --titlebar-appname-fg: var(--main-light-transparent);
+    --titlebar-appname-fg: var(--main-dark);
 
     --titlebar-icon-bg: inherit;
-    --titlebar-icon-fg: var(--main-light-transparent);
-    --titlebar-icon-hover-fg: var(--accent-two-transparent);
+    --titlebar-icon-fg: var(--main-dark);
+    --titlebar-icon-hover-fg: var(--accent-red-transparent);
 
     /*MAIN DISPLAY SETUP*/
-    --login-pane-container-bg: var(--main-dark);
+    --login-pane-container-bg: #1B2423;
     
-    --login-pane-bg: var(--main-light-transparent);
+    --login-pane-bg: rgb(171, 237, 251);
 
     --login-header-fg: var(--main-dark);
-    --login-header-info-fg: var(--main-dark-transparent);
+    --login-header-info-fg: var(--main-darkest);
 
     --login-inputfield-bg: var(--main-dark);
-    --login-inputfield-fg: var(--white-transparent);
+    --login-inputfield-fg: var(--accent-transparent);
     --login-inputfield-border: var(--main-dark);
     --login-inputfield-hover-bg: var(--main-dark-transparent);
     --login-inputfield-hover-fg: inherit;

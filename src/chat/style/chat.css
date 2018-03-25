@@ -1,0 +1,184 @@
+div[id='chat-wrapper'] {
+    width: inherit;
+    height: inherit;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1 auto;
+
+    overflow: hidden;
+    
+    background-color: var(--chat-pane-container-bg);
+}
+
+div[id='chat-pane-container'] {
+    width: inherit;
+    height: inherit;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+
+    overflow: hidden;
+    
+    background-color: var(--chat-pane-container-bg);
+}
+
+/*TITLEBAR SETUP*/
+div[id='display-titlebar-container'] {
+    -webkit-app-region: drag;
+    width: inherit;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    border-style: none none solid none;
+    border-width: 1px;
+    padding: 5px 5px 5px 4px;
+
+    background-color: var(--display-titlebar-container-bg);
+    border-color: var(--titlebar-border);
+}
+
+small[id='titlebar-app-name'] {
+    text-align: justify;
+    
+    font-style: italic;
+    font-weight: bold;
+
+    color: var(--titlebar-appname-fg);
+    background-color: var(--titlebar-appname-bg);
+}
+
+i[id='titlebar-close-icon'] {
+    -webkit-app-region: no-drag;
+    margin-left: auto;
+
+    text-align: right;
+
+    color: var(--titlebar-icon-fg);
+    background-color: var(--titlebar-icon-bg);
+    
+    transition: all 0.35s;
+}
+
+i[id='titlebar-close-icon']:hover { 
+    color: var(--titlebar-exit-hover-fg);
+    transform: rotateZ(180deg);
+}
+
+i[id='titlebar-menu-icon'] {
+    -webkit-app-region: no-drag;
+
+    text-align: justify;
+
+    color: var(--titlebar-icon-fg);
+    background-color: var(--titlebar-icon-bg);
+
+    transition: all 0.35s;
+}
+
+i[id='titlebar-menu-icon']:hover {
+    color: var(--titlebar-icon-hover-fg);
+}
+
+/*END TITLEBAR SETUP*/
+
+/* Userlist setup */
+div[id='display-users-container'] {
+    -webkit-app-region: no-drag;
+    max-width: 25%;
+    height: inherit;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 2 auto;
+
+    overflow: hidden;
+    padding-top: 2%;
+
+     background-color: var(--display-users-container-bg);       
+}
+
+input[id='display-users-input-filter'] {
+    width: 95%;
+
+    outline: none;
+    border-style: none none solid none;
+    border-width: 1px;
+    
+     margin: 5% 2% 0% 2%;
+     font-style: italic;
+     font-size: 0.95em;
+     text-align: justify;    
+
+    color: var(--display-users-input-fg);
+    background-color: var(--display-users-input-bg);
+    border-color: var(--display-users-input-border);
+}
+
+div[id='display-user-list-container'] {
+    width: 95%;
+    height: 80%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center; 
+    flex: 1 auto;
+
+    background-color: var(--display-user-list-container-bg);
+}
+
+ul[id='display-user-listgroup'] {
+    width: 90%;
+    height: 90%;
+
+    border-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background-color: var(--display-user-listgroup-bg);
+}
+
+.displayed-user {
+    width: 85%;
+    margin: 1em auto;
+    padding: 0.7em 0px;
+    list-style-type: none;
+
+    text-align: center;
+    font-size: 1em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    border-radius: 1px;
+    border-style: none solid none none;
+    border-width: 1px;
+
+    color: var(--displayed-user-fg);
+    background-color: var(--displayed-user-bg);
+    border-color: var(--displayed-user-border);
+
+    transition: all 0.2s;
+}
+
+.displayed-user:hover {
+    border-radius: 7px;
+    color: var(--displayed-user-hover-fg);
+}
+
+.displayed-user-status {
+    font-style: normal;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+/*END Userlist setup */
