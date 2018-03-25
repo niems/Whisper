@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import io from 'socket.io-client'
 import './style/login.css'
 
-function DisplayTitlebar(props) {
+function DisplayTitlebar({ onClose }) {
     return (
         <div className='titlebar-container'>
             <small id='app-title'>Whisper</small>
-            <i className='material-icons titlebar-icon' id='close-app'>data_usage</i>
+            <i className='material-icons titlebar-icon' id='close-app' onClick={onClose}>data_usage</i>
         </div>
     );
 }
@@ -24,9 +24,9 @@ function DisplayLoginHeader(props) {
 
 function DisplayInput( {iconName, iconId, inputId, inputType, value, onChange} ) {
     return (
-        <div className='login-display'>
-            <i className='material-icons login-inputfield-icon' id={iconId}>{iconName}</i>
-            <input type={inputType} className='login-inputfield' id={inputId} value={value} onChange={onChange} />
+        <div className='login-display login-display-focused'>
+            <i className='material-icons login-inputfield-icon login-display-focused' id={iconId}>{iconName}</i>
+            <input type={inputType} className='login-inputfield login-display-focused' id={inputId} value={value} onChange={onChange} />
         </div>
     );    
 }
@@ -72,7 +72,7 @@ class Login extends Component {
             confirmPass: ''  //confirm password inputfield
         }; 
 
-        
+        this.onClose = this.onClose.bind(this); //close button clicked
         this.onChange = this.onChange.bind(this); //an inputfield has changed
         this.onButtonSubmit = this.onButtonSubmit.bind(this); //user submitted by clicking the login button
         this.onServerConnect = this.onServerConnect.bind(this); //user has just been connected to server
@@ -83,6 +83,10 @@ class Login extends Component {
             this.onServerConnect(data);
         });
         */
+    }
+
+    onClose(e) { //user clicked close app button
+        this.props.closeApp(e); 
     }
 
     onChange(e) {
@@ -107,8 +111,16 @@ class Login extends Component {
     onButtonSubmit(e) {
         try {
             e.preventDefault();
+            let userData;
 
             if ( this.state.signUp ) { //new account - email verification and confirm password needs to be checked
+                //user for login attempt                
+                userData = {
+                    email: this.state.email,
+                    username: this.state.username,
+                    pass: this.state.pass
+                };
+
                 if ( this.state.email !== '' ) {
                     if ( this.state.confirmPass !== '' ) {
                         if ( this.state.pass !== this.state.confirmPass ) {
@@ -132,9 +144,19 @@ class Login extends Component {
                 }
             }
 
+            else {
+                //user for login attempt
+                userData = {
+                    username: this.state.username,
+                    pass: this.state.pass
+                };
+            }
+
             if ( this.state.username !== '' ) {
                 if ( this.state.pass !== '' ) {
                     alert('login approved');
+
+                    this.props.loginAttempt( userData );
                 }
 
                 else {
@@ -149,8 +171,6 @@ class Login extends Component {
                 document.getElementById('usernameInput').focus();
                 return;
             }
-
-            window.location.assign('http://localhost:3000/chat.html');
         }
         catch(e) {
             console.log(`ERR login - onButtonSubmit(): ${e.message}`);
@@ -192,7 +212,7 @@ class Login extends Component {
 
         return (
             <div className='login-pane-container'> 
-               <DisplayTitlebar />
+               <DisplayTitlebar onClose={this.onClose} />
                <DisplayLogin data={data} onChange={this.onChange} onSubmit={this.onButtonSubmit} />
             </div>
        );

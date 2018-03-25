@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import ChatMessagePane from './chat_message_pane'
 import './style/chat.css'
 
-function DisplayTitlebar(props) {
+function DisplayTitlebar({ onClose }) {
     return (
         <div id='display-titlebar-container'>
             <i className='material-icons' id='titlebar-menu-icon'>list</i>
-            <i className='material-icons' id='titlebar-close-icon'>data_usage</i>
+            <i className='material-icons' id='titlebar-close-icon' onClick={onClose}>data_usage</i>
         </div>
     )
 }
@@ -174,7 +174,12 @@ class Chat extends Component {
             ]
         }
 
-        this.onFilterChange = this.onFilterChange.bind(this);
+        this.onClose = this.onClose.bind(this); //user clicked close button
+        this.onFilterChange = this.onFilterChange.bind(this); //filter updated
+    }
+
+    onClose(e) {
+        this.props.closeApp(e);
     }
 
     onFilterChange(e) {
@@ -184,7 +189,7 @@ class Chat extends Component {
     render() {
         return ( 
             <div id='chat-wrapper'>
-                <DisplayTitlebar />
+                <DisplayTitlebar onClose={this.onClose} />
 
                 <div id='chat-pane-container'>
                     

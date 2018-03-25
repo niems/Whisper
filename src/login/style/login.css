@@ -56,6 +56,8 @@ p[id='login-header-info'] {
 
     text-align: center;
     background-color: var(--login-display-bg);
+
+    transition: all 0.5s;
 }
 
 .login-inputfield-icon {
@@ -83,7 +85,7 @@ i[id='passwordIcon'] {
 .login-inputfield {
     float: left;
     width: 1%;
-
+    
     outline: none;
     border-style: none;
     border-radius: 0px 6px 6px 0px;
@@ -98,6 +100,10 @@ i[id='passwordIcon'] {
     background-color: var(--login-inputfield-bg);
 
     transition: all 0.5s;
+}
+
+.login-display-focused:focus {
+    background-color: var(--login-display-focus-bg);
 }
 
 .login-inputfield:focus {
@@ -142,8 +148,8 @@ button[id='loginButton']:focus {
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: flex-start;
+    align-items: center;
 
     border-style: none none solid none;
     border-width: 1px;
@@ -168,7 +174,7 @@ small[id='app-title'] {
 
 .titlebar-icon {
     -webkit-app-region: no-drag;
-    margin-left: 30%;
+    margin-left: auto;
 
     color: var(--titlebar-icon-fg);
 
@@ -176,7 +182,7 @@ small[id='app-title'] {
 }
 
 .titlebar-icon:hover {
-    color: var(--titlebar-icon-hover-fg);
+    color: var(--titlebar-exit-hover-fg);
     transform: rotateZ(180deg);
 }
 /**END TITLEBAR SETUP*/
