@@ -76,7 +76,7 @@
     --chat-message-item-fg: var(--white-transparent);
     --chat-message-item-border: var(--main-transparent);
 
-    --display-message-input-container-bg: var(--main-dark-transparent);
+    --display-message-input-container-bg: var(--main-darkest-transparent);
     --display-message-input-fg: var(--white-transparent);
     --display-message-input-bg: var(--main-darkest-transparent);
     --display-message-input-border: var(--white-transparent);
