@@ -10,7 +10,7 @@
 
     overflow: hidden;
 
-    background: linear-gradient(45deg, var(--accent-dark-transparent), var(--accent) );
+    background: var(--chat-message-pane-container-bg);
 }
 
 .message-list-container {
@@ -23,8 +23,8 @@
     align-items: center;    
     flex: 3 auto;
 
-    color: var(--white-transparent);
-    background-color: inherit;
+    color: var(--chat-message-list-container-fg);
+    background-color: var(--chat-message-list-container-bg);
 }
 
 .message-list {
@@ -35,11 +35,32 @@
     list-style-type: none;
     padding: 15px;  
 
-    background: rgba(50, 50, 50, 0.7);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: var(--chat-message-list-bg);
 }
 
 .display-msg-item {
+    margin: 10px 0px;
 
+    color: var(--chat-message-item-fg);
+    background-color: var(--chat-message-item-bg);
+}
+
+.display-msg-username {
+    font-size: 0.9em;
+    font-style: italic;
+    font-weight: bold;
+    font-variant-caps: small-caps;
+}
+
+.display-msg-time {
+    font-size: 0.55em;
+}
+
+.display-msg {
+    padding: 15px;
 }
 
 .display-message-input-container {
@@ -52,7 +73,7 @@
     align-items: center;
     flex: 1 auto;
     
-    background-color: var(--main-darker);
+    background-color: var(--display-message-input-container-bg);
 }
 
 input[id='message-input'] {
@@ -62,9 +83,9 @@ input[id='message-input'] {
     border-radius: 3px;
     border-style: none solid solid none;
     border-width: 1px;
-    border-color: var(--white-transparent);
     padding: 5px 10px;
 
-    color: var(--white-transparent);
-    background-color: inherit;
+    color: var(--display-message-input-fg);
+    background-color: var(--display-message-input-bg);
+    border-color: var(--display-message-input-border);
 }

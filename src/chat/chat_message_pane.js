@@ -6,7 +6,8 @@ function DisplayMessageList({ messages }) {
         <li className='display-msg-item' key={msg.msgId} id={msg.msgId}>
 
             <small className='display-msg-username'>{msg.user}</small>
-            <small className='display-msg-time'>{msg.receiveTime + ' - '}</small>
+            <small className='display-msg-time'>{' ' + msg.receiveTime}</small>
+            <br />
             <small className='display-msg'>{msg.msg}</small>
             
         </li>

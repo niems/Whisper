@@ -4,11 +4,13 @@
     --accent-dark-transparent: rgba(33, 212, 126, 0.5);
     --accent-two-transparent: rgba(203, 67, 70, 0.9);  
 
+    --main-accent-gradient:  linear-gradient(45deg, var(--accent-dark-transparent), var(--accent) );
 
     --main-light-transparent: rgba(255, 255, 255, 0.7);
     --main-transparent: rgba(100, 100, 100, 0.5);
     --main-dark-transparent: rgba(37, 37, 37, 0.4);
     --main-darker-transparent: rgba(0, 0, 0, 0.6);
+    --main-darkest-transparent: rgba(50, 50, 50, 0.7);
 
 
     --main-dark: #2A2A2A;
@@ -61,9 +63,25 @@
     --display-users-input-bg: inherit;
     --display-users-input-fg: var(--white-transparent);
     --display-users-input-border: var(--white-transparent);
-
-
     /*END CHAT.JS SETUP*/
+
+    /*CHAT-MESSAGE-PANE.JS*/
+    --chat-message-pane-container-bg: var(--main-accent-gradient);
+    
+    --chat-message-list-container-fg: var(--white-transparent);
+    --chat-message-list-container-bg: inherit;
+
+    --chat-message-list-bg: var(--main-darkest-transparent);
+    --chat-message-item-bg: inherit;
+    --chat-message-item-fg: var(--white-transparent);
+    --chat-message-item-border: var(--main-transparent);
+
+    --display-message-input-container-bg: var(--main-darker-transparent);
+    --display-message-input-fg: var(--white-transparent);
+    --display-message-input-bg: var(--main-dark-transparent);
+    --display-message-input-border: var(--white-transparent);
+    /*END CHAT-MESSAGE-PANE.JS*/
+    
 
     /*MAIN LOGIN.JS DISPLAY SETUP*/
     --login-pane-container-bg: var(--main-dark);
