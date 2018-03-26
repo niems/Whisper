@@ -84,7 +84,7 @@ input[id='message-input'] {
     border-radius: 3px;
     border-style: none solid solid none;
     border-width: 1px;
-    padding: 5px 10px;
+    padding: 7px 15px;
 
     color: var(--display-message-input-fg);
     background-color: var(--display-message-input-bg);

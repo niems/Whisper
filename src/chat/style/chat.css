@@ -47,8 +47,9 @@ div[id='display-titlebar-container'] {
 }
 
 small[id='titlebar-username'] {
+    margin-left: auto;
+
     text-align: justify;
-    
     font-style: italic;
     font-weight: bold;
 

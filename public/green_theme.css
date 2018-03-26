@@ -95,10 +95,10 @@
     --login-display-focus-bg: var(--main-dark);
 
     --login-inputfield-bg: inherit;
-    --login-inputfield-fg: var(--white-transparent);
+    --login-inputfield-fg: var(--main-dark);
     --login-inputfield-border: var(--main-dark);
-    --login-inputfield-hover-bg: var(--main-dark-transparent);
-    --login-inputfield-hover-fg: inherit;
+    --login-inputfield-hover-bg: var(--main-dark);
+    --login-inputfield-hover-fg: var(--white-transparent);  
 
     --login-icon-bg: var(--main-dark);
     --login-icon-fg: var(--main-light-transparent);

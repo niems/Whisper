@@ -62,7 +62,7 @@ p[id='login-header-info'] {
 
 .login-inputfield-icon {
     float: left;
-    max-width: min-content;
+    width: auto;
     
     padding: 2px 3px;
     
@@ -74,22 +74,16 @@ p[id='login-header-info'] {
     background-color: var(--login-icon-bg);
 }
 
-i[id='usernameIcon'] {
-    background-image: url('./images/user_24dp.png');
-}
-
-i[id='passwordIcon'] {
-    background-image: url('./images/lock_24dp.png');
-}
-
 .login-inputfield {
-    float: left;
-    width: 1%;
+    width: inherit;
     
     outline: none;
     border-style: none;
-    border-radius: 0px 6px 6px 0px;
-    padding: 2px 3px;   
+    padding: 2px 3px;  
+    
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
 
     text-align: center;
     font-size: 1em;
@@ -102,12 +96,41 @@ i[id='passwordIcon'] {
     transition: all 0.5s;
 }
 
-.login-display-focused:focus {
-    background-color: var(--login-display-focus-bg);
+.login-inputfield:focus {
+    color: var(--login-inputfield-hover-fg);
+    background-color: var(--login-inputfield-hover-bg);
 }
 
-.login-inputfield:focus {
-    width: 90%;
+input[id='emailInput'] {
+    background-image: url('./images/email_black.png');
+}
+
+input[id='emailInput']:focus {
+    background-image: url('./images/email_white.png');
+}
+
+input[id='usernameInput'] {
+    background-image: url('./images/person_black.png');
+}
+
+input[id='usernameInput']:focus {
+    background-image: url('./images/person_white.png');
+}
+
+input[id='passwordInput'] {
+    background-image: url('./images/lock_black.png');
+}
+
+input[id='passwordInput']:focus {
+    background-image: url('./images/lock_white.png');
+}
+
+input[id='confirmPasswordInput'] {
+    background-image: url('./images/lock_black.png');
+}
+
+input[id='confirmPasswordInput']:focus {
+    background-image: url('./images/lock_white.png');
 }
 
 button[id='loginButton'] {

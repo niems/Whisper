@@ -24,9 +24,8 @@ function DisplayLoginHeader(props) {
 
 function DisplayInput( {iconName, iconId, inputId, inputType, value, onChange} ) {
     return (
-        <div className='login-display login-display-focused'>
-            <i className='material-icons login-inputfield-icon login-display-focused' id={iconId}>{iconName}</i>
-            <input type={inputType} className='login-inputfield login-display-focused' id={inputId} value={value} onChange={onChange} />
+        <div className='login-display'>
+            <input type={inputType} className='login-inputfield' id={inputId} value={value} onChange={onChange} />
         </div>
     );    
 }
@@ -65,7 +64,7 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            signUp: false, //true if user is creating a new account
+            signUp: true, //true if user is creating a new account
             email: '',          //email inputfield
             username: '',      //username inputfield
             pass: '',         //password inputfield
@@ -153,12 +152,12 @@ class Login extends Component {
                     pass: this.state.pass
                 };
 
-                alert(`Data passed: ${this.state.username} - ${this.state.pass}`);
+                //alert(`Data passed: ${this.state.username} - ${this.state.pass}`);
             }
 
             if ( this.state.username !== '' ) {
                 if ( this.state.pass !== '' ) {
-                    alert('login approved');
+                    //alert('login approved');
                     document.cookie='username=' + this.state.username;
                     document.cookie='rubbish=placeholderValue';
                     this.props.loginAttempt( userData );
@@ -183,7 +182,7 @@ class Login extends Component {
     }
 
     onServerConnect(data) {
-        alert(`My id: ${data.name}: ${data.id}`);
+        //alert(`My id: ${data.name}: ${data.id}`);
     }
 
     componentDidMount() {
