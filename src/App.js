@@ -22,7 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {isLoggedIn: false};
+    this.state = {isLoggedIn: false}; /*CHANGE TO FALSE AFTER TESTING IS DONE*/
     this.loginData = undefined; //data provided from user when initially logging in  {newUser, email(if new user), username, pass}
 
     this.loginAttempt = this.loginAttempt.bind(this);

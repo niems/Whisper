@@ -130,6 +130,12 @@ io.on('connection', (socket) => {
 
     console.log(`${user.username} connected: ${socket.id}`);
 
+    
+    //message send from client - broadcast message to all users except client
+    socket.on('chat message', (msg) => {
+        socket.broadcast.emit('chat message', msg); //msg is already a JSON object - sent that way from client
+    });
+
     socket.on('disconnect', () => {
         removeActiveUser(socket.id); //removes from active user list
         io.emit( 'active users list', JSON.stringify(activeUsers) ); //sends the updated active users list

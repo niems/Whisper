@@ -89,68 +89,17 @@ class Chat extends Component {
 
         this.state = {
             filter: '',
-            activeUsers: [
-                {
-                    username: 'Ricky Bobby',
-                    status: 'online',
-                    socketId: 'alskjdfj43232398g',
-                }
-            ], 
+            activeUsers: [], 
             messages: [
+                /*
                 {
-                    user: 'Rick',
+                    username: 'Rick',
+                    //socket id
                     msgId: 'f02ktng-d9gjsn2',
                     msg: 'Connected to server',
                     receiveTime: '11:02 AM'
-                },
-                {
-                    user: 'Spacer',
-                    msgId: 'f02ktasdgng-d9gjsn2',
-                    msg: 'testing stuff',
-                    receiveTime: '12:51 PM'
-                },
-                {
-                    user: 'Placeholder',
-                    msgId: 'f02ktng-d9dggasgasdggjsn2',
-                    msg: 'such messages',
-                    receiveTime: '1:50 PM'
-                },
-                {
-                    user: 'Rick3',
-                    msgId: 'f02ktn3g-d9gjsn2',
-                    msg: 'Connected to server3',
-                    receiveTime: '11:03 AM'
-                },
-                {
-                    user: 'Spacer3',
-                    msgId: 'f02k2t3asdgng-d9gjsn2',
-                    msg: 'testing stuff3',
-                    receiveTime: '12:53 PM'
-                },
-                {
-                    user: 'Place4holder',
-                    msgId: 'f02ktng-235d9dggasgasdggjsn2',
-                    msg: 'such messages2',
-                    receiveTime: '1:52 PM'
-                },
-                {
-                    user: 'Rick65',
-                    msgId: 'f02k1tng-d9653gjsn2',
-                    msg: 'Connected to server5',
-                    receiveTime: '11:52 AM'
-                },
-                {
-                    user: 'Spacer9',
-                    msgId: 'f02ktasdg94ng-d9gjsn2',
-                    msg: 'testing stuff9',
-                    receiveTime: '12:59 PM'
-                },
-                {
-                    user: 'Placeholder9',
-                    msgId: 'f02ktng-d9dgg2asg55asdggjsn2',
-                    msg: 'such messages8',
-                    receiveTime: '1:59 PM'
-                },
+                }
+                */
             ]
         }
 
@@ -159,6 +108,7 @@ class Chat extends Component {
         this.onClose = this.onClose.bind(this); //user clicked close button
         this.onFilterChange = this.onFilterChange.bind(this); //filter updated
         this.onSocketSetup = this.onSocketSetup.bind(this);
+        this.onSendChatMessage = this.onSendChatMessage.bind(this); //sends a message to other users
     }
 
     componentDidMount() {
@@ -198,7 +148,46 @@ class Chat extends Component {
 
             this.setState({ activeUsers });
         });
+
+        //client received a message from another user
+        this.socket.on('chat message', (msg) => {
+            let messages = this.state.messages;
+            messages.unshift( JSON.parse(msg) ); //adds message from client
+
+            this.setState({ messages }); 
+        });
     }
+
+    onSendChatMessage(msg) {
+         /*
+        message format: 
+        username: 'Rick',
+                    //socket id
+                    msgId: 'f02ktng-d9gjsn2',
+                    msg: 'Connected to server',
+                    receiveTime: '11:02 AM'
+        */
+        let date = new Date();
+        let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getHours().toString() + date.getSeconds().toString();
+
+        alert(`Message id: ${id}`);
+
+        let message = {
+            username: this.username,
+            socketId: this.socket.id,
+            msgId: id,
+            msg: msg,
+            receiveTime: date.toLocaleTimeString()
+        };
+
+        this.socket.emit('chat message', JSON.stringify(message) ); //sends the message from this client to the server - broadcasted to everyone except client
+
+        let messages = this.state.messages;
+        messages.unshift( message ); //adds client message
+        
+        this.setState({ messages });
+    }
+    
 
     render() {
         return ( 
@@ -207,7 +196,7 @@ class Chat extends Component {
 
                 <div id='chat-pane-container'>
                     <DisplayUsers activeUsers={this.state.activeUsers} filter={this.state.filter} onChange={this.onFilterChange} />
-                    <ChatMessagePane messages={this.state.messages} />
+                    <ChatMessagePane messages={this.state.messages} onSendMessage={this.onSendChatMessage} />
                 </div>
             </div>
         );

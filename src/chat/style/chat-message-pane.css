@@ -77,6 +77,11 @@
     background-color: var(--display-message-input-container-bg);
 }
 
+form[id='message-input-form'] {
+    width: inherit;
+    text-align: center;
+}
+
 input[id='message-input'] {
     width: 95%;
     outline: none;
