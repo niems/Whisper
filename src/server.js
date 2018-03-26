@@ -45,20 +45,24 @@ function addActiveUser(user) {
         if ( activeUsers[i].username === user.username ) { //user is already in active list
 
             if ( activeUsers[i].socketID !== user.socketID ) { //socket ID for active user has changed
+                console.log(`${user.username} already active user - updated socket ID`);
                 activeUsers[i].socketID = user.socketID; //updates socket ID
             }
 
-            return; //exits function - user doesn't need to be added to list
+            return true; //exits function - user doesn't need to be added to list. Still returns true because socket ID needs to be updated for all users
         }
     }
 
     //adds new active user
-    console.log(`addActiveUser - ${user.username}: ${user.socketID}`);
+    console.log(`Added active user - ${user.username}: ${user.socketID}`);
 
     activeUsers.push({
         username: user.username,
+        status: 'online',
         socketID: user.socketID
     });
+
+    return true; //active user added
 }
 
 //previously active user - removed from list because of socket disconnect
@@ -98,18 +102,37 @@ io.on('connection', (socket) => {
     if( user.newUser ) { //email only supplied if connected user is new
         console.log(`Email: ${user.email}`);
 
-        addNewUser(user); //stores new user info
+        if ( addNewUser(user) ) { //stores new user info if user is new
+            //emit message to new user that they're account is active
+
+            //broadcast message to other users that this user has signed up for an account
+        }
+
+        else {
+            //emit message to new user that their account info is taken/invalid
+        }
     }
 
-    addActiveUser({
-        username: user.username,
-        socketID: socket.id
-    }); //adds active user to list
+    //using an array instead of an object so the emit event can stay the same
+    //and the format for reading these in can stay the same for the new user getting the full list of active users
+    //or if it's an active user getting the single new user update
+    let newActiveUser = {
+            username: user.username,
+            status: 'online',
+            socketID: socket.id
+        };
+
+    //send current user the list of active users
+    if ( addActiveUser(newActiveUser) ) { //new active user added or socket ID of active user updated
+        socket.broadcast.emit( 'active user update', JSON.stringify(newActiveUser) );  //update all users' (except current user) active user list 
+        socket.emit( 'active users list', JSON.stringify(activeUsers) ); //updates the new user with the active users list
+    }
 
     console.log(`${user.username} connected: ${socket.id}`);
 
     socket.on('disconnect', () => {
         removeActiveUser(socket.id); //removes from active user list
+        io.emit( 'active users list', JSON.stringify(activeUsers) ); //sends the updated active users list
         console.log(`User disconnected: ${socket.id}`);
     });
 });

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import ChatMessagePane from './chat_message_pane'
 import './style/chat.css'
 
+const io = require('socket.io-client');
 
 function parseCookie() {
     let username;
@@ -31,78 +32,30 @@ function DisplayTitlebar({ username, onClose }) {
     )
 }
 
-function DisplayUserList({ filter }) {
+function DisplayUserList({ activeUsers, filter }) {
     let displayMessages; //holds final <li> list to display
-    let testList = [
-        {
-            name: 'user 1',
-            status: 'online',
-            id: 'alskjdfj43232398g',
-        },
-        {
-            name: 'user 2',
-            status: 'online',
-            id: 'alsk32525624398g',
-        },
-        {
-            name: 'user 4',
-            status: 'offline',
-            id: 'alskjdf5342176452398g',
-        },
-        {
-            name: 'user 13',
-            status: 'online',
-            id: 'alskjdfj2312423398g',
-        },
-        {
-            name: 'user 23',
-            status: 'online',
-            id: 'alsk325asd23398g',
-        },
-        {
-            name: 'user 43',
-            status: 'offline',
-            id: 'alskjdf5337645asg2398g',
-        },
-        {
-            name: 'user 15',
-            status: 'online',
-            id: 'alskjdfj5232gas398g',
-        },
-        {
-            name: 'user 25',
-            status: 'online',
-            id: 'alsk32gas523598g',
-        },
-        {
-            name: 'user 45',
-            status: 'offline',
-            id: 'alskasdjdf5376452398g',
-        },
-    ];
-
 
     if (filter !== '') {
         console.log(`filter: ${filter}`);        
         let userFilter = new RegExp(filter);
 
-        const filteredList = testList.filter( u => (
-            userFilter.test(u.name)
+        const filteredList = activeUsers.filter( u => (
+            userFilter.test(u.username)
         ));
 
         console.log(filteredList);
 
         displayMessages = filteredList.map( u => (
-            <li className='displayed-user' key={u.id} id={u.id}>
-                {u.name + ' - '}<small className='displayed-user-status'>{u.status}</small>
+            <li className='displayed-user' key={u.socketId} id={u.socketId}>
+                {u.username + ' - '}<small className='displayed-user-status'>{u.status}</small>
             </li>  
         ));
     }
 
     else {
-        displayMessages = testList.map( u => (
-            <li className='displayed-user' key={u.id} id={u.id}>
-                {u.name + ' - '}<small className='displayed-user-status'>{u.status}</small>
+        displayMessages = activeUsers.map( u => (
+            <li className='displayed-user' key={u.socketId} id={u.socketId}>
+                {u.username + ' - '}<small className='displayed-user-status'>{u.status}</small>
             </li>  
         ));
     }
@@ -116,14 +69,14 @@ function DisplayUserList({ filter }) {
     );
 }
 
-function DisplayUsers({ filter, onChange }) {
+function DisplayUsers({ activeUsers, filter, onChange }) {
     return (
         <div id='display-users-container'>
 
             <input type='text' id='display-users-input-filter' value={filter}
                    onChange={onChange} placeholder='Search by username...' />
 
-            <DisplayUserList filter={filter} />
+            <DisplayUserList activeUsers={activeUsers} filter={filter} />
 
         </div>
     );
@@ -136,6 +89,13 @@ class Chat extends Component {
 
         this.state = {
             filter: '',
+            activeUsers: [
+                {
+                    username: 'Ricky Bobby',
+                    status: 'online',
+                    socketId: 'alskjdfj43232398g',
+                }
+            ], 
             messages: [
                 {
                     user: 'Rick',
@@ -198,6 +158,11 @@ class Chat extends Component {
         
         this.onClose = this.onClose.bind(this); //user clicked close button
         this.onFilterChange = this.onFilterChange.bind(this); //filter updated
+        this.onSocketSetup = this.onSocketSetup.bind(this);
+    }
+
+    componentDidMount() {
+        this.onSocketSetup(); //connects to server & sets up socket events
     }
 
     onClose(e) {
@@ -208,13 +173,40 @@ class Chat extends Component {
         this.setState({ filter: e.currentTarget.value });
     }
 
+    onSocketSetup() {
+        //call this.props.loginFailed(info of fail) to reset to login screen if goes wrong here. //if called, make sure to disconnect current socket from server
+
+        //call during 'component did mount' - if it's called everytime something updates, modify so it's only called on initial connection
+        this.socket = io('localhost:8080', {
+            query: {
+            userData: JSON.stringify(this.props.loginData) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
+            }
+        });  
+
+        //client is new user or another user disconnected
+        this.socket.on('active users list', (data) => {
+            this.setState({
+                activeUsers: JSON.parse(data)
+            });
+        });
+
+        //client is active user, new user connected to server
+        this.socket.on('active user update', (data) => {
+            let activeUsers = this.state.activeUsers;
+
+            activeUsers.unshift( JSON.parse(data) ); //adds new active user to list
+
+            this.setState({ activeUsers });
+        });
+    }
+
     render() {
         return ( 
             <div id='chat-wrapper'>
                 <DisplayTitlebar username={this.username} onClose={this.onClose} />
 
                 <div id='chat-pane-container'>
-                    <DisplayUsers filter={this.state.filter} onChange={this.onFilterChange} />
+                    <DisplayUsers activeUsers={this.state.activeUsers} filter={this.state.filter} onChange={this.onFilterChange} />
                     <ChatMessagePane messages={this.state.messages} />
                 </div>
             </div>

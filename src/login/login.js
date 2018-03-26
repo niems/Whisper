@@ -151,13 +151,10 @@ class Login extends Component {
                     username: this.state.username,
                     pass: this.state.pass
                 };
-
-                //alert(`Data passed: ${this.state.username} - ${this.state.pass}`);
             }
 
             if ( this.state.username !== '' ) {
                 if ( this.state.pass !== '' ) {
-                    //alert('login approved');
                     document.cookie='username=' + this.state.username;
                     document.cookie='rubbish=placeholderValue';
                     this.props.loginAttempt( userData );

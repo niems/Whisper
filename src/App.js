@@ -6,10 +6,10 @@ import './App.css';
 const io = require('socket.io-client');
 const {BrowserWindow} = window.require('electron').remote;
 
-function DisplayAppView({ isLoggedIn, loginAttempt, closeApp }) {
+function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed, closeApp }) {
   if (isLoggedIn) { //if the user successfully logged in
     return (
-      <Chat closeApp={closeApp} />
+      <Chat loginData={loginData} loginFailed={loginFailed} closeApp={closeApp} />
     );
   }
 
@@ -23,31 +23,34 @@ class App extends Component {
     super(props);
 
     this.state = {isLoggedIn: false};
+    this.loginData = undefined; //data provided from user when initially logging in  {newUser, email(if new user), username, pass}
 
     this.loginAttempt = this.loginAttempt.bind(this);
+    this.loginFailed = this.loginFailed.bind(this); //callback for chat.js - if user's login attempt fails
     this.closeApp = this.closeApp.bind(this);
   }
 
   //checks login data against server
   loginAttempt(data) {
     try {
-      //test login attempt against server here
-      this.socket = io('localhost:8080', {
-        query: {
-          userData: JSON.stringify(data) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
-        }
-      });
+      this.loginData = data;
 
       //navigate to chat page if login is accepted
       this.setState({ isLoggedIn: true });
       BrowserWindow.getAllWindows()[0].setSize(750, 500); //chat ui screen size update
-
 
     }
     catch(e) {
       console.log(`ERR loginAttempt(): ${e.message}`);
     }    
   }
+
+   loginFailed() {
+     alert('login failed');
+
+     this.setState({ isLoggedIn: false });
+     BrowserWindow.getAllWindows()[0].setSize(400, 600); //resets screen size based on login page
+   }
 
   closeApp(e) {
     try {
@@ -61,7 +64,8 @@ class App extends Component {
   render() {
     return (
       <div className="App wrapper">
-        <DisplayAppView isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt} closeApp={this.closeApp} />
+        <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt}
+                        loginFailed={this.loginFailed} closeApp={this.closeApp} />
       </div>
     );
   }    
