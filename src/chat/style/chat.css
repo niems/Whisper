@@ -46,7 +46,7 @@ div[id='display-titlebar-container'] {
     border-color: var(--titlebar-border);
 }
 
-small[id='titlebar-app-name'] {
+small[id='titlebar-username'] {
     text-align: justify;
     
     font-style: italic;

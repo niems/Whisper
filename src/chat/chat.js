@@ -2,10 +2,30 @@ import React, {Component} from 'react'
 import ChatMessagePane from './chat_message_pane'
 import './style/chat.css'
 
-function DisplayTitlebar({ onClose }) {
+
+function parseCookie() {
+    let username;
+    let cookie = document.cookie;
+    let usernameIndex = cookie.indexOf('=', cookie.indexOf('username=') ) + 1; //+1 - don't want the '=' included
+    let endUsernameIndex = cookie.indexOf(';', usernameIndex);
+
+    
+    if (endUsernameIndex === -1) {
+        username = cookie.replace('username=', '');
+    }
+
+    else {           
+        username = cookie.slice(usernameIndex, endUsernameIndex);
+    }  
+
+    return username;
+}
+
+function DisplayTitlebar({ username, onClose }) {
     return (
         <div id='display-titlebar-container'>
             <i className='material-icons' id='titlebar-menu-icon'>list</i>
+            <small id='titlebar-username'>{username}</small>
             <i className='material-icons' id='titlebar-close-icon' onClick={onClose}>data_usage</i>
         </div>
     )
@@ -174,6 +194,8 @@ class Chat extends Component {
             ]
         }
 
+        this.username = parseCookie(); //returns the username from document.cookie
+        
         this.onClose = this.onClose.bind(this); //user clicked close button
         this.onFilterChange = this.onFilterChange.bind(this); //filter updated
     }
@@ -189,10 +211,9 @@ class Chat extends Component {
     render() {
         return ( 
             <div id='chat-wrapper'>
-                <DisplayTitlebar onClose={this.onClose} />
+                <DisplayTitlebar username={this.username} onClose={this.onClose} />
 
                 <div id='chat-pane-container'>
-                    
                     <DisplayUsers filter={this.state.filter} onChange={this.onFilterChange} />
                     <ChatMessagePane messages={this.state.messages} />
                 </div>

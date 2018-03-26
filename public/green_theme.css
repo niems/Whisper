@@ -26,7 +26,7 @@
 
 
     /*SCROLLBAR SETUP*/
-    --scrollbar-track-bg: var(--main-darker);
+    --scrollbar-track-bg: inherit;
     --scrollbar-thumb-bg: var(--white-transparent);
     /*END SCROLLBAR SETUP*/
     

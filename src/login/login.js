@@ -116,6 +116,7 @@ class Login extends Component {
             if ( this.state.signUp ) { //new account - email verification and confirm password needs to be checked
                 //user for login attempt                
                 userData = {
+                    newUser: true,
                     email: this.state.email,
                     username: this.state.username,
                     pass: this.state.pass
@@ -147,15 +148,19 @@ class Login extends Component {
             else {
                 //user for login attempt
                 userData = {
+                    newUser: false,
                     username: this.state.username,
                     pass: this.state.pass
                 };
+
+                alert(`Data passed: ${this.state.username} - ${this.state.pass}`);
             }
 
             if ( this.state.username !== '' ) {
                 if ( this.state.pass !== '' ) {
                     alert('login approved');
-
+                    document.cookie='username=' + this.state.username;
+                    document.cookie='rubbish=placeholderValue';
                     this.props.loginAttempt( userData );
                 }
 
