@@ -44,7 +44,13 @@ function DisplayLogin( {data, onChange, onSubmit} ) {
                 <DisplayInput iconName={'email'} iconId={'emailIcon'} inputId={'emailInput'} inputType='text' value={data.user.email} onChange={onChange} />                
                 <DisplayInput iconName={'person'} iconId={'usernameIcon'} inputId={'usernameInput'} inputType='text' value={data.user.username} onChange={onChange} />
                 <DisplayInput iconName={'lock'} iconId={'passwordIcon'} inputId={'passwordInput'} inputType='password' value={data.user.pass} onChange={onChange} />
-                <DisplayInput iconName={'lock'} iconId={'confirmpasswordIcon'} inputId={'confirmPasswordInput'} inputType='password' value={data.user.confirmPass} onChange={onChange} />   
+                
+                {
+                    data.user.pass !== '' ?
+                    (<DisplayInput iconName={'lock'} iconId={'confirmpasswordIcon'} inputId={'confirmPasswordInput'} inputType='password' value={data.user.confirmPass} onChange={onChange} />)
+                    : null
+                }
+
                 <DisplayButton id='loginButton' name='Connect' onClick={onSubmit} />                         
             </div>
         ); 
@@ -75,13 +81,6 @@ class Login extends Component {
         this.onChange = this.onChange.bind(this); //an inputfield has changed
         this.onButtonSubmit = this.onButtonSubmit.bind(this); //user submitted by clicking the login button
         this.onServerConnect = this.onServerConnect.bind(this); //user has just been connected to server
-        
-        /*
-        this.socket = io('http://localhost:8080'); //connects to server
-        this.socket.on('CONNECTED_TO_SERVER', (data) => {
-            this.onServerConnect(data);
-        });
-        */
     }
 
     onClose(e) { //user clicked close app button
@@ -107,6 +106,7 @@ class Login extends Component {
         }
     }
 
+    //user attempts to login
     onButtonSubmit(e) {
         try {
             e.preventDefault();

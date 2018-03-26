@@ -2,6 +2,7 @@ const app = require('express')();
 const socket = require('socket.io');
 const port = 8080;
 
+ //stores new user info - remembers friend list & conversations associated with this user
 function addNewUser(userInfo) {
     allUsers.push(
         {
@@ -12,6 +13,7 @@ function addNewUser(userInfo) {
     );
 }
 
+//user just logged in - removed when they're disconnected
 function addActiveUser(user) {
     for(let i = 0; i < activeUsers.length; i++) {
         if ( activeUsers[i].username === user.username ) { //user is already in active list
@@ -33,6 +35,7 @@ function addActiveUser(user) {
     });
 }
 
+//previously active user - removed from list because of socket disconnect
 function removeActiveUser(id) {
     console.log( JSON.stringify(activeUsers) );
     
@@ -84,53 +87,3 @@ io.on('connection', (socket) => {
         console.log(`User disconnected: ${socket.id}`);
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-const express = require('express');
-const app = express();
-const socket = require('socket.io');
-
-let server = app.listen(8080, () => {
-    let host = server.address().address;
-    let port = server.address().port;
-
-    console.log(`Server listening on ${host} : ${port}`);
-});
-
-let io = socket(server);
-
-io.on('connection', (socket) => {
-    console.log(`Connection ID: ${socket.id}`);
-
-    let newUser = {
-        id: socket.id,
-        name: 'rando connector'
-    };
-
-    socket.emit('CONNECTED_TO_SERVER', newUser);
-});
-*/

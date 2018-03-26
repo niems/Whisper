@@ -16,6 +16,12 @@ function createWindow() {
     //mainWindow.setOpacity(0.99);
     mainWindow.loadURL('http://localhost:3000');
 
+    //figure out how to resize the window if it's reloaded (ctrl + r)
+    mainWindow.on('close', () => {
+            console.log('closing window :(');
+         //mainWindow.setSize(400, 600);
+    });
+
     
     // Open the DevTools.
     //mainWindow.webContents.openDevTools();
