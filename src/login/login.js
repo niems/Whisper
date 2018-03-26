@@ -70,7 +70,7 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            signUp: true, //true if user is creating a new account
+            signUp: false, //true if user is creating a new account
             email: '',          //email inputfield
             username: '',      //username inputfield
             pass: '',         //password inputfield

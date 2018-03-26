@@ -3,14 +3,40 @@ const socket = require('socket.io');
 const port = 8080;
 
  //stores new user info - remembers friend list & conversations associated with this user
+ //returns true if user was added - send message to new users & connected message to active users
+ //returns false if error occurred - send message to user who tried to get a new account
 function addNewUser(userInfo) {
-    allUsers.push(
-        {
-            email: userInfo.email,
-            username: userInfo.username,
-            pass: userInfo.pass
+    let validNewUser = true;
+
+    //checks if potential new user is valid
+    for(let i = 0; i < allUsers.length; i++) {
+        if ( allUsers[i].email === userInfo.email ) { //email already linked to an account
+            console.log('An account already exists with that email address');
+            validNewUser = false;
+            break;
         }
-    );
+
+        else if ( allUsers[i].username === userInfo.username ) { //username taken - if using email as login non-unique usernames' don't matter
+            console.log('An account already exists with that username')
+            validNewUser = false;
+            break;
+        }
+    }
+
+    //if new user is valid, store their info
+    if ( validNewUser ) {
+
+        console.log('New user added!');
+        allUsers.push(
+            {
+                email: userInfo.email,
+                username: userInfo.username,
+                pass: userInfo.pass
+            }
+        );
+    }
+    
+    return validNewUser; //true if user has been added as a new user
 }
 
 //user just logged in - removed when they're disconnected
