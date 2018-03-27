@@ -5,8 +5,8 @@ import './style/login.css'
 function DisplayTitlebar({ onClose }) {
     return (
         <div className='titlebar-container'>
-            <i className='material-icons' id='titlebar-menu-icon'>list</i>
-            <i className='material-icons titlebar-icon' id='close-app' onClick={onClose}>data_usage</i>
+            <img id='titlebar-menu-icon' src='/images/menu_white.png' />
+            <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close.svg' />
         </div>
     );
 }

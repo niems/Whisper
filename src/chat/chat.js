@@ -25,11 +25,11 @@ function parseCookie() {
 function DisplayTitlebar({ username, onClose }) {
     return (
         <div id='display-titlebar-container'>
-            <i className='material-icons' id='titlebar-menu-icon'>list</i>
+            <img id='titlebar-menu-icon' src='/images/menu_white.png' />
             <small id='titlebar-username'>{username}</small>
-            <i className='material-icons' id='titlebar-close-icon' onClick={onClose}>data_usage</i>
+            <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close.svg' />
         </div>
-    )
+    ); 
 }
 
 function DisplayUserList({ activeUsers, filter }) {
@@ -40,7 +40,7 @@ function DisplayUserList({ activeUsers, filter }) {
         let userFilter = new RegExp(filter);
 
         const filteredList = activeUsers.filter( u => (
-            userFilter.test(u.username)
+            userFilter.test(u.username.toLowerCase())
         ));
 
         console.log(filteredList);
@@ -90,17 +90,7 @@ class Chat extends Component {
         this.state = {
             filter: '',
             activeUsers: [], 
-            messages: [
-                /*
-                {
-                    username: 'Rick',
-                    //socket id
-                    msgId: 'f02ktng-d9gjsn2',
-                    msg: 'Connected to server',
-                    receiveTime: '11:02 AM'
-                }
-                */
-            ]
+            messages: []
         }
 
         this.username = parseCookie(); //returns the username from document.cookie
@@ -120,7 +110,7 @@ class Chat extends Component {
     }
 
     onFilterChange(e) {
-        this.setState({ filter: e.currentTarget.value });
+        this.setState({ filter: e.currentTarget.value.toString().toLowerCase() });
     }
 
     onSocketSetup() {
@@ -159,18 +149,8 @@ class Chat extends Component {
     }
 
     onSendChatMessage(msg) {
-         /*
-        message format: 
-        username: 'Rick',
-                    //socket id
-                    msgId: 'f02ktng-d9gjsn2',
-                    msg: 'Connected to server',
-                    receiveTime: '11:02 AM'
-        */
         let date = new Date();
         let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getHours().toString() + date.getSeconds().toString();
-
-        alert(`Message id: ${id}`);
 
         let message = {
             username: this.username,

@@ -185,27 +185,23 @@ button[id='loginButton']:focus {
     border-color: var(--titlebar-border);
 }
 
-small[id='app-title'] {
-    margin-right: 50%;
-    font-style: italic;
-    font-weight: bold;
-    text-align: left;
-    
-    color: var(--titlebar-appname-fg);
-    background-color: var(--titlebar-appname-bg);
+img[id='titlebar-menu-icon'] {
+    -webkit-app-region: no-drag;
 }
 
-.titlebar-icon {
+img[id='close-app'] {
     -webkit-app-region: no-drag;
     margin-left: auto;
 
-    color: var(--titlebar-icon-fg);
+    filter: invert(1);
 
-    transition: all 0.4s;
+    transition: transform 0.4s;
 }
 
-.titlebar-icon:hover {
-    color: var(--titlebar-exit-hover-fg);
+img[id='close-app']:hover {
+    /*red*/
+    filter: invert(.5) sepia(1) saturate(100) hue-rotate(335deg);
     transform: rotateZ(180deg);
 }
+
 /**END TITLEBAR SETUP*/

@@ -57,36 +57,32 @@ small[id='titlebar-username'] {
     background-color: var(--titlebar-appname-bg);
 }
 
-i[id='titlebar-close-icon'] {
-    -webkit-app-region: no-drag;
-    margin-left: auto;
-
-    text-align: right;
-
-    color: var(--titlebar-icon-fg);
-    background-color: var(--titlebar-icon-bg);
-    
-    transition: all 0.35s;
-}
-
-i[id='titlebar-close-icon']:hover { 
-    color: var(--titlebar-exit-hover-fg);
-    transform: rotateZ(180deg);
-}
-
-i[id='titlebar-menu-icon'] {
+img[id='titlebar-menu-icon'] {
     -webkit-app-region: no-drag;
 
     text-align: justify;
 
-    color: var(--titlebar-icon-fg);
-    background-color: var(--titlebar-icon-bg);
-
     transition: all 0.35s;
 }
 
-i[id='titlebar-menu-icon']:hover {
-    color: var(--titlebar-icon-hover-fg);
+img[id='titlebar-menu-icon']:hover {
+    
+}
+
+img[id='close-app'] {
+    -webkit-app-region: no-drag;
+    margin-left: auto;
+
+    text-align: right;
+    filter: invert(1);    
+    
+    transition: transform 0.35s;
+}
+
+img[id='close-app']:hover {
+    /*red*/
+    filter: invert(.5) sepia(1) saturate(100) hue-rotate(335deg);
+    transform: rotateZ(180deg);
 }
 
 /*END TITLEBAR SETUP*/
@@ -147,7 +143,7 @@ ul[id='display-user-listgroup'] {
     overflow-x: hidden;
     overflow-y: auto;
 
-    background-color: var(--display-user-listgroup-bg);
+    background: var(--display-user-listgroup-bg);
 }
 
 .displayed-user {
