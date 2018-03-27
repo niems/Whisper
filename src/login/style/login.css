@@ -1,6 +1,8 @@
 .login-pane-container {
     width: inherit;
     height: inherit;
+    max-height: 93%;
+    /*height: inherit;*/
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -166,6 +168,7 @@ button[id='loginButton']:focus {
 /*END INPUTFIELD SETUP*/
 
 /**TITLEBAR SETUP */
+/*
 .titlebar-container {
     -webkit-app-region: drag;
     width: 100%;
@@ -199,9 +202,8 @@ img[id='close-app'] {
 }
 
 img[id='close-app']:hover {
-    /*red*/
     filter: invert(.5) sepia(1) saturate(100) hue-rotate(335deg);
     transform: rotateZ(180deg);
 }
-
+*/
 /**END TITLEBAR SETUP*/

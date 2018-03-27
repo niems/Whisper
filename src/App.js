@@ -6,6 +6,15 @@ import './App.css';
 const io = require('socket.io-client');
 const {BrowserWindow} = window.require('electron').remote;
 
+function DisplayTitlebar({ onClose }) {
+  return (
+      <div className='titlebar-container'>
+          <img id='titlebar-menu-icon' src='/images/menu_white.png' />
+          <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close.svg' />
+      </div>
+  );
+}
+
 function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed, closeApp }) {
   if (isLoggedIn) { //if the user successfully logged in
     return (
@@ -64,6 +73,7 @@ class App extends Component {
   render() {
     return (
       <div className="App wrapper">
+        <DisplayTitlebar onClose={this.closeApp} />
         <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt}
                         loginFailed={this.loginFailed} closeApp={this.closeApp} />
       </div>

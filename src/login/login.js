@@ -213,10 +213,11 @@ class Login extends Component {
 
         return (
             <div className='login-pane-container'> 
-               <DisplayTitlebar onClose={this.onClose} />
+               
                <DisplayLogin data={data} onChange={this.onChange} onSubmit={this.onButtonSubmit} />
             </div>
        );
     }
 }
+/*<DisplayTitlebar onClose={this.onClose} />*/
 export default Login;

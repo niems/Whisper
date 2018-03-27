@@ -7,6 +7,47 @@
   background-color: black;
 }
 
+.titlebar-container {
+  -webkit-app-region: drag;
+  width: 100%;
+  height: min-content;
+  max-height: 6%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  border-style: none none solid none;
+  border-width: 1px;
+
+  font-weight: bold;
+  padding: 5px;
+  margin-top: 4px;
+
+  /*
+  background-color: var(--titlebar-bg);
+  border-color: var(--titlebar-border);
+  */
+}
+
+img[id='titlebar-menu-icon'] {
+  -webkit-app-region: no-drag;
+}
+
+img[id='close-app'] {
+  -webkit-app-region: no-drag;
+  margin-left: auto;
+
+  filter: invert(1);
+
+  transition: transform 0.4s;
+}
+
+img[id='close-app']:hover {
+  filter: invert(.5) sepia(1) saturate(100) hue-rotate(335deg);
+  transform: rotateZ(180deg);
+}
+
 ::-webkit-scrollbar {
   width: 2px;
 }

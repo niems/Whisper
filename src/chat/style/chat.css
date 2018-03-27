@@ -1,6 +1,8 @@
 div[id='chat-wrapper'] {
     width: inherit;
+    /*height: inherit;*/
     height: inherit;
+    max-height: 93%;
 
     display: flex;
     flex-flow: column nowrap;
@@ -29,6 +31,7 @@ div[id='chat-pane-container'] {
 }
 
 /*TITLEBAR SETUP*/
+/*
 div[id='display-titlebar-container'] {
     -webkit-app-region: drag;
     width: inherit;
@@ -80,10 +83,11 @@ img[id='close-app'] {
 }
 
 img[id='close-app']:hover {
-    /*red*/
+    
     filter: invert(.5) sepia(1) saturate(100) hue-rotate(335deg);
     transform: rotateZ(180deg);
 }
+*/
 
 /*END TITLEBAR SETUP*/
 

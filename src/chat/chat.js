@@ -172,8 +172,6 @@ class Chat extends Component {
     render() {
         return ( 
             <div id='chat-wrapper'>
-                <DisplayTitlebar username={this.username} onClose={this.onClose} />
-
                 <div id='chat-pane-container'>
                     <DisplayUsers activeUsers={this.state.activeUsers} filter={this.state.filter} onChange={this.onFilterChange} />
                     <ChatMessagePane messages={this.state.messages} onSendMessage={this.onSendChatMessage} />
@@ -182,5 +180,7 @@ class Chat extends Component {
         );
     }
 }
+
+/*<DisplayTitlebar username={this.username} onClose={this.onClose} />*/
 
 export default Chat;
