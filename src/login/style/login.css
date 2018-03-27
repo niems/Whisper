@@ -71,7 +71,7 @@ p[id='login-header-info'] {
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;
-
+    
     color: var(--login-icon-fg);
     background-color: var(--login-icon-bg);
 }

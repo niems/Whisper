@@ -2,15 +2,6 @@ import React, {Component} from 'react'
 import io from 'socket.io-client'
 import './style/login.css'
 
-function DisplayTitlebar({ onClose }) {
-    return (
-        <div className='titlebar-container'>
-            <img id='titlebar-menu-icon' src='/images/menu_white.png' />
-            <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close.svg' />
-        </div>
-    );
-}
-
 function DisplayLoginHeader(props) {
     return (
         <div className='login-pane-header'>
@@ -77,14 +68,8 @@ class Login extends Component {
             confirmPass: ''  //confirm password inputfield
         }; 
 
-        this.onClose = this.onClose.bind(this); //close button clicked
         this.onChange = this.onChange.bind(this); //an inputfield has changed
         this.onButtonSubmit = this.onButtonSubmit.bind(this); //user submitted by clicking the login button
-        this.onServerConnect = this.onServerConnect.bind(this); //user has just been connected to server
-    }
-
-    onClose(e) { //user clicked close app button
-        this.props.closeApp(e); 
     }
 
     onChange(e) {
@@ -156,7 +141,6 @@ class Login extends Component {
             if ( this.state.username !== '' ) {
                 if ( this.state.pass !== '' ) {
                     document.cookie='username=' + this.state.username;
-                    document.cookie='rubbish=placeholderValue';
                     this.props.loginAttempt( userData );
                 }
 
@@ -176,10 +160,6 @@ class Login extends Component {
         catch(e) {
             console.log(`ERR login - onButtonSubmit(): ${e.message}`);
         }
-    }
-
-    onServerConnect(data) {
-        //alert(`My id: ${data.name}: ${data.id}`);
     }
 
     componentDidMount() {
@@ -213,11 +193,10 @@ class Login extends Component {
 
         return (
             <div className='login-pane-container'> 
-               
                <DisplayLogin data={data} onChange={this.onChange} onSubmit={this.onButtonSubmit} />
             </div>
        );
     }
 }
-/*<DisplayTitlebar onClose={this.onClose} />*/
+
 export default Login;

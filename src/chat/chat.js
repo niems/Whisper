@@ -21,7 +21,7 @@ function parseCookie() {
 
     return username;
 }
-
+/*
 function DisplayTitlebar({ username, onClose }) {
     return (
         <div id='display-titlebar-container'>
@@ -31,6 +31,7 @@ function DisplayTitlebar({ username, onClose }) {
         </div>
     ); 
 }
+*/
 
 function DisplayUserList({ activeUsers, filter }) {
     let displayMessages; //holds final <li> list to display
@@ -95,7 +96,6 @@ class Chat extends Component {
 
         this.username = parseCookie(); //returns the username from document.cookie
         
-        this.onClose = this.onClose.bind(this); //user clicked close button
         this.onFilterChange = this.onFilterChange.bind(this); //filter updated
         this.onSocketSetup = this.onSocketSetup.bind(this);
         this.onSendChatMessage = this.onSendChatMessage.bind(this); //sends a message to other users
@@ -103,10 +103,6 @@ class Chat extends Component {
 
     componentDidMount() {
         this.onSocketSetup(); //connects to server & sets up socket events
-    }
-
-    onClose(e) {
-        this.props.closeApp(e);
     }
 
     onFilterChange(e) {
@@ -180,7 +176,5 @@ class Chat extends Component {
         );
     }
 }
-
-/*<DisplayTitlebar username={this.username} onClose={this.onClose} />*/
 
 export default Chat;
