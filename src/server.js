@@ -140,12 +140,19 @@ io.on('connection', (socket) => {
     //send current user the list of active users
     if ( addActiveUser(newActiveUser) ) { //new active user added or socket ID of active user updated
         let connectMsg = user.username + ' has connected';
-        let data = {
-            users: activeUsers,
-            statusChangeMsg: connectMsg,
-        }
+        let date = new Date();
+        let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
+
+        let message = {
+            username: user.username,
+            socketId: socket.id,
+            msgId: id,
+            msg: connectMsg,
+            receiveTime: date.toLocaleTimeString()
+        };
 
         socket.broadcast.emit( 'active user update', JSON.stringify(newActiveUser) );  //update all users' (except current user) active user list 
+        socket.broadcast.emit( 'chat message', JSON.stringify(message) );
         socket.emit( 'active users list', JSON.stringify(activeUsers) ); //updates the new user with the active users list
     }
 
@@ -159,13 +166,21 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         let disconnectMsg = user.username + ' has disconnected';
+        
+        let date = new Date();
+        let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
 
-        let data = {
-            users: activeUsers,
-            statusChangeMsg: disconnectMsg
-        }
+        let message = {
+            username: user.username,
+            socketId: socket.id,
+            msgId: id,
+            msg: disconnectMsg,
+            receiveTime: date.toLocaleTimeString()
+        };
+        
 
         removeActiveUser(socket.id); //removes from active user list
+        io.emit( 'chat message', JSON.stringify(message) ); //sends disconnect message to active users
         io.emit( 'active users list', JSON.stringify(activeUsers) ); //sends the updated active users list
         console.log(`User disconnected: ${socket.id}`);
     });
