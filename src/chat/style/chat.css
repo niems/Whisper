@@ -1,8 +1,7 @@
 div[id='chat-wrapper'] {
     width: inherit;
-    /*height: inherit;*/
     height: inherit;
-    max-height: 93%;
+    max-height: 95%;
 
     display: flex;
     flex-flow: column nowrap;
@@ -30,71 +29,10 @@ div[id='chat-pane-container'] {
     background-color: var(--chat-pane-container-bg);
 }
 
-/*TITLEBAR SETUP*/
-/*
-div[id='display-titlebar-container'] {
-    -webkit-app-region: drag;
-    width: inherit;
-
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-
-    border-style: none none solid none;
-    border-width: 1px;
-    padding: 5px 5px 5px 4px;
-
-    background-color: var(--display-titlebar-container-bg);
-    border-color: var(--titlebar-border);
-}
-
-small[id='titlebar-username'] {
-    margin-left: auto;
-
-    text-align: justify;
-    font-style: italic;
-    font-weight: bold;
-
-    color: var(--titlebar-appname-fg);
-    background-color: var(--titlebar-appname-bg);
-}
-
-img[id='titlebar-menu-icon'] {
-    -webkit-app-region: no-drag;
-
-    text-align: justify;
-
-    transition: all 0.35s;
-}
-
-img[id='titlebar-menu-icon']:hover {
-    
-}
-
-img[id='close-app'] {
-    -webkit-app-region: no-drag;
-    margin-left: auto;
-
-    text-align: right;
-    filter: invert(1);    
-    
-    transition: transform 0.35s;
-}
-
-img[id='close-app']:hover {
-    
-    filter: invert(.5) sepia(1) saturate(100) hue-rotate(335deg);
-    transform: rotateZ(180deg);
-}
-*/
-
-/*END TITLEBAR SETUP*/
-
 /* Userlist setup */
 div[id='display-users-container'] {
     -webkit-app-region: no-drag;
-    max-width: 25%;
+    max-width: 20%;
     height: inherit;
 
     display: flex;

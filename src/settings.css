@@ -1,0 +1,25 @@
+@keyframes settings-in {
+    from {
+        margin-left: -100%;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0%;
+        opacity: 1;
+    }
+}
+
+div[id='settings-wrapper'] {
+    width: inherit;
+    height: inherit;
+    max-height: 95%;
+
+    position: fixed;
+    z-index: 100;
+
+    background: rgba(0, 0, 255, 0.7);
+
+    animation-name: settings-in;
+    animation-duration: 0.5s;
+}

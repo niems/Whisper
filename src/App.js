@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Login from './login/login'
 import Chat from './chat/chat'
-import './App.css';
+import Settings from './settings'
+import './App.css'
 
 const io = require('socket.io-client');
 const {BrowserWindow} = window.require('electron').remote;
@@ -27,10 +28,10 @@ function parseCookie() {
 }
 
 
-function DisplayTitlebar({ username, onClose }) {
+function DisplayTitlebar({ username, onOpenSettings, onClose }) {
     return (
         <div id='display-titlebar-container'>
-            <img id='titlebar-menu-icon' src='/images/menu_white.png' />
+            <img id='titlebar-menu-icon' onClick={onOpenSettings} src='/images/menu_white.png' />
             <small id='titlebar-username'>{username}</small>
             <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close_white.png' />
         </div>
@@ -54,6 +55,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      displaySettings: false, //determines if settings are being displayed
       isLoggedIn: false,   //CHANGE TO FALSE IF NOT TESTING
       username: ''         //renders in the middle of titlebar once set (after user logs in)
     }; 
@@ -62,6 +64,7 @@ class App extends Component {
     this.loginAttempt = this.loginAttempt.bind(this);
     this.loginFailed = this.loginFailed.bind(this); //callback for chat.js - if user's login attempt fails
     this.closeApp = this.closeApp.bind(this);
+    this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
   }
 
   //checks login data against server
@@ -101,10 +104,28 @@ class App extends Component {
     }
   }
 
+  onOpenSettings(e) {
+    try {
+      this.setState({
+        displaySettings: !this.state.displaySettings
+      });
+    }
+    catch(e) {
+      console.log(`ERR onOpenSettings(): ${e.message}`);
+    }
+  }
+
   render() {
+    let settingsMenu = null;
+
+    if ( this.state.displaySettings ) {
+      settingsMenu = <Settings />;
+    }
+
     return (
       <div className="App wrapper">
-        <DisplayTitlebar username={this.state.username} onClose={this.closeApp} />
+        <DisplayTitlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
+        {settingsMenu}
         <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt}
                         loginFailed={this.loginFailed} closeApp={this.closeApp} />
       </div>

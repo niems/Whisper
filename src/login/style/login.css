@@ -1,8 +1,8 @@
 .login-pane-container {
     width: inherit;
     height: inherit;
-    max-height: 93%;
-    /*height: inherit;*/
+    max-height: 95%;
+
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;

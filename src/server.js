@@ -1,5 +1,6 @@
 const app = require('express')();
 const socket = require('socket.io');
+const hostname = '192.168.86.32';
 const port = 8080;
 
  //stores new user info - remembers friend list & conversations associated with this user
@@ -82,11 +83,24 @@ function removeActiveUser(id) {
 //returns the server once it's listening on the port
 let allUsers = []; //list of active and inactive users - appended to when new user connects
 let activeUsers = []; //list of current active users - stores username & socket ID
+
+/*
 let server = app.listen(port, () => {
     let localPort = server.address().port;
     let address = server.address().address;
 
     console.log(`Server listening on ${address} : ${localPort}`);
+});
+*/
+
+let server = app.listen(port, hostname, () => {
+    let address = server.address().address;
+    let family = server.address().family;
+    let port = server.address().port;
+    
+    console.log('Server info: ');
+    console.log(`-family: ${family}`)
+    console.log(`-listening on ${address} : ${port}`);
 });
 
 let io = socket(server);
@@ -94,9 +108,10 @@ let io = socket(server);
 //listens for user connections
 io.on('connection', (socket) => {
     let user = JSON.parse(socket.handshake.query.userData);
+    let address = socket.handshake.address;
     
     console.log(`New user: ${user.newUser}`);
-    console.log(`Username: ${user.username}`);
+    console.log(`Username: ${user.username} from ${address}`);
     console.log(`Password: ${user.pass}`);
 
     if( user.newUser ) { //email only supplied if connected user is new
@@ -124,6 +139,12 @@ io.on('connection', (socket) => {
 
     //send current user the list of active users
     if ( addActiveUser(newActiveUser) ) { //new active user added or socket ID of active user updated
+        let connectMsg = user.username + ' has connected';
+        let data = {
+            users: activeUsers,
+            statusChangeMsg: connectMsg,
+        }
+
         socket.broadcast.emit( 'active user update', JSON.stringify(newActiveUser) );  //update all users' (except current user) active user list 
         socket.emit( 'active users list', JSON.stringify(activeUsers) ); //updates the new user with the active users list
     }
@@ -137,6 +158,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
+        let disconnectMsg = user.username + ' has disconnected';
+
+        let data = {
+            users: activeUsers,
+            statusChangeMsg: disconnectMsg
+        }
+
         removeActiveUser(socket.id); //removes from active user list
         io.emit( 'active users list', JSON.stringify(activeUsers) ); //sends the updated active users list
         console.log(`User disconnected: ${socket.id}`);

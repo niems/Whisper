@@ -4,6 +4,9 @@ import './style/chat.css'
 
 const io = require('socket.io-client');
 
+/*server setup*/ 
+const serverHost = '192.168.86.32:8080';
+
 function parseCookie() {
     let username;
     let cookie = document.cookie;
@@ -21,17 +24,6 @@ function parseCookie() {
 
     return username;
 }
-/*
-function DisplayTitlebar({ username, onClose }) {
-    return (
-        <div id='display-titlebar-container'>
-            <img id='titlebar-menu-icon' src='/images/menu_white.png' />
-            <small id='titlebar-username'>{username}</small>
-            <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close.svg' />
-        </div>
-    ); 
-}
-*/
 
 function DisplayUserList({ activeUsers, filter }) {
     let displayMessages; //holds final <li> list to display
@@ -113,13 +105,14 @@ class Chat extends Component {
         //call this.props.loginFailed(info of fail) to reset to login screen if goes wrong here. //if called, make sure to disconnect current socket from server
 
         //call during 'component did mount' - if it's called everytime something updates, modify so it's only called on initial connection
-        this.socket = io('localhost:8080', {
+        this.socket = io(serverHost, {
             query: {
             userData: JSON.stringify(this.props.loginData) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
             }
         });  
 
         //client is new user or another user disconnected
+        //also adds connect/disconnect msg from new user activity
         this.socket.on('active users list', (data) => {
             this.setState({
                 activeUsers: JSON.parse(data)
@@ -146,7 +139,7 @@ class Chat extends Component {
 
     onSendChatMessage(msg) {
         let date = new Date();
-        let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getHours().toString() + date.getSeconds().toString();
+        let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
 
         let message = {
             username: this.username,
