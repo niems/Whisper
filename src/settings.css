@@ -1,5 +1,17 @@
 @keyframes settings-in {
     from {
+        margin-left: 100%;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0%;
+        opacity: 1;
+    }
+}
+
+@keyframes submenu-in {
+    from {
         margin-left: -100%;
         opacity: 0;
     }
@@ -18,8 +30,95 @@ div[id='settings-wrapper'] {
     position: fixed;
     z-index: 100;
 
-    background: rgba(0, 0, 255, 0.7);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    flex: 1 auto;
+    overflow: hidden;
+
+    background: var(--settings-bg);
 
     animation-name: settings-in;
     animation-duration: 0.5s;
 }
+
+div[id='settings-menu-container'] {
+    height: inherit;
+    width: 15%;
+    max-width: 80px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    background: var(--settings-menu-container-bg);
+}
+
+.settings-menu-item {
+    filter: invert(1);
+
+    margin: 50% auto;
+}
+
+.settings-submenu {
+    height: inherit;
+    width: inherit;
+    max-width: 90%;
+
+    background: var(--settings-submenu-bg);
+
+    animation-name: submenu-in;
+    animation-duration: 0.5s;
+} 
+
+.typing-notification-submenu {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    flex: 1 auto;
+}
+
+
+.settings-submenu-description {
+    text-align: center;
+    padding: 2em;
+    color: var(--settings-submenu-fg);
+}
+
+/*COLOR THEME SUBMENU SETUP*/
+.color-theme-submenu {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+}
+
+.settings-submenu-color-theme {
+    margin: 2.5% auto;
+    padding: 0.75em;
+    
+    border-style: outset;
+    border-width: 2px;
+    
+    text-align: center;
+    border-radius: 10px;
+}
+
+button[id='color-theme-blue'] {
+    color: var(--settings-blue-color-theme-fg);
+    background: var(--settings-blue-color-theme-bg);
+    border-color: var(--settings-blue-color-theme-border);
+}
+
+button[id='color-theme-blue']:hover {
+    color: var(--settings-blue-color-theme-fg);
+    background: var(--settings-blue-color-theme-bg);
+    border-color: var(--settings-blue-color-theme-border);
+}
+
+/*END COLOR THEME SUBMENU SETUP*/
+

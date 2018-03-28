@@ -1,5 +1,10 @@
 :root {
     /*blue 300*/
+    /*--blue-filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);*/
+
+    --accent-blue-gradient: linear-gradient(45deg, rgba(25, 118, 210, 0.5), rgba(25, 118, 210, 0.25) );
+    --accent-green-gradient: linear-gradient(45deg, rgba(33, 212, 126, 0.5), rgba(33, 212, 126, 0.25) );
+
     --accent: #1976D2;
     --accent-transparent: rgba(25, 118, 210, 0.65);
     --accent-dark-transparent: rgba(25, 118, 210, 0.5);
@@ -32,7 +37,23 @@
     --scrollbar-thumb-bg: var(--white-transparent);
     /*END SCROLLBAR SETUP*/
     
+    /*SETTINGS.JS SETUP*/
+    --settings-bg: var(--darkest-transparent);
 
+    --settings-menu-container-bg: var(--accent-transparent);
+
+    --settings-submenu-bg: var(--main-dark-transparent);
+    --settings-submenu-fg: var(--white-transparent);
+
+    --settings-blue-color-theme-bg: var(--accent-blue-gradient);
+    --settings-blue-color-theme-fg: var(--main-dark);
+    --settings-blue-color-theme-border: var(--main-dark);
+
+    --settings-green-color-theme-bg: var(--accent-green-gradient);
+    --settings-green-color-theme-fg: var(--main-dark);
+    --settings-green-color-theme-border: var(--main-dark);
+
+    /*END SETTINGS.JS SETUP*/
 
     /*TITLEBAR SETUP*/
     --titlebar-bg: var(--main-dark);

@@ -55,7 +55,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      displaySettings: false, //determines if settings are being displayed
+      displaySettings: true, //CHANGE TO FALSE IF NOT TESTING. determines if settings are being displayed
       isLoggedIn: false,   //CHANGE TO FALSE IF NOT TESTING
       username: ''         //renders in the middle of titlebar once set (after user logs in)
     }; 
