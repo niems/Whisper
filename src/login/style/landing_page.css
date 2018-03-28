@@ -1,0 +1,42 @@
+div[id='landing-page-container'] {
+    width: inherit;
+    height: 95%;
+    max-height: 95%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+
+    background-color: red;
+}
+
+.landing-page-section-container {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center; 
+    flex: 1 auto;
+
+    transition: all 0.5s;
+}
+
+div[id='landing-page-sign-in-container'] {
+    background-color: green;
+}
+
+div[id='landing-page-sign-in-container']:hover {
+    width: 70%;
+}
+
+div[id='landing-page-sign-up-container'] {
+    background-color: blue;
+}
+
+div[id='landing-page-sign-up-container']:hover {
+    width: 70%;
+}

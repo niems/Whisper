@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './login/login'
 import Chat from './chat/chat'
 import Settings from './settings'
+import LandingPage from './login/landing_page'
 import './App.css'
 
 const io = require('socket.io-client');
@@ -55,7 +56,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      displaySettings: true, //CHANGE TO FALSE IF NOT TESTING. determines if settings are being displayed
+      displaySettings: false, //CHANGE TO FALSE IF NOT TESTING. determines if settings are being displayed
       isLoggedIn: false,   //CHANGE TO FALSE IF NOT TESTING
       username: ''         //renders in the middle of titlebar once set (after user logs in)
     }; 
@@ -126,11 +127,21 @@ class App extends Component {
       <div className="App wrapper">
         <DisplayTitlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
         {settingsMenu}
-        <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt}
-                        loginFailed={this.loginFailed} closeApp={this.closeApp} />
+        <LandingPage />
       </div>
     );
   }    
 }
 
 export default App;
+
+/*
+    return (
+      <div className="App wrapper">
+        <DisplayTitlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
+        {settingsMenu}
+        <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt}
+                        loginFailed={this.loginFailed} closeApp={this.closeApp} />
+      </div>
+    );
+    */
