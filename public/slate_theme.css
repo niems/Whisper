@@ -1,13 +1,36 @@
 :root {
-    /*
+    
     --accent: #69F0AE; 
     --accent-two: #70BCED; 
     --main: #3B3F42;
     --second: #5f605d;
     --third: #383838;
     --fourth: #828281;
-    */
-    
+
+    --slate-gradient-transparent: rgba(59, 63, 66, 0.7);
+
+    --slate-gradient: linear-gradient(45deg, #3B3F42, #383838);
+    --accent-gradient: var(--accent);
+
+    --landing-sign-in-bg: var(--accent);
+    --landing-sign-in-fg: var(--slate-gradient);
+    --landing-sign-in-input-bg: var(--slate-gradient-transparent);
+    --landing-sign-in-input-fg: var(--main);
+    --landing-sign-in-input-border: var(--main);
+
+    --landing-sign-up-bg: var(--slate-gradient);
+    --landing-sign-up-fg: white;
+
+    --landing-sign-up-button-bg: inherit;
+    --landing-sign-up-button-fg: white;
+    --landing-sign-up-button-border: white;
+    --landing-sign-up-button-focus-bg: var(--accent);
+    --landing-sign-up-button-focus-fg: var(--main);
+    --landing-sign-up-button-focus-border: black;
+
+    --landing-sign-up-input-bg: var(--slate-gradient-transparent);
+    --landing-sign-up-input-fg: var(--main);
+    --landing-sign-up-input-border: var(--main);
 
         /*blue 300*/
         /*--blue-filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);*/
@@ -15,7 +38,7 @@
         --accent-blue-gradient: linear-gradient(45deg, rgba(25, 118, 210, 0.5), rgba(25, 118, 210, 0.25) );
         --accent-green-gradient: linear-gradient(45deg, rgba(33, 212, 126, 0.5), rgba(33, 212, 126, 0.25) );
     
-        --accent: #1976D2;
+       /* --accent: #1976D2;*/
         --accent-transparent: rgba(25, 118, 210, 0.65);
         --accent-dark-transparent: rgba(25, 118, 210, 0.5);
         --accent-darker-transparent: rgba(25, 118, 210, 0.25);
@@ -66,7 +89,7 @@
         /*END SETTINGS.JS SETUP*/
     
         /*TITLEBAR SETUP*/
-        --titlebar-bg: var(--main-dark);
+        --titlebar-bg: var(--slate-gradient-transparent);
         --titlebar-border: var(--main-transparent);
     
         --titlebar-appname-bg: inherit;

@@ -4,14 +4,15 @@
 
   overflow: hidden;  
 
-  background-color: green;
+  background-color: black;
 }
 
 div[id='display-titlebar-container'] {
   -webkit-app-region: drag;
   width: inherit;
-  height: 5%;
-  max-height: 5%;
+  height: 6%;
+  max-height: 6%;
+
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -21,9 +22,9 @@ div[id='display-titlebar-container'] {
   border-width: 1px;
 
   font-weight: bold;
-  padding: 5px;
+  padding: 10px;
   
-  background-color: var(--titlebar-bg);
+  background: var(--titlebar-bg);
   border-color: var(--titlebar-border);
 }
 

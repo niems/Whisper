@@ -1,0 +1,139 @@
+@keyframes sign-in-fade {
+    from {
+        width: 70%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+div[id='sign-in-container'] {
+    width: inherit;
+    height: 94%;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+
+    background-color: var(--landing-sign-in-bg);
+
+    animation-name: sign-in-fade;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+}
+
+img[id='navigate-back-img'] {
+    align-self: flex-start;
+    padding-top: 2%;
+    filter: invert(1);    
+
+    transition: all 0.4s;
+}
+
+img[id='navigate-back-img']:hover { 
+    filter: invert(0);
+}
+
+
+div[id='sign-in-pane'] {
+    height: 100%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    flex: 15 auto;
+
+    color: var(--landing-sign-in-fg);
+    background-color: var(--landing-sign-in-bg);
+}
+
+.sign-in-pane-header {
+    font-weight: bold;
+}
+
+.sign-in-input-form {
+    width: 40%;
+}
+
+.sign-in-input {
+    width: 100%;
+    margin: 5px 0px;
+    padding: 5px;
+
+    outline: none;
+    border-style: none none solid none;
+    border-width: 1px;
+
+    font-size: 0.9em;
+    text-align: center;
+
+    color: var(--landing-sign-in-input-fg);
+    background: var(--landing-sign-in-bg);
+    border-color: var(--landing-sign-in-input-border);
+
+    transition: all 0.35s;
+}
+
+input[id='sign-in-username'] {
+    background-image: url('/images/person_black.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='sign-in-password'] {
+    background-image: url('/images/lock_black.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+button[id='sign-in-connect'] {
+    margin-top: 5px;
+    padding: 4px 12px; 
+
+    outline: none;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+
+    font-weight: bold;
+    font-style: italic;
+
+    color: black;
+    background: inherit;
+    border-color: var(--landing-sign-in-input-fg);
+
+    transition: all 0.5s;
+}
+
+button[id='sign-in-connect']:focus {
+    color: var(--accent);
+    background: var(--landing-sign-up-bg);
+}
+
+div[id='sign-up-pane'] {
+    height: 100%;
+    padding-top: 5%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+
+    background: var(--landing-sign-up-bg);
+    transition: all 0.7s ease;
+}
+
+div[id='sign-up-pane']:hover {
+    flex: 1.5 auto;
+}
+
+img[id='sign-up-pane-img'] {
+    filter: invert(1);
+}

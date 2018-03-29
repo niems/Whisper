@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Login from './login/login'
 import Chat from './chat/chat'
+
 import Settings from './settings'
 import LandingPage from './login/landing_page'
 import './App.css'
@@ -39,7 +40,7 @@ function DisplayTitlebar({ username, onOpenSettings, onClose }) {
     ); 
 }
 
-function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed, closeApp }) {
+function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed }) {
   if (isLoggedIn) { //if the user successfully logged in
     return (
       <Chat loginData={loginData} loginFailed={loginFailed} />
@@ -47,7 +48,7 @@ function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed, clos
   }
 
   return (
-    <Login loginAttempt={loginAttempt} />
+    <LandingPage loginAttempt={loginAttempt} />
   );
 }
 
@@ -64,7 +65,6 @@ class App extends Component {
 
     this.loginAttempt = this.loginAttempt.bind(this);
     this.loginFailed = this.loginFailed.bind(this); //callback for chat.js - if user's login attempt fails
-    this.closeApp = this.closeApp.bind(this);
     this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
   }
 
@@ -127,21 +127,11 @@ class App extends Component {
       <div className="App wrapper">
         <DisplayTitlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
         {settingsMenu}
-        <LandingPage />
+        <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn}
+                        loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} />
       </div>
     );
   }    
 }
 
 export default App;
-
-/*
-    return (
-      <div className="App wrapper">
-        <DisplayTitlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
-        {settingsMenu}
-        <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn} loginAttempt={this.loginAttempt}
-                        loginFailed={this.loginFailed} closeApp={this.closeApp} />
-      </div>
-    );
-    */

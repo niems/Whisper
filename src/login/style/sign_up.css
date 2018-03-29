@@ -1,0 +1,161 @@
+@keyframes sign-up-fade {
+    from {
+        width: 70%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes password-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+div[id='_sign-up-container'] {
+    width: inherit;
+    height: 94%;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+
+    background: var(--landing-sign-up-bg);
+
+    animation-name: sign-up-fade;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+}
+
+img[id='navigate-back-img'] {
+    align-self: flex-start;
+    padding-top: 2%;
+    filter: invert(1);    
+
+    transition: all 0.4s;
+}
+
+img[id='navigate-back-img']:hover { 
+    filter: invert(0);
+}
+
+div[id='_sign-up-pane'] {
+    height: 100%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    flex: 15 auto;
+
+    color: var(--landing-sign-up-fg);
+    background: var(--landing-sign-up-bg);
+}
+
+.sign-up-input-form {
+    width: 40%;
+}
+
+.sign-up-input {
+    width: 100%;
+    margin: 5px 0px;
+    padding: 5px;
+    outline: none;
+
+    text-align: center;
+    border-style: none none solid none;
+    border-width: 1px;
+
+    color: white;
+    background-color: inherit;
+    border-color: black;
+}
+
+input[id='sign-up-email'] {
+    background-image: url('/images/email_white.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='sign-up-username'] {
+    background-image: url('/images/person_white.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='sign-up-password'] {
+    background-image: url('/images/lock_white.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+}
+
+input[id='sign-up-confirm-password'] {
+    background-image: url('/images/lock_white.png');
+    background-position-x: left;
+    background-position-y: center;
+    background-repeat: no-repeat;
+
+    animation-name: password-fade-in;
+    animation-duration: 0.75s;
+    animation-timing-function: ease-out;
+}
+
+button[id='sign-up-connect'] {
+    margin-top: 5px;
+    padding: 4px 12px; 
+
+    outline: none;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+
+    font-weight: bold;
+    font-style: italic;
+
+    color: var(--landing-sign-up-button-fg);
+    background: var(--landing-sign-up-button-bg);
+    border-color: var(--landing-sign-up-button-border); 
+
+    transition: all 0.5s;
+}
+
+button[id='sign-up-connect']:focus {
+    color: var(--landing-sign-up-button-focus-fg);
+    background-color: var(--landing-sign-up-button-focus-bg);
+    border-color: var(--landing-sign-up-button-focus-border);
+}
+
+
+div[id='_sign-in-pane'] {
+    height: 100%;
+    padding-top: 5%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+
+    background: var(--landing-sign-in-bg);
+    transition: all 0.7s ease;
+}
+
+div[id='_sign-in-pane']:hover {
+    flex: 1.5 auto;
+}
+
+img[id='_sign-in-pane-img'] {
+    filter: invert(1);
+}
+

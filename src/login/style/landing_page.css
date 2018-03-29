@@ -9,6 +9,8 @@ div[id='landing-page-container'] {
     align-content: center;
     align-items: center;
 
+    overflow: hidden;
+
     background-color: red;
 }
 
@@ -18,25 +20,32 @@ div[id='landing-page-container'] {
 
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center; 
     flex: 1 auto;
 
-    transition: all 0.5s;
+    transition: all 1s ease;
+}
+
+.landing-page-section-container:hover {
+    width: 70%;
 }
 
 div[id='landing-page-sign-in-container'] {
-    background-color: green;
-}
-
-div[id='landing-page-sign-in-container']:hover {
-    width: 70%;
+    color: var(--landing-sign-in-fg);
+    background: var(--landing-sign-in-bg);
 }
 
 div[id='landing-page-sign-up-container'] {
-    background-color: blue;
+    color: var(--landing-sign-up-fg);
+    background: var(--landing-sign-up-bg);
 }
 
-div[id='landing-page-sign-up-container']:hover {
-    width: 70%;
+.landing-page-user-img {
+    filter: invert(1);
+}
+
+.landing-page-selection-header {
+    font-size: 1.5em;
+    font-weight: bold;
 }
