@@ -133,26 +133,31 @@ class SignUp extends Component {
 
                             else { //pass & confirm pass don't match
                                 document.getElementById('sign-up-confirm-password').focus();
+                                alert('Your password & confirm password do not match');
                             }
                         }
 
                         else {
                             document.getElementById('sign-up-confirm-password').focus(); //focus confirm pass field - not filled out
+                            alert('The confirm password field is blank');
                         }
                     }
 
                     else {
                         this.passwordDOM.focus(); //focus password field - not filled out
+                        alert('The password field is blank');
                     }
                 }
 
                 else {
                     this.usernameDOM.focus(); //focus username field - not filled out
+                    alert('The username field is blank');
                 }
             }
 
             else {
                 this.emailDOM.focus(); //focus email field - not filled out
+                alert('The email field is blank');
             }
         }
     }

@@ -1,11 +1,11 @@
 @keyframes settings-in {
     from {
-        margin-left: 100%;
+        margin-top: 100%;
         opacity: 0;
     }
 
     to {
-        margin-left: 0%;
+        margin-top: 0%;
         opacity: 1;
     }
 }

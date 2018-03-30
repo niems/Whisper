@@ -97,11 +97,13 @@ class SignIn extends Component {
 
                 else {
                     this.passwordDOM.focus();
+                    alert('The password field is blank');
                 }
             }
 
             else {
                 this.usernameDOM.focus();
+                alert('The username field is blank');
             }
         }
 

@@ -1,10 +1,20 @@
 @keyframes sign-in-fade {
     from {
-        width: 70%;
+        width: 20%;
     }
 
     to {
         width: 100%;
+    }
+}
+
+@keyframes stretch-in {
+    from {
+        transform: scaleX(0.25);
+    }
+
+    to {
+        transform: scaleX(1.0);
     }
 }
 
