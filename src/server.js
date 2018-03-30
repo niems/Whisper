@@ -84,14 +84,6 @@ function removeActiveUser(id) {
 let allUsers = []; //list of active and inactive users - appended to when new user connects
 let activeUsers = []; //list of current active users - stores username & socket ID
 
-/*
-let server = app.listen(port, () => {
-    let localPort = server.address().port;
-    let address = server.address().address;
-
-    console.log(`Server listening on ${address} : ${localPort}`);
-});
-*/
 
 let server = app.listen(port, hostname, () => {
     let address = server.address().address;

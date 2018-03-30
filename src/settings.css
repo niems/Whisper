@@ -57,9 +57,11 @@ div[id='settings-menu-container'] {
 }
 
 .settings-menu-item {
-    filter: invert(1);
-
     margin: 50% auto;
+}
+
+.settings-menu-item:hover {
+    filter: invert(1);
 }
 
 .settings-submenu {
