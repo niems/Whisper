@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 //import Login from './login/login'
 import Chat from './chat/chat'
 
+import Titlebar from './titlebar'
 import Settings from './settings'
 import LandingPage from './login/landing_page'
 import './App.css'
@@ -27,17 +28,6 @@ function parseCookie() {
   }  
 
   return username;
-}
-
-
-function DisplayTitlebar({ username, onOpenSettings, onClose }) {
-    return (
-        <div id='display-titlebar-container'>
-            <img id='titlebar-menu-icon' onClick={onOpenSettings} src='/images/menu_white.png' />
-            <small id='titlebar-username'>{username}</small>
-            <img className='titlebar-icon' id='close-app' onClick={onClose} src='/images/close_white.png' />
-        </div>
-    ); 
 }
 
 function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed }) {
@@ -125,7 +115,7 @@ class App extends Component {
 
     return (
       <div className="App wrapper">
-        <DisplayTitlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
+        <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
         {settingsMenu}
         <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn}
                         loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} />

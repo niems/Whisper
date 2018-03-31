@@ -1,0 +1,41 @@
+div[id='display-titlebar-container'] {
+    -webkit-app-region: drag;
+    width: inherit;
+    height: 6%;
+    max-height: 6%;
+  
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+  
+    border-style: none none solid none;
+    border-width: 1px;
+  
+    font-weight: bold;
+    padding: 10px;
+    
+    background: var(--titlebar-bg);
+    border-color: var(--titlebar-border);
+  }
+  
+  img[id='titlebar-menu-icon'] {
+    -webkit-app-region: no-drag;
+  
+    transition: transform 0.4s;
+  }
+  
+  img[id='titlebar-menu-icon']:hover {
+    filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
+    transform: scale(1.25, 1.25);
+  }
+  
+  small[id='titlebar-username'] {
+    -webkit-app-region: drag;
+    margin-left: auto;
+    font-style: italic;
+    font-weight: bold;
+  
+    color: var(--titlebar-appname-fg);
+    background-color: var(--titlebar-appname-bg);
+  }
