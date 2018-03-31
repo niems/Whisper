@@ -86,14 +86,14 @@ class App extends Component {
     }    
   }
 
-   loginFailed() {
-     alert('login failed');
+   loginFailed(msg) {
+     alert(msg);
+     //delete username cookie
 
      this.setState({
        isLoggedIn: false,     //reset
        username: ''          //reset
       });
-     BrowserWindow.getAllWindows()[0].setSize(400, 600); //resets screen size based on login page
    }
 
   closeApp(e) {

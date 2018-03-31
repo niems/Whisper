@@ -135,6 +135,11 @@ class Chat extends Component {
 
             this.setState({ messages }); 
         });
+
+        this.socket.on('CONNECTION FAILED', (msg) => {
+            this.socket.close(); //manually disconnectes socket
+            this.props.loginFailed(msg);
+        });
     }
 
     onSendChatMessage(msg) {

@@ -26,8 +26,32 @@ let allUsers = [ //list of all users that have an account - includes all active 
                 lastLogin: new Date() //updates loginDate for ip
             }
         ],
+    },
+    {
+        username: 'admin',
+        pass: 'adminpassword',
+        email: 'admin@gmail.com',
+        ip: [ //adds new ip and login date if not already logged
+            {
+                address: '193.168.0.1', 
+                lastLogin: new Date() //updates loginDate for ip
+            }
+        ],
     }
 ]; 
+
+function removeActiveUser(id) {
+    console.log( JSON.stringify(activeUsers) );
+
+    for(let i = 0; i < activeUsers.length; i++) {
+        if ( activeUsers[i].socketId === id ) { //disconnected user found
+            activeUsers.splice(i, 1); //removes disconnected user
+            return true; //active user removed
+        }
+    }
+
+    return false; //active user not found
+}
 
 //used for debugging - displays the status of the user connection
 function displayConnectionStatus(status, user) {
@@ -89,6 +113,7 @@ function isActiveUser(user) {
     activeUsers.unshift({
         username: user.data.username,
         ip: user.ip,
+        status: 'online',
         socketId: user.socketId
     });
 
@@ -129,11 +154,9 @@ function doesUserAccountExist(user) {
 //determines status of connected user
 function checkUserData(user) {
     let status = doesUserAccountExist( user ); //returns status of connected user - verifies username/email & password
-    //displayConnectionStatus( status, user ); //debugging - outputs status of connection w/user info
 
     if ( status === CONNECTION_STATUS.VERIFIED ) { //login successful
         let activeStatus = isActiveUser( user );    //checks if the user is already logged in - adds to active list if not
-        //displayConnectionStatus( activeStatus, user );
 
         if ( activeStatus === CONNECTION_STATUS.VERIFIED_NEW_ACTIVE_USER ) { //login successful - user added to active list
             return CONNECTION_STATUS.VERIFIED; //connection & user account fully verified
@@ -145,7 +168,7 @@ function checkUserData(user) {
     }
 
     else { //account exist error
-        return status; //displayConnectionStatus( status, user ); //returns error msg
+        return status; 
     }
 }
 
@@ -177,12 +200,60 @@ io.on('connection', (socket) => {
     console.log(statusMsg);
 
     if ( status === CONNECTION_STATUS.VERIFIED ) {
+        let connectMsg = user.data.username + ' has connected';
+        let date = new Date();
+        let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
+
+        let message = {
+            username: user.data.username,
+            socketId: socket.id,
+            msgId: id,
+            msg: connectMsg,
+            receiveTime: date.toLocaleTimeString()
+        };
+
+        let newUser = {
+            username: user.data.username,
+            status: 'online',
+            socketID: socket.id
+        };
+
         //send new user active user list
+        socket.emit('active users list', JSON.stringify(activeUsers) );
+
         //send active users new user info
+        socket.broadcast.emit('active user update', JSON.stringify(newUser) );
+
+        //sends 'connected' message to active users
+        socket.broadcast.emit('chat message', JSON.stringify(message) );
     }
 
     else {
         // emit login failed event to user w/error message from server
-        
+        socket.emit('CONNECTION FAILED', statusMsg);
     }
+
+    socket.on('chat message', (msg) => {
+        socket.broadcast.emit('chat message', msg);
+    })
+
+    socket.on('disconnect', () => {
+
+        //only sends disconnect message if the user was previously active
+        if ( removeActiveUser(socket.id) ) {
+            let connectMsg = user.data.username + ' has disconnected';
+            let date = new Date();
+            let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
+
+            let message = {
+                username: user.data.username,
+                socketId: socket.id,
+                msgId: id,
+                msg: connectMsg,
+                receiveTime: date.toLocaleTimeString()
+            };
+            io.emit('active users list', JSON.stringify(activeUsers) );   
+            io.emit('chat message', JSON.stringify(message) );
+        }
+    })
 });
