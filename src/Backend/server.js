@@ -4,6 +4,8 @@ const socket = require('socket.io');
 const hostname = '192.168.86.32';
 const port = 8080;
 
+const userAccountsPath = 'user_accounts.txt';
+
 
 const CONNECTION_STATUS = {
     VERIFIED: 1,            //login successful
@@ -41,7 +43,7 @@ let allUsers = [ //list of all users that have an account - includes all active 
 
 function saveUserAccountInfo() {
     try {
-        fs.writeFile('user_account_data.txt', 'utf8', JSON.stringify(allUsers), (err) => {
+        fs.writeFile(userAccountsPath, JSON.stringify(allUsers), (err) => {
             if (err) {
                 console.log(`ERR server.js saveUserAccountInfo(): ${err.message}`);
                 return;
@@ -57,7 +59,7 @@ function saveUserAccountInfo() {
 
 function loadUserAccounts() {
     try {
-        fs.readFile('./user_account_data.txt', 'utf8', (err, data) => {
+        fs.readFile(userAccountsPath, 'utf8', (err, data) => {
             if (err) {
                 console.log(`ERR server.js loadUserAccounts(): ${err.message}`);
                 return;
