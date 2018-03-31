@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import Login from './login/login'
+import NewChat from './chat/new_chat'
 import Chat from './chat/chat'
 
 import Titlebar from './titlebar'
@@ -113,6 +113,17 @@ class App extends Component {
       settingsMenu = <Settings />;
     }
 
+    /*
+    return (
+      <div className="App wrapper">
+        <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
+        {settingsMenu}
+        <NewChat />
+      </div>
+    );
+    */
+
+    
     return (
       <div className="App wrapper">
         <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
@@ -121,6 +132,7 @@ class App extends Component {
                         loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} />
       </div>
     );
+    
   }    
 }
 

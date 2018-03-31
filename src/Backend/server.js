@@ -1,3 +1,4 @@
+const fs = require('fs');
 const app = require('express')();
 const socket = require('socket.io');
 const hostname = '192.168.86.32';
@@ -37,6 +38,39 @@ let allUsers = [ //list of all users that have an account - includes all active 
     },
    */
 ]; 
+
+function saveUserAccountInfo() {
+    try {
+        fs.writeFile('user_account_data.txt', 'utf8', JSON.stringify(allUsers), (err) => {
+            if (err) {
+                console.log(`ERR server.js saveUserAccountInfo(): ${err.message}`);
+                return;
+            }
+    
+            console.log('New user account saved');
+        });
+    }
+    catch(err) {
+        console.log(`ERR server.js saveUserAccountInfo(): ${err.message}`);
+    }
+}
+
+function loadUserAccounts() {
+    try {
+        fs.readFile('./user_account_data.txt', 'utf8', (err, data) => {
+            if (err) {
+                console.log(`ERR server.js loadUserAccounts(): ${err.message}`);
+                return;
+            }
+
+            allUsers = JSON.parse(data); //stores all the user accounts for login verification
+            console.log('User accounts successfully loaded');
+        });
+    }
+    catch(err) {
+        console.log(`ERR server.js loadUserAccounts(): ${err.message}`);
+    }
+}
 
 function removeActiveUser(id) {
     console.log( JSON.stringify(activeUsers) );
@@ -90,9 +124,12 @@ function displayConnectionStatus(status, user) {
 }
 
 function updateUserIpInfo(storedUserIp, user) {
+    let date = new Date();
+    let dateInfo = date.toLocaleDateString() + ' @ ' + date.toLocaleTimeString();
+
     for(let i = 0; i < storedUserIp.length; i++) { //goes through all ip addresses user has used to login
         if ( storedUserIp[i].address === user.ip ) { //ip found - previously used to login
-            storedUserIp[i].lastLogin = new Date(); //updates date ip was last used
+            storedUserIp[i].lastLogin = dateInfo; //updates date ip was last used
 
             return storedUserIp;
         }
@@ -101,7 +138,7 @@ function updateUserIpInfo(storedUserIp, user) {
     //current ip not found - adds ip w/login date
     storedUserIp.unshift({
         address: user.ip,
-        lastLogin: new Date()
+        lastLogin: dateInfo
     });
 
     return storedUserIp;
@@ -109,6 +146,9 @@ function updateUserIpInfo(storedUserIp, user) {
 
 function addNewUserAccount(user) {
     try {
+        let date = new Date();
+        let dateInfo = date.toLocaleDateString() + ' @ ' + date.toLocaleTimeString();
+
         allUsers.unshift({
             username: user.data.username,
             pass: user.data.pass,
@@ -116,10 +156,12 @@ function addNewUserAccount(user) {
             ip: [
                 {
                     address: user.ip,
-                    lastLogin: new Date() 
+                    lastLogin: dateInfo
                 }
             ]
         });
+
+        saveUserAccountInfo(); //saves the new user info
     }
     catch(err) {
         console.log(`ERR - Server.js addNewUserAccount(): ${err.message}`);
@@ -277,6 +319,7 @@ function onUserDisconnect(user, socket) {
 }
 
 
+
 /**SERVER CREATION AND CONNECTION MONITORING */
 let server = app.listen(port, hostname, () => {
     let address = server.address().address;
@@ -288,25 +331,30 @@ let server = app.listen(port, hostname, () => {
     console.log(`-listening on ${address} : ${port}`);
 });
 
-
 let io = socket(server);
 
-//listens for user connections
-io.on('connection', (socket) => {
-    let user = {
-        data: JSON.parse(socket.handshake.query.userData), //data passed from client {newUser(bool), email(new user only), username, pass}
-        ip: socket.handshake.address,
-        socketId: socket.id
-    };
+function main() {
+    loadUserAccounts(); //loads all the user accounts for login verification
 
-    let status = checkUserData( user ); //determines status of the connected user
-    sendConnectionStatusMessages( status, user, socket );    
-   
-    socket.on('chat message', (msg) => {
-        socket.broadcast.emit('chat message', msg);
-    });
+    //listens for user connections
+    io.on('connection', (socket) => {
+        let user = {
+            data: JSON.parse(socket.handshake.query.userData), //data passed from client {newUser(bool), email(new user only), username, pass}
+            ip: socket.handshake.address,
+            socketId: socket.id
+        };
 
-    socket.on('disconnect', () => {
-        onUserDisconnect(user, socket); 
+        let status = checkUserData( user ); //determines status of the connected user
+        sendConnectionStatusMessages( status, user, socket );    
+    
+        socket.on('chat message', (msg) => {
+            socket.broadcast.emit('chat message', msg);
+        });
+
+        socket.on('disconnect', () => {
+            onUserDisconnect(user, socket); 
+        });
     });
-});
+}
+
+main();
