@@ -1,6 +1,7 @@
 const fs = require('fs');
 const app = require('express')();
 const socket = require('socket.io');
+//const hostname = '68.71.67.108';
 const hostname = '192.168.86.32';
 const port = 8080;
 

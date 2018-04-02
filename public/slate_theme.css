@@ -1,11 +1,18 @@
 :root {
     
     --accent: #69F0AE; 
-    --accent-two: #70BCED; 
+    --accent-two: #4EAAEB;
+    --accent-three: #4C9689;
     --main: #3B3F42;
     --second: #5f605d;
     --third: #383838;
-    --fourth: #828281;
+    --fourth: #8C8D8F; 
+    --fifth: #eeeeee;
+    --sixth: #F4F7F6;
+    --seventh: #4D394B;
+    --eigth: #717274;
+    --nine: #9F69E7;
+    --ten: #2C2D30;
 
     --slate-gradient-transparent: rgba(59, 63, 66, 0.7);
 
@@ -31,6 +38,34 @@
     --landing-sign-up-input-bg: var(--slate-gradient-transparent);
     --landing-sign-up-input-fg: var(--main);
     --landing-sign-up-input-border: var(--main);
+
+
+    --chat-container-bg: var(--main);
+    --chat-timestamp-fg: var(--eigth);
+    --chat-username-fg: var(--nine);
+    --chat-msg-text-fg: var(--ten);
+
+    --chat-menu-container-bg: var(--seventh);
+
+    --chat-messages-container-bg: var(--sixth);
+
+    --chat-messages-navbar-fg: var(--eigth);
+    --chat-messages-navbar-bg: var(--sixth);
+    --chat-messages-navbar-border: var(--fourth);
+
+    --chat-messages-list-pane-bg: var(--sixth);
+    
+    --chat-message-input-container: inherit;
+    --message-input-fg: var(--second);
+    --message-input-bg: inherit;
+    --message-input-border: var(--fourth);
+    --message-input-focus-border: var(--eigth);
+    
+    --message-input-button-fg: var(--sixth);
+    --message-input-button-bg: inherit;
+    --message-input-button-border: var(--fourth);
+    --message-input-button-hover-bg: var(--accent-three);
+    --message-input-button-hover-border: var(--eigth);
 
         /*blue 300*/
         /*--blue-filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);*/
@@ -68,7 +103,7 @@
     
         /*SCROLLBAR SETUP*/
         --scrollbar-track-bg: inherit;
-        --scrollbar-thumb-bg: var(--white-transparent);
+        --scrollbar-thumb-bg: var(--main);
         /*END SCROLLBAR SETUP*/
         
         /*SETTINGS.JS SETUP*/

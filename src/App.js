@@ -113,7 +113,7 @@ class App extends Component {
       settingsMenu = <Settings />;
     }
 
-    /*
+    
     return (
       <div className="App wrapper">
         <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
@@ -121,9 +121,9 @@ class App extends Component {
         <NewChat />
       </div>
     );
-    */
-
     
+
+    /*
     return (
       <div className="App wrapper">
         <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
@@ -132,7 +132,7 @@ class App extends Component {
                         loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} />
       </div>
     );
-    
+    */
   }    
 }
 

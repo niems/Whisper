@@ -6,6 +6,8 @@ const io = require('socket.io-client');
 
 /*server setup*/ 
 const serverHost = '192.168.86.32:8080';
+//const serverHost='68.71.67.108:8080';
+//const serverHost = 'http://whisperme.ddns.net';
 
 function parseCookie() {
     let username;
@@ -102,44 +104,47 @@ class Chat extends Component {
     }
 
     onSocketSetup() {
-        //call this.props.loginFailed(info of fail) to reset to login screen if goes wrong here. //if called, make sure to disconnect current socket from server
-
-        //call during 'component did mount' - if it's called everytime something updates, modify so it's only called on initial connection
-        this.socket = io(serverHost, {
-            query: {
-            userData: JSON.stringify(this.props.loginData) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
-            }
-        });  
-
-        //client is new user or another user disconnected
-        //also adds connect/disconnect msg from new user activity
-        this.socket.on('active users list', (data) => {
-            this.setState({
-                activeUsers: JSON.parse(data)
+        try {
+            this.socket = io(serverHost, {
+                query: {
+                userData: JSON.stringify(this.props.loginData) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
+                }
+            });  
+    
+            //client is new user or another user disconnected
+            //also adds connect/disconnect msg from new user activity
+            this.socket.on('active users list', (data) => {
+                this.setState({
+                    activeUsers: JSON.parse(data)
+                });
             });
-        });
+    
+            //client is active user, new user connected to server
+            this.socket.on('active user update', (data) => {
+                let activeUsers = this.state.activeUsers;
+    
+                activeUsers.unshift( JSON.parse(data) ); //adds new active user to list
+    
+                this.setState({ activeUsers });
+            });
+    
+            //client received a message from another user
+            this.socket.on('chat message', (msg) => {
+                let messages = this.state.messages;
+                messages.unshift( JSON.parse(msg) ); //adds message from client
+    
+                this.setState({ messages }); 
+            });
+    
+            this.socket.on('CONNECTION FAILED', (msg) => {
+                this.socket.close(); //manually disconnectes socket
+                this.props.loginFailed(msg);
+            });
+        }
 
-        //client is active user, new user connected to server
-        this.socket.on('active user update', (data) => {
-            let activeUsers = this.state.activeUsers;
-
-            activeUsers.unshift( JSON.parse(data) ); //adds new active user to list
-
-            this.setState({ activeUsers });
-        });
-
-        //client received a message from another user
-        this.socket.on('chat message', (msg) => {
-            let messages = this.state.messages;
-            messages.unshift( JSON.parse(msg) ); //adds message from client
-
-            this.setState({ messages }); 
-        });
-
-        this.socket.on('CONNECTION FAILED', (msg) => {
-            this.socket.close(); //manually disconnectes socket
-            this.props.loginFailed(msg);
-        });
+        catch(err) {
+            alert(err.message);
+        }        
     }
 
     onSendChatMessage(msg) {

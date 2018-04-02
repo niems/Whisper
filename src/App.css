@@ -2,6 +2,12 @@
   width: 100vw;
   height: 100vh;
 
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1 100%;
+
   overflow: hidden;  
 
   background-color: black;
@@ -23,7 +29,7 @@ img[id='close-app']:hover {
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 3px;
 }
 
 ::-webkit-scrollbar-track {
