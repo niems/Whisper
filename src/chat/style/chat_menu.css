@@ -1,0 +1,58 @@
+/**LEFT PANE */
+div[id='chat-menu-container'] {
+    height: 100%;
+    width: 220px;
+    max-width: 220px;
+    padding: 5px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    background-color: var(--chat-menu-container-bg);
+}
+
+div[id='chat-menu-user-info'] {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+svg[id='chat-menu-user-status'] {
+    width: 20px;
+    height: 20px;
+}
+
+circle[id='chat-menu-user-status-img'] {
+    width: min-content;
+
+    r: 5;
+    cx: 10;
+    cy: 10;
+
+    fill: green;
+}
+
+b[id='chat-menu-username'] {
+    margin-right: 5px;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+.chat-menu-user-img {
+    width: 50px;
+}
+
+.menu-category-container {
+    
+}
+
+.menu-category-header {
+    color: gray;
+}
+
+/**END LEFT PANE */

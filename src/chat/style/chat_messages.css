@@ -1,0 +1,11 @@
+div[id='chat-messages-container'] {
+    height: 100%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
+
+    background-color: var(--chat-messages-container-bg);
+}
