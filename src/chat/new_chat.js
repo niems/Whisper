@@ -97,7 +97,7 @@ class NewChat extends Component {
     render() {
         return (
             <div id='chat-container'>
-                <ChatMenu loginData={this.props.userData} users={this.state.activeUsers} />
+                <ChatMenu userData={this.userData} users={this.state.activeUsers} />
                 <ChatMessages messages={this.state.messages} onSendMsg={this.onSendMessage} />
             </div>
         );

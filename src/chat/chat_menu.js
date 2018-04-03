@@ -58,28 +58,10 @@ function DisplayOnlineCategory({ users }) {
 
 class ChatMenu extends Component {
     render() {
-        let categoryList = [
-            {
-                category: 'All Threads',
-                list: undefined
-            },
-            {
-                category: 'Channels',
-                list: undefined
-            },
-            {
-                category: 'Direct Messages',
-                list: undefined
-            },
-            {
-                category: 'Online',
-                list: undefined
-            }
-        ];
-
+        /**need to pass updated DisplayMenuUserInfo() data in order to display the image, currently undefined */
         return (
             <div id='chat-menu-container'>
-                <DisplayMenuUserInfo user={this.props.loginData} />
+                <DisplayMenuUserInfo user={this.props.userData} />
                 
                 <div id='all-menu-categories'>
                     <DisplayOnlineCategory users={this.props.users} />

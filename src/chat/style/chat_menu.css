@@ -105,7 +105,7 @@ div[id='online-category-container'] {
     align-items: center;
     flex: 1 auto;
 
-    background-color: green;
+    
 }
 
 .category-header {
@@ -119,7 +119,6 @@ ul[id='menu-list'] {
     width: 95%;
     padding: 0px;
 
-    background-color: blue;
 }
 
 .menu-list-item {

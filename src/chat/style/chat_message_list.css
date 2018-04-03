@@ -57,6 +57,7 @@ ul[id='chat-messages-list'] {
 }
 
 .item-msg {
+    text-indent: 20px;
     color: var(--chat-msg-text-fg);
 }
 
