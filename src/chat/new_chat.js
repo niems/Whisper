@@ -21,6 +21,7 @@ class NewChat extends Component {
     }
 
     componentDidMount() {
+        alert(`Refresh login data: ${JSON.stringify(this.userData)}`);
         this.onSocketSetup(); //socket event setup
     }
 

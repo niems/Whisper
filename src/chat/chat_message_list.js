@@ -11,8 +11,8 @@ const ChatMessageList = ({ messages }) => {
     const items = messages.map( msg => (
         <li className='message-items' key={msg.msgId} id={msg.msgId}>
             <div className='message-item'>
-                <span className='item-username'>{msg.username}</span>
                 <img className='item-username-img' src={msg.image} />
+                <span className='item-username'>{msg.username}</span>
                 <span className='item-timestamp'><small>{msg.timestamp}</small></span>
                 <br />
                 <span className='item-msg'>{msg.msg}</span>
