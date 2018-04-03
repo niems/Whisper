@@ -461,6 +461,7 @@ function onUserDisconnect(serverData, socket) {
     console.log(`Server data: ${JSON.stringify(serverData)}`);
     console.log(`Attempting to remove ${serverData.user.username}: ${socket.id}`);
     if ( removeActiveUser(socket.id) ) {
+        console.log(`Successfully removed ${serverData.user.username}: ${socket.id}`);
         let connectMsg;
         
         if (DEBUG) {
@@ -476,6 +477,7 @@ function onUserDisconnect(serverData, socket) {
         let message = {
             username: serverData.user.username,
             socketId: socket.id,
+            image: serverData.user.image,
             msgId: id,
             msg: connectMsg,
             timestamp: date.toLocaleTimeString()
