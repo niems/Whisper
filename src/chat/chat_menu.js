@@ -30,24 +30,91 @@ username: user.data.username,
         socketId: user.socketId
         */
 
-function DisplayOnlineCategory({ users }) {
-    try {
-        const aUsers = users.map( user => (
-            <li className='menu-list-item' key={user.username} id={user.username}>
+function DisplayChannelsCategory({ selectedCategory, onSelect }) {
+    let channels = [
+        {
+            channel: '#random',
+        },
+        {
+            channel: '#general',
+        },
+        {
+            channel: '#rubbish',
+        }
+    ];
+
+    if ( selectedCategory === 'channels' ) {
+        let allChannels = channels.map( channel => (
+            <li className='menu-list-item' key={channel.channel} id={channel.channel}>
                 <div className='display-online-menu'>
-                    <DisplayUserStatusOrb id='user' status={user.status} />
-                    <img className='chat-menu-user-img' src={user.image} /> 
-                    <b className='display-username'>{user.username}</b>
+                    <b className='display-channel'>{channel.channel}</b>
                 </div>
-            </li>         
+            </li>
         ));
-                
+
         return (
-            <div id='online-category-container'>
-                <h6 className='category-header'>online</h6>
-                <ul id='menu-list'>
-                    {aUsers}
+            <div className='category-container-layout selected' id='channels-category-container'>
+
+                <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
+                    <b className='category-header'>Channels</b>
+                    <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' />
+                </div>
+                <ul id='category-menu-list' className='menu-list'>
+                    {allChannels}
                 </ul>
+
+            </div>
+        );
+    }
+
+    return (
+        <div className='category-container-layout' id='channels-category-container'>
+
+            <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
+                <b className='category-header'>Channels</b>
+                <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-down.svg' />
+            </div>
+
+        </div>
+    ) ;
+}
+
+function DisplayOnlineCategory({ users, selectedCategory, onSelect }) {
+    try {
+        let aUsers = [];
+
+        if ( selectedCategory === 'online' ) {
+            aUsers = users.map( user => (
+                <li className='menu-list-item' key={user.username} id={user.username}>
+                    <div className='display-online-menu'>
+                        <DisplayUserStatusOrb id='user' status={user.status} />
+                        <img className='chat-menu-user-img' src={user.image} /> 
+                        <b className='display-username'>{user.username}</b>
+                    </div>
+                </li>         
+            ));
+            
+            return (
+                <div className='category-container-layout selected' id='online-category-container'>
+                    <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
+                        <b className='category-header'>online</b>
+                        <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' />
+                    </div>
+                    <ul id='online-menu-list' className='menu-list'>
+                        {aUsers}
+                    </ul>
+                </div>        
+            );
+        }
+
+        return (
+            <div className='category-container-layout' id='online-category-container'>
+            
+                <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
+                    <b className='category-header'>online</b>
+                    <img className='category-header-icon' id='online-header-icon' src='/images/arrow-down.svg' />
+                </div>
+
             </div>        
         );
     }
@@ -57,6 +124,39 @@ function DisplayOnlineCategory({ users }) {
 }
 
 class ChatMenu extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {selectedCategory: 'online'}; //determines which category list is displayed
+
+        this.onCategorySelect = this.onCategorySelect.bind(this);
+    }
+
+    //determines which category list to display
+    onCategorySelect(e) {
+        try {
+            e.preventDefault();
+            let target = e.currentTarget.id;
+            let selection = ''; //defaults to '' if selection is not found
+
+            switch(target) {
+                case 'online-category-header':
+                    selection = this.state.selectedCategory === 'online' ? '' : 'online';
+                    break;
+                case 'channels-category-header':
+                selection = this.state.selectedCategory === 'channels' ? '' : 'channels';
+                    break;
+            }
+
+    
+            this.setState({ selectedCategory: selection });
+        }
+        catch(err) {
+            console.log(`ERR chat_menu.js onCategorySelect(): ${err.message}`);
+        }
+        
+    }
+
     render() {
         /**need to pass updated DisplayMenuUserInfo() data in order to display the image, currently undefined */
         return (
@@ -64,7 +164,13 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayOnlineCategory users={this.props.users} />
+                    <DisplayOnlineCategory users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    <DisplayChannelsCategory selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    {
+                        this.state.selectedCategory === '' ? 
+                        (<span id='category-spacer'>spaceee</span>) :
+                        null
+                    }
                 </div>
                 
             </div>

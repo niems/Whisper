@@ -20,6 +20,7 @@ div[id='chat-menu-user-info'] {
     min-height: min-content;
     box-sizing: border-box;
     margin: 5px 10px 15px 0px;
+    padding: 5px 5px 15px 5px;
 
     display: flex;
     flex-flow: row nowrap;
@@ -91,19 +92,55 @@ div[id='all-menu-categories'] {
     align-items: flex-start;
     flex: 1 90%;
 
-    color: white;
+    background-color: var(--chat-menu-container-bg);
 }
 
-div[id='online-category-container'] {
+span[id='category-spacer'] {
     height: 100%;
-    width: inherit;
+    width: 100%;
     box-sizing: border-box;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
+    flex: 10 auto;
+
+    background-color: green;
+}
+
+.category-container-layout {
+    height: min-content;
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.category-container-layout.selected {
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 10 auto;
+}
+
+.category-header-layout{
+    width: inherit;
+    margin-top: 10px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-start;
     flex: 1 auto;
+    color: var(--chat-menu-category-fg);    
 }
 
 .category-header {
@@ -112,11 +149,35 @@ div[id='online-category-container'] {
     font-style: italic;
 }
 
-ul[id='menu-list'] {
+@keyframes menu-grow-in {
+    from {
+        transform: scale(1, 0.2);
+        /*height: 5%;*/
+    }
+
+    to {
+        transform: scale(1, 1);
+        /*height: 100%;*/
+    }
+}
+
+.menu-list {
+    flex: 10 50%;
     height: 100%;
     width: 95%;
     padding: 0px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 10px;
+
+    background: var(--chat-menu-list-bg);
+    box-shadow: -3px -2px 4px black;    
+
+    animation-name: menu-grow-in;
+    animation-duration: 0.5s;
 }
+
 
 .menu-list-item {
     width: 100%;

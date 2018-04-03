@@ -82,8 +82,10 @@
     --chat-msg-text-fg: var(--ten);
 
     --chat-menu-container-bg: var(--seventh);
+    --category-menu-list-bg: var(--main);
+    --chat-menu-list-bg: var(--sixth);
     --chat-menu-category-bg: inherit;
-    --chat-menu-category-fg: var(--ten);
+    --chat-menu-category-fg: white;
     --chat-menu-username-fg: var(--ten);
     --chat-menu-users-fg: var(--ten);
     --chat-menu-user-online: var(--accent);
