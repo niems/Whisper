@@ -166,11 +166,6 @@ class ChatMenu extends Component {
                 <div id='all-menu-categories'>
                     <DisplayOnlineCategory users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
                     <DisplayChannelsCategory selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
-                    {
-                        this.state.selectedCategory === '' ? 
-                        (<span id='category-spacer'>spaceee</span>) :
-                        null
-                    }
                 </div>
                 
             </div>

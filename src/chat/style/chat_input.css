@@ -54,6 +54,8 @@ button[id='message-input-add-button'] {
     color: var(--message-input-button-fg);
     background-color: var(--message-input-button-bg);
     border-color: var(--message-input-button-border);
+
+    transition: all 0.4s;
 }
 
 button[id='message-input-add-button']:hover {
@@ -81,44 +83,22 @@ button[id='message-input-add-button']:hover {
 }
 
 @keyframes clip-flip {
-    0% {
+    from {
         transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
+    }
+}
+
+@keyframes emoji-bounce {
+    from {
         transform: scale(1, 1);
-
-        border-color: var(--message-input-border);
-        border-color: white;
     }
 
-    5% {
-        transform: rotateZ(40deg);
-        border-color: rgba(0, 0, 0, 0);
-    }
-
-    20% {
-        transform: rotateZ(80deg);
-        border-color: rgba(0, 0, 0, 0);
-    }
-
-    40% {
-        transform: scale(2.5, 2.5);
-        transform: rotateZ(200deg);
-        border-color: rgba(0, 0, 0, 0);
-    }
-
-    60% {
-        transform: scale(2.5, 2.5);
-        border-color: rgba(0, 0, 0, 0);
-    }
-
-    80% {
+    to {
         transform: scale(2, 2);
-        border-color: rgba(0, 0, 0, 0);
-    }
-    
-    100% {
-        transform: rotateZ(720deg) scale(1.5, 1.5);
-        border-color: rgba(0, 0, 0, 0);
-        /*border-color: var(--message-input-border);*/
     }
 }
 
@@ -135,11 +115,13 @@ button[id='message-input-btn1'] {
 }
 
 button[id='message-input-btn1']:hover {
-    
+    border-style: none;
+
     animation-name: clip-flip;
-    animation-duration: 3s;
-    animation-timing-function: ease;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
 }
 
 button[id='message-input-btn2'] {
@@ -152,5 +134,11 @@ button[id='message-input-btn2'] {
 
 button[id='message-input-btn2']:hover {
     background-image: url('/images/cupcake-happy.svg');
+    border-style: none;
+
+    animation-name: emoji-bounce;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
 }
 /**END MESSAGE INPUT */

@@ -85,6 +85,7 @@ b[id='chat-menu-username'] {
 div[id='all-menu-categories'] {
     width: 100%;
     box-sizing: border-box;
+    padding: 10px 0px;
 
     display: flex;
     flex-flow: column nowrap;
@@ -93,20 +94,6 @@ div[id='all-menu-categories'] {
     flex: 1 90%;
 
     background-color: var(--chat-menu-container-bg);
-}
-
-span[id='category-spacer'] {
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    flex: 10 auto;
-
-    background-color: green;
 }
 
 .category-container-layout {
@@ -128,7 +115,7 @@ span[id='category-spacer'] {
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 10 auto;
+    flex: 1 auto;
 }
 
 .category-header-layout{
