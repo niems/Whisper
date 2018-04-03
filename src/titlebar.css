@@ -29,13 +29,3 @@ div[id='display-titlebar-container'] {
     filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
     transform: scale(1.25, 1.25);
   }
-  
-  small[id='titlebar-username'] {
-    -webkit-app-region: drag;
-    margin-left: auto;
-    font-style: italic;
-    font-weight: bold;
-  
-    color: var(--titlebar-appname-fg);
-    background-color: var(--titlebar-appname-bg);
-  }

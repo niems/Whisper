@@ -6,6 +6,7 @@ const hostname = '192.168.86.32';
 const port = 8080;
 
 const userAccountsPath = 'user_accounts.txt';
+const DEBUG = true;
 
 
 const CONNECTION_STATUS = {
@@ -24,6 +25,14 @@ const CONNECTION_STATUS = {
         ACCOUNT_NOT_FOUND: -21,  //account doesn't exist based on user input
     }    
 };
+
+//image reference using client-side formatting
+const IMAGES = [
+    '/images/user_images/rick.svg',
+    '/images/user_images/morty.svg',
+    '/images/user_images/cupcake.svg',
+    '/images/user_images/cupcake-happy.svg',    
+];
 
 let activeUsers = []; //current users online - must have account to be an active user
 let allUsers = [ //list of all users that have an account - includes all active users
@@ -76,24 +85,25 @@ function loadUserAccounts() {
 }
 
 function removeActiveUser(id) {
-    console.log( JSON.stringify(activeUsers) );
-
     for(let i = 0; i < activeUsers.length; i++) {
         if ( activeUsers[i].socketId === id ) { //disconnected user found
             activeUsers.splice(i, 1); //removes disconnected user
+            
+            console.log( JSON.stringify(activeUsers) );
             return true; //active user removed
         }
     }
 
+    console.log( `Not removed: ${JSON.stringify(activeUsers)}`);
     return false; //active user not found
 }
 
 //used for debugging - displays the status of the user connection
-function displayConnectionStatus(status, user) {
+function displayConnectionStatus( serverData ) {
     let statusMsg = '';
-    console.log(`\nLogin attempt: ${user.data.username} @ ${user.ip}`);    
+    console.log(`\nLogin attempt: ${serverData.user.username} @ ${serverData.user.ip}`);    
 
-    switch (status) {
+    switch ( serverData.status ) {
         case CONNECTION_STATUS.VERIFIED:
             statusMsg = 'Login successful';
             break;
@@ -107,7 +117,7 @@ function displayConnectionStatus(status, user) {
             break;
 
         case CONNECTION_STATUS.error.ACCOUNT_NOT_FOUND:
-            statusMsg = 'Login failed: no account found with username "' + user.data.username + '"'; 
+            statusMsg = 'Login failed: no account found with username "' + serverData.user.username + '"'; 
             break;
         
         case CONNECTION_STATUS.error.CURRENTLY_LOGGED_IN:
@@ -147,24 +157,32 @@ function updateUserIpInfo(storedUserIp, user) {
     return storedUserIp;
 }
 
-function addNewUserAccount(user) {
+function addNewUserAccount(serverData) {
     try {
         let date = new Date();
         let dateInfo = date.toLocaleDateString() + ' @ ' + date.toLocaleTimeString();
+        let userImgPath = IMAGES[ Math.floor( Math.random() * IMAGES.length ) ]; //not temporary
 
+        serverData.user.image = userImgPath;
+        serverData.user.ip = [
+            {
+                address: serverData.user.ip,
+                lastLogin: dateInfo
+            }
+        ];
+        
         allUsers.unshift({
-            username: user.data.username,
-            pass: user.data.pass,
-            email: user.data.email,
-            ip: [
-                {
-                    address: user.ip,
-                    lastLogin: dateInfo
-                }
-            ]
+            username: serverData.user.username,
+            pass: serverData.user.pass,
+            email: serverData.user.email,
+            image: serverData.user.image,
+            socketId: serverData.user.socketId,
+            ip: serverData.user.ip
         });
 
         saveUserAccountInfo(); //saves the new user info
+
+        return serverData;
     }
     catch(err) {
         console.log(`ERR - Server.js addNewUserAccount(): ${err.message}`);
@@ -172,18 +190,24 @@ function addNewUserAccount(user) {
 }
 
 function addActiveUser(user) {
+    /**THIS INFORMATION SHOULD BE PULLED WHEN THE ACCOUNT IS VERIFIED */
+    
     activeUsers.unshift({
-        username: user.data.username,
+        username: user.username,
+        image: user.image,
         ip: user.ip,
         status: 'online',
         socketId: user.socketId
     });
+
+    console.log(`Active user socket id`);
+    console.log(`${user.username} | ${user.socketId}\n`);
 }
 
 //checks if the user is currently active
 function isActiveUser(user) {
     for(let i = 0; i < activeUsers.length; i++) {
-        if ( activeUsers[i].username === user.data.username ) { //user is already active - trying to login more than once
+        if ( activeUsers[i].username === user.username ) { //user is already active - trying to login more than once
             return CONNECTION_STATUS.error.CURRENTLY_LOGGED_IN; 
         }
     }
@@ -195,8 +219,25 @@ function isActiveUser(user) {
 }
 
 //checks if user already has an account (stored in all users) or if new account
-function doesUserAccountExist(user) {
+function doesUserAccountExist(user, socket) {
     try {
+
+        /*
+        allUsers.unshift({
+            username: user.data.username,
+            pass: user.data.pass,
+            email: user.data.email,
+            image: userImgPath,
+            ip: [
+                {
+                    address: user.ip,
+                    lastLogin: dateInfo
+                }
+            ]
+        });
+        */
+       let serverData;
+
         if ( !user.data.newUser ) { //unique ID is 'username' - indicates isn't new account
             console.log('Previous user logging in');
             for(let i = 0; i < allUsers.length; i++) {
@@ -204,17 +245,57 @@ function doesUserAccountExist(user) {
 
                     if ( allUsers[i].pass === user.data.pass ) { //password matches username
                         allUsers[i].ip = updateUserIpInfo( allUsers[i].ip, user ); //returns updated user ip info
+                        allUsers[i].socketId = socket.id; //updates to this session's socket id
 
-                        return CONNECTION_STATUS.VERIFIED; //login successful
+                        serverData = {
+                            user: {
+                                username: allUsers[i].username,
+                                pass: allUsers[i].pass,
+                                email: allUsers[i].email,
+                                image: allUsers[i].image,
+                                ip: allUsers[i].ip,
+                                socketId: socket.id
+                            },
+                            status: CONNECTION_STATUS.VERIFIED //login successful                            
+                        };
+
+                        return serverData;
+                        //return CONNECTION_STATUS.VERIFIED; //login successful
                     }
 
                     else { //password doesn't match username
-                        return CONNECTION_STATUS.error.INVALID_PASSWORD;
+                        serverData = {
+                            user: {
+                                username: user.data.username,
+                                pass: user.data.pass,
+                                email: '',
+                                image: '',
+                                ip: user.ip,
+                                socketId: socket.id
+                            },
+                            status: CONNECTION_STATUS.error.INVALID_PASSWORD
+                        };
                     }
+
+                        return serverData;
+                        //return CONNECTION_STATUS.error.INVALID_PASSWORD;
                 }
             }
 
-            return CONNECTION_STATUS.error.ACCOUNT_NOT_FOUND; //no account with username provided
+            serverData = {
+                user: {
+                    username: user.data.username,
+                    pass: user.data.pass,
+                    email: '',
+                    image: '',
+                    ip: user.ip,
+                    socketId: socket.id
+                },
+                status: CONNECTION_STATUS.error.ACCOUNT_NOT_FOUND //no account with username provided
+            };
+            
+            return serverData;
+            //return CONNECTION_STATUS.error.ACCOUNT_NOT_FOUND; //no account with username provided
         }
     
         else { //unique ID is 'email' - new user account
@@ -222,17 +303,57 @@ function doesUserAccountExist(user) {
             //goes through all users - ensure email & username are both unique
             for(let i = 0; i < allUsers.length; i++) {
                 if ( allUsers[i].email === user.data.email ) { //email already being used
-                    console.log('verifying email');
-                    return CONNECTION_STATUS.error.EMAIL_TAKEN;
+                    
+                    serverData = {
+                        user: {
+                            username: user.data.username,
+                            pass: user.data.pass,
+                            email: '',
+                            image: '',
+                            ip: user.ip,
+                            socketId: socket.id
+                        },
+                        status: CONNECTION_STATUS.error.EMAIL_TAKEN
+                    };
+
+                    return serverData;
+                    //return CONNECTION_STATUS.error.EMAIL_TAKEN;
                 }
 
                 else if ( allUsers[i].username === user.data.username ) { //username already being used
-                    return CONNECTION_STATUS.error.USERNAME_TAKEN;
+                    serverData = {
+                        user: {
+                            username: user.data.username,
+                            pass: user.data.pass,
+                            email: '',
+                            image: '',
+                            ip: user.ip,
+                            socketId: socket.id
+                        },
+                        status: CONNECTION_STATUS.error.USERNAME_TAKEN
+                    };
+
+                    return serverData;
+                    //return CONNECTION_STATUS.error.USERNAME_TAKEN;
                 }
             }
 
-            addNewUserAccount(user); //adds new user account to DB
-            return CONNECTION_STATUS.VERIFIED; //account successfully created
+            serverData = {
+                user: {
+                    username: user.data.username,
+                    pass: user.data.pass,
+                    email: user.data.email,
+                    image: '',
+                    ip: '',
+                    socketId: socket.id
+                },
+                status: CONNECTION_STATUS.VERIFIED
+            };
+
+            serverData = addNewUserAccount(serverData); //adds new user account to DB
+            
+            return serverData;
+            //return CONNECTION_STATUS.VERIFIED; //account successfully created
         }
     }
     catch(err) {
@@ -241,52 +362,83 @@ function doesUserAccountExist(user) {
 }
 
 //determines status of connected user
-function checkUserData(user) {
-    let status = doesUserAccountExist( user ); //returns status of connected user - verifies username/email & password
+function checkUserData(user, socket) {
+    let serverData = doesUserAccountExist( user, socket ); //returns status of connected user - verifies username/email & password
 
-    if ( status === CONNECTION_STATUS.VERIFIED ) { //login successful
-        let activeStatus = isActiveUser( user );    //checks if the user is already logged in - adds to active list if not
+    if ( serverData.status === CONNECTION_STATUS.VERIFIED ) { //login successful
+        //let activeStatus = isActiveUser( serverData.user );    //checks if the user is already logged in - adds to active list if not
+        console.log(`Checking isActiveUser(): ${serverData.user.socketId}`);
+        serverData.status = isActiveUser( serverData.user );
 
-        if ( activeStatus === CONNECTION_STATUS.VERIFIED_NEW_ACTIVE_USER ) { //login successful - user added to active list
-            return CONNECTION_STATUS.VERIFIED; //connection & user account fully verified
+        if ( serverData.status === CONNECTION_STATUS.VERIFIED_NEW_ACTIVE_USER ) { //login successful - user added to active list
+            serverData.status = CONNECTION_STATUS.VERIFIED;
+
+            return serverData;
+            //return CONNECTION_STATUS.VERIFIED; //connection & user account fully verified
         }
 
         else {
-            return CONNECTION_STATUS.error.CURRENTLY_LOGGED_IN; //login failed - account already logged in
+            serverData.status = CONNECTION_STATUS.error.CURRENTLY_LOGGED_IN;
+
+            return serverData;
+            //return CONNECTION_STATUS.error.CURRENTLY_LOGGED_IN; //login failed - account already logged in
         }
     }
 
     else { //account exist error
-        return status; 
+        return serverData;
+        //return serverData.status; 
     }
 }
 
-function sendConnectionStatusMessages(status, user, socket) {
-    let statusMsg = displayConnectionStatus( status, user ); //gets final connection status message
+function sendConnectionStatusMessages( serverData, socket ) {
+    let statusMsg = displayConnectionStatus( serverData ); //gets final connection status message
 
     console.log(statusMsg);
     
-    if ( status === CONNECTION_STATUS.VERIFIED ) {
-        let connectMsg = user.data.username + ' has connected';
+    if ( serverData.status === CONNECTION_STATUS.VERIFIED ) {
+        let connectMsg;
         let date = new Date();
         let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
 
-        let message = {
-            username: user.data.username,
-            socketId: socket.id,
-            msgId: id,
-            msg: connectMsg,
-            receiveTime: date.toLocaleTimeString()
-        };
-
         let newUser = {
-            username: user.data.username,
+            username: serverData.user.username,
             status: 'online',
-            socketID: socket.id
+            socketId: serverData.user.socketId,
+            image: serverData.user.image
         };
 
-        //send new user active user list
-        socket.emit('active users list', JSON.stringify(activeUsers) );
+        let message = {
+            username: serverData.user.username,
+            socketId: serverData.user.socketId,
+            msgId: id,
+            image: serverData.user.image,
+            timestamp: date.toLocaleTimeString()
+        };
+
+
+        if ( DEBUG ) {
+            connectMsg = serverData.user.username + ' has connected @ ' + date.toLocaleTimeString(); 
+        }
+
+        else {
+            connectMsg = serverData.user.username + ' has connected';
+        } 
+        
+        message.msg = connectMsg;
+
+
+        let newUserData = {
+            user: serverData.user,
+            activeUsers: activeUsers
+        };
+
+        console.log('Active users sent:');
+        console.log( JSON.stringify(newUserData.activeUsers) );
+
+
+        //sends the current user updated account info and list of active users
+        socket.emit('CONNECTION VERIFIED', JSON.stringify(newUserData) );
 
         //send active users new user info
         socket.broadcast.emit('active user update', JSON.stringify(newUser) );
@@ -301,20 +453,32 @@ function sendConnectionStatusMessages(status, user, socket) {
     }
 }
 
-function onUserDisconnect(user, socket) {
-    console.log(`${user.data.username} disconnected from server`);
+function onUserDisconnect(serverData, socket) {
+    const date = new Date();
+    console.log(`${serverData.user.username} disconnected from server @ ` + date.toLocaleTimeString() );
+    
     //only sends disconnect message if the user was previously active
+    console.log(`Server data: ${JSON.stringify(serverData)}`);
+    console.log(`Attempting to remove ${serverData.user.username}: ${socket.id}`);
     if ( removeActiveUser(socket.id) ) {
-        let connectMsg = user.data.username + ' has disconnected';
-         let date = new Date();
+        let connectMsg;
+        
+        if (DEBUG) {
+            connectMsg = serverData.user.username + ' has disconnected @ ' + date.toLocaleTimeString();
+        }
+
+        else {
+            connectMsg = serverData.user.username + ' has disconnected';            
+        }
+            
         let id =   ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
 
         let message = {
-            username: user.data.username,
+            username: serverData.user.username,
             socketId: socket.id,
             msgId: id,
             msg: connectMsg,
-            receiveTime: date.toLocaleTimeString()
+            timestamp: date.toLocaleTimeString()
         };
         io.emit('active users list', JSON.stringify(activeUsers) );   
         io.emit('chat message', JSON.stringify(message) );
@@ -323,7 +487,7 @@ function onUserDisconnect(user, socket) {
 
 
 
-/**SERVER CREATION AND CONNECTION MONITORING */
+/**SERVER CREATION AND CONNECTION MONITORING */ 
 let server = app.listen(port, hostname, () => {
     let address = server.address().address;
     let family = server.address().family;
@@ -347,15 +511,15 @@ function main() {
             socketId: socket.id
         };
 
-        let status = checkUserData( user ); //determines status of the connected user
-        sendConnectionStatusMessages( status, user, socket );    
+        let serverData = checkUserData( user, socket ); //determines status of the connected user
+        sendConnectionStatusMessages( serverData, socket );    
     
         socket.on('chat message', (msg) => {
             socket.broadcast.emit('chat message', msg);
         });
 
         socket.on('disconnect', () => {
-            onUserDisconnect(user, socket); 
+            onUserDisconnect(serverData, socket); 
         });
     });
 }

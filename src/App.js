@@ -30,10 +30,10 @@ function parseCookie() {
   return username;
 }
 
-function DisplayAppView({ loginData, isLoggedIn, loginAttempt, loginFailed }) {
+function DisplayAppView({ userData, isLoggedIn, loginAttempt, loginFailed, loginSuccess }) {
   if (isLoggedIn) { //if the user successfully logged in
     return (
-      <Chat loginData={loginData} loginFailed={loginFailed} />
+      <NewChat userData={userData} loginFailed={loginFailed} loginSuccess={loginSuccess} />
     );
   }
 
@@ -51,7 +51,7 @@ class App extends Component {
       isLoggedIn: false,   //CHANGE TO FALSE IF NOT TESTING
       username: ''         //renders in the middle of titlebar once set (after user logs in)
     }; 
-    this.loginData = undefined; //data provided from user when initially logging in  {newUser, email(if new user), username, pass}
+    this.userData = undefined; //data provided from user when initially logging in  {newUser, email(if new user), username, pass}
 
     this.loginAttempt = this.loginAttempt.bind(this);
     this.loginFailed = this.loginFailed.bind(this); //callback for chat.js - if user's login attempt fails
@@ -61,15 +61,13 @@ class App extends Component {
   //checks login data against server
   loginAttempt(data) {
     try {
-      this.loginData = data;
-  
       //navigate to chat page if login is accepted
+      this.userData = data,        //stores the data returned from login verification & initial login attempt data
+      
       this.setState({ 
         isLoggedIn: true,       //attempt to login to account provided
         username: parseCookie() //'username' cookie set in login.js, updating titlebar w/username
       });
-
-      BrowserWindow.getAllWindows()[0].setSize(750, 500); //chat ui screen size update
     }
     catch(e) {
       console.log(`ERR loginAttempt(): ${e.message}`);
@@ -111,28 +109,16 @@ class App extends Component {
 
     if ( this.state.displaySettings ) {
       settingsMenu = <Settings />;
-    }
+    }    
 
-    
     return (
       <div className="App wrapper">
-        <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
+        <Titlebar onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
         {settingsMenu}
-        <NewChat />
+        <DisplayAppView userData={this.userData} isLoggedIn={this.state.isLoggedIn}
+                        loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} loginSuccess={this.loginSuccess} />
       </div>
     );
-    
-
-    /*
-    return (
-      <div className="App wrapper">
-        <Titlebar username={this.state.username} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
-        {settingsMenu}
-        <DisplayAppView loginData={this.loginData} isLoggedIn={this.state.isLoggedIn}
-                        loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} />
-      </div>
-    );
-    */
   }    
 }
 

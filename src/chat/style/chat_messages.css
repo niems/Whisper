@@ -1,11 +1,12 @@
 div[id='chat-messages-container'] {
     height: 100%;
+    min-width: 765px;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
-    align-items: center;
-    flex: 1 auto;
+    align-items: flex-start;
+    flex: 2 auto;
 
     background-color: var(--chat-messages-container-bg);
 }

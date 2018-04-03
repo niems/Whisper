@@ -114,16 +114,16 @@ button[id='sign-in-connect'] {
     font-weight: bold;
     font-style: italic;
 
-    color: black;
-    background: inherit;
-    border-color: var(--landing-sign-in-input-fg);
+    color: var(--landing-sign-in-button-fg);
+    background: var(--landing-sign-in-button-bg);
+    border-color: var(--landing-sign-in-button-border);
 
     transition: all 0.5s;
 }
 
 button[id='sign-in-connect']:focus {
-    color: var(--accent);
-    background: var(--landing-sign-up-bg);
+    color: var(--landing-sign-in-button-focus-fg);
+    background: var(--landing-sign-in-button-focus-bg);
 }
 
 div[id='sign-up-pane'] {

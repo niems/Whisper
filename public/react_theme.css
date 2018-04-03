@@ -13,6 +13,7 @@
     --eigth: #717274;
     --nine: #9F69E7;
     --ten: #2C2D30;
+    --eleven: red;
 
     /**react colors */
     
@@ -21,11 +22,7 @@
     --nine: #58D9FA;
     --ten: #DDDDDD;
     
-    --sixth: #3B3F42;
-    --seventh: rgb(51, 54, 56);
-    --nine: #69F0AE; 
-    --ten: #DDDDDD;
-
+    --sixth-transparent: rgba(0, 0, 0, 0.7);
     /**new */
     /*
     --sixth: #F4F7F6;
@@ -33,6 +30,11 @@
     --nine: #009AE0;
     --ten: #555555;
     */
+
+    /*SCROLLBAR SETUP*/
+    --scrollbar-track-bg: inherit;
+    --scrollbar-thumb-bg: var(--seventh);
+    /*END SCROLLBAR SETUP*/
 
     --react-gradient: linear-gradient(45deg, var(--sixth), var(--seventh));
     --slate-gradient-transparent: rgba(59, 63, 66, 0.7);
@@ -74,6 +76,12 @@
     --chat-msg-text-fg: var(--ten);
 
     --chat-menu-container-bg: var(--seventh);
+    --chat-menu-category-bg: inherit;
+    --chat-menu-category-fg: var(--ten);
+    --chat-menu-username-fg: var(--ten);
+    --chat-menu-user-online: var(--accent);
+    --chat-menu-user-offline: var(--fourth);
+
 
     --chat-messages-container-bg: var(--sixth);
 
@@ -84,7 +92,7 @@
     --chat-messages-list-pane-bg: var(--sixth);
     
     --chat-message-input-container: inherit;
-    --message-input-fg: var(--second);
+    --message-input-fg: var(--chat-msg-text-fg);
     --message-input-bg: inherit;
     --message-input-border: var(--eigth);
     --message-input-focus-border: var(--eigth);
@@ -129,15 +137,12 @@
         --info-gradient-light: #3B3F42;
     
     
-        /*SCROLLBAR SETUP*/
-        --scrollbar-track-bg: inherit;
-        --scrollbar-thumb-bg: var(--main);
-        /*END SCROLLBAR SETUP*/
+        
         
         /*SETTINGS.JS SETUP*/
-        --settings-bg: var(--darkest-transparent);
+        --settings-bg: var(--sixth-transparent);
     
-        --settings-menu-container-bg: var(--accent);
+        --settings-menu-container-bg: var(--nine);
     
         --settings-submenu-bg: var(--main-dark-transparent);
         --settings-submenu-fg: var(--white-transparent);
@@ -155,9 +160,6 @@
         /*TITLEBAR SETUP*/
         --titlebar-bg: var(--slate-gradient-transparent);
         --titlebar-border: var(--main-transparent);
-    
-        --titlebar-appname-bg: inherit;
-        --titlebar-appname-fg: var(--main-light-transparent);
     
         --titlebar-icon-bg: inherit;
         --titlebar-icon-fg: var(--main-light-transparent);

@@ -34,22 +34,6 @@ function DisplayColorThemes({ onColorSelect }) {
             </button>            
         </div>
     );
-    /*
-    return (
-        <div className='settings-submenu' id='color-theme-submenu'>
-            <div className='settings-submenu-color-theme' id='color-theme-blue' onClick={onColorSelect}>
-                <p className='settings-submenu-description'>
-                    Click to apply this theme
-                </p>
-            </div>
-            <div className='settings-submenu-color-theme' id='color-theme-green' onClick={onColorSelect}>
-                <p className='settings-submenu-description'>
-                    Click to apply this theme
-                </p>
-            </div>
-        </div>
-    );
-    */
 }
 
 class Settings extends Component {
