@@ -39,6 +39,10 @@ class Chat extends Component {
         this.onSocketSetup(); //socket event setup
     }
 
+    componentWillMount() {
+        alert('closing without permission!');
+    }
+
     onSocketSetup() {
         try {
             this.socket = io(serverHost, {

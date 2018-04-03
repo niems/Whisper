@@ -6,7 +6,7 @@ div[id='chat-messages-container'] {
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    flex: 2 auto;
+    flex: 5 auto;
 
     background-color: var(--chat-messages-container-bg);
 }

@@ -102,7 +102,7 @@ function removeActiveUser(id) {
 //used for debugging - displays the status of the user connection
 function displayConnectionStatus( serverData ) {
     let statusMsg = '';
-    console.log(`\nLogin attempt: ${serverData.user.username} @ ${serverData.user.ip}`);    
+    console.log(`\nLogin attempt: ${serverData.user.username} @ ${serverData.user.ip}\n`);    
 
     switch ( serverData.status ) {
         case CONNECTION_STATUS.VERIFIED:
