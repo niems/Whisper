@@ -36,6 +36,12 @@
     --scrollbar-thumb-bg: var(--seventh);
     /*END SCROLLBAR SETUP*/
 
+    /**VERIFY LOGIN.JS */
+    --verify-login-bg: var(--sixth);
+    --verify-login-fg: var(--nine);
+    /**END VERIFY LOGIN.JS */
+    
+
     --react-gradient: linear-gradient(45deg, var(--sixth), var(--seventh));
     --slate-gradient-transparent: rgba(59, 63, 66, 0.7);
 
@@ -79,6 +85,7 @@
     --chat-menu-category-bg: inherit;
     --chat-menu-category-fg: var(--ten);
     --chat-menu-username-fg: var(--ten);
+    --chat-menu-users-fg: var(--ten);
     --chat-menu-user-online: var(--accent);
     --chat-menu-user-offline: var(--fourth);
 

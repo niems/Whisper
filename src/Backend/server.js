@@ -31,7 +31,8 @@ const IMAGES = [
     '/images/user_images/rick.svg',
     '/images/user_images/morty.svg',
     '/images/user_images/cupcake.svg',
-    '/images/user_images/cupcake-happy.svg',    
+    '/images/user_images/cupcake-happy.svg',
+    '/images/user_images/reddit.svg',  
 ];
 
 let activeUsers = []; //current users online - must have account to be an active user
@@ -449,6 +450,8 @@ function sendConnectionStatusMessages( serverData, socket ) {
 
     else {
         // emit login failed event to user w/error message from server
+        console.log(`**************`);
+        console.log(`CONNECTION FAILED: ${serverData.user.username} | ${serverData.user.socketId}`);
         socket.emit('CONNECTION FAILED', statusMsg);
     }
 }

@@ -104,8 +104,6 @@ div[id='online-category-container'] {
     justify-content: flex-start;
     align-items: center;
     flex: 1 auto;
-
-    
 }
 
 .category-header {
@@ -118,7 +116,6 @@ ul[id='menu-list'] {
     height: 100%;
     width: 95%;
     padding: 0px;
-
 }
 
 .menu-list-item {
@@ -138,7 +135,7 @@ ul[id='menu-list'] {
     align-items: center;
     flex: 1 auto;
 
-    color: black;
+    color: var(--chat-menu-users-fg);
 }
 
 .chat-menu-user-img {

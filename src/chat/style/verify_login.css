@@ -1,0 +1,46 @@
+@keyframes verify-spin {
+    from {
+        transform: rotateZ(-355deg);
+    }
+
+    to {
+        transform: rotateZ(0deg);
+    }
+}
+
+.verify-login-container {
+    width: inherit;
+    height: inherit;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    flex: 10 auto;
+    
+    color: var(--verify-login-fg);
+    background-color: var(--verify-login-bg);
+}
+
+h3[id='verify-login-header'] {
+    margin-bottom: 50px;
+    font-style: italic;    
+    font-weight: bold;
+}
+
+div[id='verify-login-animation'] {
+    width: 101px;
+    height: 101px;
+    box-sizing: border-box;
+
+    
+    background-image: url('/images/loading.png');
+    background-position: center;
+    background-repeat: no-repeat;
+
+    animation-name: verify-spin;
+    animation-duration: 2s;
+    animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation-iteration-count: infinite;
+}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import NewChat from './chat/new_chat'
 import Chat from './chat/chat'
 
 import Titlebar from './titlebar'
@@ -33,7 +32,7 @@ function parseCookie() {
 function DisplayAppView({ userData, isLoggedIn, loginAttempt, loginFailed, loginSuccess }) {
   if (isLoggedIn) { //if the user successfully logged in
     return (
-      <NewChat userData={userData} loginFailed={loginFailed} loginSuccess={loginSuccess} />
+      <Chat userData={userData} loginFailed={loginFailed} loginSuccess={loginSuccess} />
     );
   }
 
