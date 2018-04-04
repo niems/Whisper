@@ -59,11 +59,11 @@ class SignIn extends Component {
         let target = e.currentTarget.id;
 
         if ( target === 'sign-in-username' ) {
-            this.setState({ username: e.currentTarget.value });
+            this.setState({ username: e.currentTarget.value.trim() });
         }
 
         else if ( target === 'sign-in-password' ) {
-            this.setState({ password: e.currentTarget.value });
+            this.setState({ password: e.currentTarget.value.trim() });
         }
     }
 

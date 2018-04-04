@@ -75,19 +75,19 @@ class SignUp extends Component {
             let target = e.currentTarget.id;
 
             if ( target === 'sign-up-email' ) {
-                this.setState({ email: e.currentTarget.value });
+                this.setState({ email: e.currentTarget.value.trim() });
             }
 
             else if ( target === 'sign-up-username' ) {
-                this.setState({ username: e.currentTarget.value });
+                this.setState({ username: e.currentTarget.value.trim() });
             }
 
             else if ( target === 'sign-up-password' ) {
-                this.setState({ password: e.currentTarget.value });
+                this.setState({ password: e.currentTarget.value.trim() });
             }
 
             else if ( target === 'sign-up-confirm-password' ) {
-                this.setState({ confirmPassword: e.currentTarget.value });
+                this.setState({ confirmPassword: e.currentTarget.value.trim() });
             }
         }
         catch(err) {
@@ -123,9 +123,9 @@ class SignUp extends Component {
                             if ( this.state.confirmPassword === this.state.password ) { //confirms passwords match
                                 let data = {
                                     newUser: true,
-                                    email: this.state.email,
-                                    username: this.state.username,
-                                    pass: this.state.password
+                                    email: this.state.email.trim(),
+                                    username: this.state.username.trim(),
+                                    pass: this.state.password.trim()
                                 };
                                 
                                 //document.cookie='username=' + this.state.username;
