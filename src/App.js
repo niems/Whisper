@@ -85,6 +85,7 @@ class App extends Component {
 
   closeApp(e) {
     try {
+      e.preventDefault();
       BrowserWindow.getAllWindows()[0].close();
     }
     catch(e) {
@@ -94,6 +95,8 @@ class App extends Component {
 
   onOpenSettings(e) {
     try {
+      e.preventDefault();
+
       this.setState({
         displaySettings: !this.state.displaySettings
       });

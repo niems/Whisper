@@ -12,6 +12,8 @@ class ChatInput extends Component {
     }
 
     onChange(e) {
+        e.preventDefault();
+        
         this.setState({ value: e.currentTarget.value });
     }
 

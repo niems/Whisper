@@ -71,6 +71,7 @@ class SignUp extends Component {
 
     onChange(e) {
         try {
+            e.preventDefault();
             let target = e.currentTarget.id;
 
             if ( target === 'sign-up-email' ) {

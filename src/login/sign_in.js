@@ -55,6 +55,7 @@ class SignIn extends Component {
     }
 
     onChange(e) {
+        e.preventDefault();
         let target = e.currentTarget.id;
 
         if ( target === 'sign-in-username' ) {

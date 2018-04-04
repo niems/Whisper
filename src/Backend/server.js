@@ -222,21 +222,6 @@ function isActiveUser(user) {
 //checks if user already has an account (stored in all users) or if new account
 function doesUserAccountExist(user, socket) {
     try {
-
-        /*
-        allUsers.unshift({
-            username: user.data.username,
-            pass: user.data.pass,
-            email: user.data.email,
-            image: userImgPath,
-            ip: [
-                {
-                    address: user.ip,
-                    lastLogin: dateInfo
-                }
-            ]
-        });
-        */
        let serverData;
 
         if ( !user.data.newUser ) { //unique ID is 'username' - indicates isn't new account
@@ -364,6 +349,8 @@ function doesUserAccountExist(user, socket) {
 
 //determines status of connected user
 function checkUserData(user, socket) {
+    console.log('\n\n***************************************************');
+    console.log(`Check user data: ${JSON.stringify(user)}`);
     let serverData = doesUserAccountExist( user, socket ); //returns status of connected user - verifies username/email & password
 
     if ( serverData.status === CONNECTION_STATUS.VERIFIED ) { //login successful
@@ -408,7 +395,6 @@ function sendConnectionStatusMessages( serverData, socket ) {
             socketId: serverData.user.socketId,
             image: serverData.user.image
         };
-
        
        
        if ( DEBUG ) {

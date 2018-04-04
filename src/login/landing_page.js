@@ -45,6 +45,8 @@ class LandingPage extends Component {
 
     onSignIn(e) {
         try {
+            e.preventDefault();
+
             this.setState({
                 display: <SignIn onBack={this.onNavBack} loginAttempt={this.props.loginAttempt} onSignUp={this.onSignUp} />
             });
@@ -56,6 +58,8 @@ class LandingPage extends Component {
 
     onSignUp(e) {
         try {
+            e.preventDefault();
+
             this.setState({
                 display: <SignUp onBack={this.onNavBack} loginAttempt={this.props.loginAttempt} onSignIn={this.onSignIn} />
             })
@@ -67,6 +71,8 @@ class LandingPage extends Component {
 
     onNavBack(e) {
         try {
+            e.preventDefault();
+            
             this.setState({
                 display: <DisplayLandingPane onSignIn={this.onSignIn} onSignUp={this.onSignUp} />
             });
