@@ -63,15 +63,16 @@ class Chat extends Component {
                 alert(`Looking for .username (server data): ${JSON.stringify(data.activeUsers)}`);
                 alert(`user data: ${this.userData.username}`); 
                 //adds all the users to the online group except for the current user
+                /*
                 //pass this to chatmenu list - filter there (need this.userData to compare username)
                 let aUsers = data.activeUsers.filter(
                     user => user.username !== this.userData.username
                 );
+                */
 
                 this.setState(
                     {
-                        //activeUsers: data.activeUsers,
-                        activeUsers: aUsers,
+                        activeUsers: data.activeUsers,
                         accountVerified: true
                     }
                 );

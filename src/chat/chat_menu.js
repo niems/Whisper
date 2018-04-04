@@ -79,12 +79,14 @@ function DisplayChannelsCategory({ selectedCategory, onSelect }) {
     ) ;
 }
 
-function DisplayOnlineCategory({ users, selectedCategory, onSelect }) {
+function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) {
     try {
-        let aUsers = [];
-
         if ( selectedCategory === 'online' ) {
-            aUsers = users.map( user => (
+            let filteredUser = users.filter(
+                user => user.username !== userData.username
+            );
+
+            let aUsers = filteredUser.map( user => (
                 <li className='menu-list-item' key={user.username} id={user.username}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
@@ -143,7 +145,7 @@ class ChatMenu extends Component {
                 case 'online-category-header':
                     selection = this.state.selectedCategory === 'online' ? '' : 'online';
                     break;
-                    
+
                 case 'channels-category-header':
                 selection = this.state.selectedCategory === 'channels' ? '' : 'channels';
                     break;
@@ -168,7 +170,7 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayOnlineCategory users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    <DisplayOnlineCategory userData={this.props.userData} users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
                     <DisplayChannelsCategory selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
                 </div>
                 
