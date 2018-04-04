@@ -56,20 +56,33 @@ function saveUserAccountInfo() {
     try {
         fs.writeFile(userAccountsPath, JSON.stringify(allUsers), (err) => {
             if (err) {
-                console.log(`ERR server.js saveUserAccountInfo(): ${err.message}`);
+                console.log(`\nERR server.js saveUserAccountInfo(): ${err.message}\n`);
                 return;
             }
     
-            console.log('New user account saved');
+            console.log('\nNew user account saved\n');
         });
     }
     catch(err) {
-        console.log(`ERR server.js saveUserAccountInfo(): ${err.message}`);
+        console.log(`\nERR server.js saveUserAccountInfo(): ${err.message}\n`);
     }
 }
 
 function loadUserAccounts() {
-    try {
+    try { 
+        /*
+        let pathData = '';
+        let path = fs.open(userAccountPath, 'a+', (err , fd) => {
+            if (err) {
+                console.log(`\nERR server loadUserAccounts(): ${err.message}\n`);
+                return;
+            }
+
+            pathData += fd;
+        });
+        */
+
+        
         fs.readFile(userAccountsPath, 'utf8', (err, data) => {
             if (err) {
                 console.log(`ERR server.js loadUserAccounts(): ${err.message}`);
@@ -79,9 +92,10 @@ function loadUserAccounts() {
             allUsers = JSON.parse(data); //stores all the user accounts for login verification
             console.log('User accounts successfully loaded');
         });
+        
     }
     catch(err) {
-        console.log(`ERR server.js loadUserAccounts(): ${err.message}`);
+        console.log(`\nERR server.js loadUserAccounts(): ${err.message}\n`);
     }
 }
 
@@ -90,19 +104,20 @@ function removeActiveUser(id) {
         if ( activeUsers[i].socketId === id ) { //disconnected user found
             activeUsers.splice(i, 1); //removes disconnected user
             
-            console.log( JSON.stringify(activeUsers) );
+            console.log(`Remove active user results:\n ${JSON.stringify(activeUsers)}`);
             return true; //active user removed
         }
     }
 
-    console.log( `Not removed: ${JSON.stringify(activeUsers)}`);
+    console.log( `\nNot removed: ${JSON.stringify(activeUsers)}\n`);
     return false; //active user not found
 }
 
 //used for debugging - displays the status of the user connection
 function displayConnectionStatus( serverData ) {
     let statusMsg = '';
-    console.log(`\nLogin attempt: ${serverData.user.username} @ ${serverData.user.ip}\n`);    
+    console.log(`\nLogin attempt: ${serverData.user.username} @ ${serverData.user.ip}`); 
+    console.log(`${JSON.stringify(serverData)}\n`);   
 
     switch ( serverData.status ) {
         case CONNECTION_STATUS.VERIFIED:
@@ -134,7 +149,7 @@ function displayConnectionStatus( serverData ) {
             break;
     }
 
-    return statusMsg;
+    return (statusMsg + '\n');
 }
 
 function updateUserIpInfo(storedUserIp, user) {
@@ -186,7 +201,7 @@ function addNewUserAccount(serverData) {
         return serverData;
     }
     catch(err) {
-        console.log(`ERR - Server.js addNewUserAccount(): ${err.message}`);
+        console.log(`\nERR - Server.js addNewUserAccount(): ${err.message}\n`);
     }
 }
 
@@ -201,7 +216,7 @@ function addActiveUser(user) {
         socketId: user.socketId
     });
 
-    console.log(`Active user socket id`);
+    console.log(`\nActive user socket id`);
     console.log(`${user.username} | ${user.socketId}\n`);
 }
 
@@ -225,7 +240,7 @@ function doesUserAccountExist(user, socket) {
        let serverData;
 
         if ( !user.data.newUser ) { //unique ID is 'username' - indicates isn't new account
-            console.log('Previous user logging in');
+            console.log('\nUser attempting to access stored account\n');
             for(let i = 0; i < allUsers.length; i++) {
                 if ( allUsers[i].username === user.data.username ) { //username found
 
@@ -285,7 +300,7 @@ function doesUserAccountExist(user, socket) {
         }
     
         else { //unique ID is 'email' - new user account
-            console.log('Creating new user account');
+            console.log('\nCreating new user account\n');
             //goes through all users - ensure email & username are both unique
             for(let i = 0; i < allUsers.length; i++) {
                 if ( allUsers[i].email === user.data.email ) { //email already being used
@@ -343,19 +358,19 @@ function doesUserAccountExist(user, socket) {
         }
     }
     catch(err) {
-        console.log(`Server.js doesUserAccountExist(): ${err.message}`);
+        console.log(`\nServer.js doesUserAccountExist():\n${err.message}\n`);
     }    
 }
 
 //determines status of connected user
 function checkUserData(user, socket) {
     console.log('\n\n***************************************************');
-    console.log(`Check user data: ${JSON.stringify(user)}`);
+    console.log(`Check user data:\n ${JSON.stringify(user)}\n\n`);
     let serverData = doesUserAccountExist( user, socket ); //returns status of connected user - verifies username/email & password
 
     if ( serverData.status === CONNECTION_STATUS.VERIFIED ) { //login successful
         //let activeStatus = isActiveUser( serverData.user );    //checks if the user is already logged in - adds to active list if not
-        console.log(`Checking isActiveUser(): ${serverData.user.socketId}`);
+        console.log(`Checking isActiveUser(): ${serverData.user.socketId}\n`);
         serverData.status = isActiveUser( serverData.user );
 
         if ( serverData.status === CONNECTION_STATUS.VERIFIED_NEW_ACTIVE_USER ) { //login successful - user added to active list
@@ -420,8 +435,8 @@ function sendConnectionStatusMessages( serverData, socket ) {
             activeUsers: activeUsers
         };
 
-        console.log('Active users sent:');
-        console.log( JSON.stringify(newUserData.activeUsers) );
+        console.log('\nActive users sent:');
+        console.log( JSON.stringify(newUserData.activeUsers) + '\n' );
 
 
         //sends the current user updated account info and list of active users
@@ -436,21 +451,24 @@ function sendConnectionStatusMessages( serverData, socket ) {
 
     else {
         // emit login failed event to user w/error message from server
-        console.log(`**************`);
-        console.log(`CONNECTION FAILED: ${serverData.user.username} | ${serverData.user.socketId}`);
+        console.log(`\n**************`);
+        console.log(`CONNECTION FAILED: ${serverData.user.username} | ${serverData.user.socketId}\n`);
         socket.emit('CONNECTION FAILED', statusMsg);
     }
 }
 
 function onUserDisconnect(serverData, socket) {
     const date = new Date();
-    console.log(`${serverData.user.username} disconnected from server @ ` + date.toLocaleTimeString() );
+    console.log(`\n***${serverData.user.username} disconnected from server @ ` + date.toLocaleTimeString() );
+    console.log(`User data:`);
+    console.log( JSON.stringify(serverData) + '\n');
     
     //only sends disconnect message if the user was previously active
-    console.log(`Server data: ${JSON.stringify(serverData)}`);
-    console.log(`Attempting to remove ${serverData.user.username}: ${socket.id}`);
+    console.log(`\n*******Server data:\n  ${JSON.stringify(serverData)}\n`);
+    console.log(`Attempting to remove: \nUsername: ${serverData.user.username}\nSocket id: ${socket.id}`);
     if ( removeActiveUser(socket.id) ) {
-        console.log(`Successfully removed ${serverData.user.username}: ${socket.id}`);
+        console.log(`\nSuccessfully removed:\nUsername: ${serverData.user.username}\nSocket id: ${socket.id}\n`);
+        console.log(`${JSON.stringify(serverData)}\n`);
         let connectMsg;
         
         if (DEBUG) {
@@ -486,7 +504,7 @@ let server = app.listen(port, hostname, () => {
 
     console.log('Server info: ');
     console.log(`-family: ${family}`)
-    console.log(`-listening on ${address} : ${port}`);
+    console.log(`-listening on ${address} : ${port}\n`);
 });
 
 let io = socket(server);

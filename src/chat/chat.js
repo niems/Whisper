@@ -59,9 +59,19 @@ class Chat extends Component {
                 //use app.js callback
                 data = JSON.parse(data);
                 this.userData = data.user; //updates user data
+
+                alert(`Looking for .username (server data): ${JSON.stringify(data.activeUsers)}`);
+                alert(`user data: ${this.userData.username}`); 
+                //adds all the users to the online group except for the current user
+                //pass this to chatmenu list - filter there (need this.userData to compare username)
+                let aUsers = data.activeUsers.filter(
+                    user => user.username !== this.userData.username
+                );
+
                 this.setState(
                     {
-                        activeUsers: data.activeUsers,
+                        //activeUsers: data.activeUsers,
+                        activeUsers: aUsers,
                         accountVerified: true
                     }
                 );
@@ -82,9 +92,12 @@ class Chat extends Component {
 
             //user received a message - adds new message to the top
             this.socket.on('chat message', (msg) => {
+                let date = new Date();
                 let messages = this.state.messages;
+                let newMsg = JSON.parse(msg);
+                newMsg.receivedTimestamp = date.toLocaleTimeString();
 
-                messages.unshift( JSON.parse(msg) );
+                messages.unshift( newMsg );
                 this.setState({ messages });
             });
 
@@ -116,7 +129,8 @@ class Chat extends Component {
 
         //appends user's message to message list
         let messages = this.state.messages;
-        
+        message.receivedTimestamp = date.toLocaleTimeString(); //receive time is the same as sent time for the sender...
+
         messages.unshift( message );
         this.setState({ messages });
     }
@@ -130,11 +144,3 @@ class Chat extends Component {
 }
 
 export default Chat;
-
-/**
- * 
-            <div id='chat-container'>
-                <ChatMenu userData={this.userData} users={this.state.activeUsers} />
-                <ChatMessages messages={this.state.messages} onSendMsg={this.onSendMessage} />
-            </div>
- */

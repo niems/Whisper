@@ -41,6 +41,18 @@ ul[id='chat-messages-list'] {
     color: var(--chat-timestamp-fg);
 }
 
+/**msg sent time */
+.item-timestamp-sender {
+
+}
+
+/**msg receive time */
+.item-timestamp-current {
+    font-size: 0.9em;
+    font-style: italic;
+    color: var(--ten);
+}
+
 .item-username {
     margin-right: 8px;    
     font-weight: bold;

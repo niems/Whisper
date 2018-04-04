@@ -11,9 +11,14 @@ class ChatInput extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.inputfield = document.getElementById('chat-message-inputfield');
+        this.inputfield.focus();
+    }
+
     onChange(e) {
         e.preventDefault();
-        
+
         this.setState({ value: e.currentTarget.value });
     }
 
@@ -30,7 +35,7 @@ class ChatInput extends Component {
                 <button id='message-input-add-button'></button>
 
                 <form id='message-input-form' onSubmit={this.onSubmit}>
-                    <input className='message-input' type='text' placeholder='Message #random' value={this.state.value} onChange={this.onChange} /> 
+                    <input className='message-input' id='chat-message-inputfield' type='text' placeholder='Message #random' value={this.state.value} onChange={this.onChange} /> 
                 </form>
                     
                 <button className='message-input-button' id='message-input-btn1'></button>

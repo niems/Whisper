@@ -3,7 +3,7 @@ import './style/chat_navbar.css'
 
 const ChatNavbar = (props) => {
     let channel = '#random';
-    let channelDesc = 'Non-work banter and water cooler conversation';
+    let channelDesc = 'Non-work banter and general foolishness';
     let userCount = '1';
     let pinCount = '0';
 

@@ -121,6 +121,7 @@ div[id='all-menu-categories'] {
     flex: 1 100%;
 
     color: var(--chat-menu-category-selected-fg);
+    
 }
 
 .category-header-layout{
@@ -164,6 +165,9 @@ div[id='all-menu-categories'] {
     border-radius: 10px;
 
     background: var(--chat-menu-list-bg);
+
+    
+
     box-shadow: -3px -2px 4px black;    
 
     animation-name: menu-grow-in;

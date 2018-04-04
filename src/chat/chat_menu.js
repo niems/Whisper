@@ -18,7 +18,7 @@ function DisplayMenuUserInfo({ user }) {
         <div id='chat-menu-user-info'>
             <DisplayUserStatusOrb id='current-user' status={user.status} />
             <b id='chat-menu-username'>{user.username}</b>
-            <img className='chat-menu-current-user-img' src={user.image} /> 
+            <img className='chat-menu-current-user-img' src={user.image} alt='cannot load main user img' /> 
         </div>
     );
 }
@@ -57,7 +57,7 @@ function DisplayChannelsCategory({ selectedCategory, onSelect }) {
 
                 <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                     <b className='category-header'>Channels</b>
-                    <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' />
+                    <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' alt='cannot load arrow-up.svg' />
                 </div>
                 <ul id='category-menu-list' className='menu-list'>
                     {allChannels}
@@ -72,7 +72,7 @@ function DisplayChannelsCategory({ selectedCategory, onSelect }) {
 
             <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                 <b className='category-header'>Channels</b>
-                <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-down.svg' />
+                <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-down.svg' alt='cannot load arrow-down.svg' />
             </div>
 
         </div>
@@ -88,7 +88,7 @@ function DisplayOnlineCategory({ users, selectedCategory, onSelect }) {
                 <li className='menu-list-item' key={user.username} id={user.username}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
-                        <img className='chat-menu-user-img' src={user.image} /> 
+                        <img className='chat-menu-user-img' src={user.image} alt='cannot load user-message image from given path' /> 
                         <b className='display-username'>{user.username}</b>
                     </div>
                 </li>         
@@ -98,7 +98,7 @@ function DisplayOnlineCategory({ users, selectedCategory, onSelect }) {
                 <div className='category-container-layout selected' id='online-category-container'>
                     <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                         <b className='category-header'>online</b>
-                        <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' />
+                        <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' alt='cannot load arrow-up.svg' />
                     </div>
                     <ul id='online-menu-list' className='menu-list'>
                         {aUsers}
@@ -112,7 +112,7 @@ function DisplayOnlineCategory({ users, selectedCategory, onSelect }) {
             
                 <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                     <b className='category-header'>online</b>
-                    <img className='category-header-icon' id='online-header-icon' src='/images/arrow-down.svg' />
+                    <img className='category-header-icon' id='online-header-icon' src='/images/arrow-down.svg' alt='cannot load arrow-down.svg' />
                 </div>
 
             </div>        
@@ -143,9 +143,13 @@ class ChatMenu extends Component {
                 case 'online-category-header':
                     selection = this.state.selectedCategory === 'online' ? '' : 'online';
                     break;
+                    
                 case 'channels-category-header':
                 selection = this.state.selectedCategory === 'channels' ? '' : 'channels';
                     break;
+
+                default:
+                    selection = '';
             }
 
     
