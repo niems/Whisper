@@ -90,7 +90,7 @@ function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) 
                 <li className='menu-list-item' key={user.username} id={user.username}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
-                        <img className='chat-menu-user-img' src={user.image} alt='cannot load user-message image from given path' /> 
+                        <img className='chat-menu-user-img' src={user.image} alt='failed to load user profile pic from given path' /> 
                         <b className='display-username'>{user.username}</b>
                     </div>
                 </li>         

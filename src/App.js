@@ -6,7 +6,6 @@ import Settings from './settings'
 import LandingPage from './login/landing_page'
 import './App.css'
 
-const io = require('socket.io-client');
 const {BrowserWindow} = window.require('electron').remote;
 
 function parseCookie() {
@@ -61,7 +60,7 @@ class App extends Component {
   loginAttempt(data) {
     try {
       //navigate to chat page if login is accepted
-      this.userData = data,        //stores the data returned from login verification & initial login attempt data
+      this.userData = data;       //stores the data returned from login verification & initial login attempt data
       
       this.setState({ 
         isLoggedIn: true,       //attempt to login to account provided
@@ -76,6 +75,7 @@ class App extends Component {
    loginFailed(msg) {
      alert(msg);
      //delete username cookie
+     document.cookie = 'username=; expires-Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
      this.setState({
        isLoggedIn: false,     //reset

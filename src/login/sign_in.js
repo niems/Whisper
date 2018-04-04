@@ -92,7 +92,7 @@ class SignIn extends Component {
                         pass: this.state.password
                     };
 
-                    document.cookie='username=' + this.state.username;
+                    document.cookie='username=' + this.state.username + '; path=/';
                     this.props.loginAttempt(data);
                 }
 
