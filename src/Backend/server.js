@@ -409,24 +409,24 @@ function sendConnectionStatusMessages( serverData, socket ) {
             image: serverData.user.image
         };
 
-        let message = {
-            username: serverData.user.username,
-            socketId: serverData.user.socketId,
-            msgId: id,
-            image: serverData.user.image,
-            timestamp: date.toLocaleTimeString()
-        };
-
-
-        if ( DEBUG ) {
-            connectMsg = serverData.user.username + ' has connected @ ' + date.toLocaleTimeString(); 
+       
+       
+       if ( DEBUG ) {
+           connectMsg = serverData.user.username + ' has connected @ ' + date.toLocaleTimeString(); 
         }
-
+        
         else {
             connectMsg = serverData.user.username + ' has connected';
         } 
         
-        message.msg = connectMsg;
+        let message = {
+            username: serverData.user.username,
+            socketId: serverData.user.socketId,
+            msgId: id,
+            msg: connectMsg,
+            image: serverData.user.image,
+            timestamp: date.toLocaleTimeString()
+        };
 
 
         let newUserData = {
@@ -510,6 +510,7 @@ function main() {
 
     //listens for user connections
     io.on('connection', (socket) => {
+
         let user = {
             data: JSON.parse(socket.handshake.query.userData), //data passed from client {newUser(bool), email(new user only), username, pass}
             ip: socket.handshake.address,

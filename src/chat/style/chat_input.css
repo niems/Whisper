@@ -3,15 +3,17 @@ div[id='chat-messages-input-container'] {
     box-sizing: border-box;
     width: 99%;
     height: 70px;
+    min-height: 70px;
     max-height: 70px;
 
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    flex: 2 auto;
+    flex: 1 auto;
 
     padding: 5px 10px;
+    overflow: hidden;
 
     background-color: var(--messages-input-container-bg);
 }

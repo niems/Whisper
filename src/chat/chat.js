@@ -40,7 +40,9 @@ class Chat extends Component {
     }
 
     componentWillMount() {
-        alert('closing without permission!');
+        if ( this.state.accountVerified ) {
+            alert('closing w/account verified');
+        }
     }
 
     onSocketSetup() {

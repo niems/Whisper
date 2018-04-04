@@ -1,12 +1,12 @@
 
 div[id='chat-messages-list-pane'] {
     width: 100%;
+    height: inherit;
 
      display: flex;
      flex-flow: column nowrap;
      justify-content: flex-start;
      align-items: flex-start;
-     flex: 2 auto;
 
      background-color: var(--chat-messages-list-pane-bg);
 } 

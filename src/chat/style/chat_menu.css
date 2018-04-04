@@ -97,7 +97,8 @@ div[id='all-menu-categories'] {
 }
 
 .category-container-layout {
-    height: min-content;
+    height: 50px;
+    min-height: 50px;
     width: 100%;
     box-sizing: border-box;
 
@@ -117,7 +118,7 @@ div[id='all-menu-categories'] {
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 1 auto;
+    flex: 1 100%;
 
     color: var(--chat-menu-category-selected-fg);
 }
