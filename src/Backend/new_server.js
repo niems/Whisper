@@ -4,6 +4,7 @@ const socket = require('socket.io');
 
 const hostname = '192.168.86.32';
 const port = '8080';
+const DEBUG = true;
 let io = undefined;
 let allUsers = undefined; //stores account data for all users - probably should store this in a DB instead of a file
 let activeUsers = []; //stores the current users' data
@@ -21,7 +22,7 @@ function loadUserAccounts(path) {
         return fileData;
     }
     catch(err) {
-        console.log(`ERR server.js loadUserACcounts(): ${err.message}`);
+        console.log(`ERR server.js loadUserAccounts(): ${err.message}`);
     }
 }
 
@@ -73,7 +74,7 @@ function getSocketData(socket) {
             ip: {
                 address: socket.handshake.address,
                 mostRecentTimestamp: date.toLocaleDateString() + ' @ ' + date.toLocaleTimeString(),
-                totalConnections: 1,
+                totalConnections: 'N/A',
             }
         },
         status: {
@@ -89,8 +90,19 @@ function main() {
     try {
         let fileData = loadUserAccounts( userAccountsPath );
 
+        if ( DEBUG ) {
+            let fileLength = fileData.length;
+            console.log(`File data length: ${fileData.length}`);
+
+            if ( fileLength > 0 ) {
+                console.log('*Successfully loaded user accounts');
+                console.log(`${fileData}\n`);
+            }
+
+        }
+
         io.on('connection', (socket) => {
-            console.log(`\n\n************************************************\n`);
+            console.log(`\n\n************************************************`);
             console.log('Initial connect...');
             
             let userData = getSocketData( socket ); //pulls all user/socket data from the initial connection
