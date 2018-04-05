@@ -8,15 +8,37 @@
     }
 }
 
+@keyframes verify-scale {
+    from {
+        transform: scale(2.5, 0.5);
+        opacity: 0.1;
+    }
+
+    to {
+        transform: scale(5.5, 5.5);
+        opacity: 1;
+    }
+}
+
+@keyframes verify-color-gradient {
+    from {
+        filter: invert(0.5) sepia(1) saturate(5) hue-rotate(150deg);
+    }
+
+    to {
+        filter: invert(0.5) sepia(1) saturate(5) hue-rotate(210deg);
+    }
+}
+
 .verify-login-container {
     width: inherit;
     height: inherit;
     box-sizing: border-box;
 
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex: 10 auto;
     
     color: var(--verify-login-fg);
@@ -24,25 +46,40 @@
 }
 
 h3[id='verify-login-header'] {
-    margin-bottom: 50px;
-    font-style: italic;    
+    margin-top: 75px;
+    font-style: normal;    
+    font-variant-caps: titling-caps;
     font-weight: bold;
 }
 
-div[id='verify-login-animation'] {
-    width: 101px;
-    height: 101px;
+img[id='verify-login-animation'] {
+    width: 120px;
+    height: 120px;
+    position: fixed;
     box-sizing: border-box;
-
+    align-self: center;
     
-    background-image: url('/images/loading.png');
-    background-position: center;
-    background-repeat: no-repeat;
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(75deg);
+    border-style: none;
+    outline: none;
 
-    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(150deg);
+    animation-name: verify-color-gradient;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
 
+    /*
+    animation-name: verify-scale;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+*/
+
+    /*filter: invert(0.5) sepia(1) saturate(5) hue-rotate(150deg);*/
+
+    /*
     animation-name: verify-spin;
     animation-duration: 2.5s;
-    animation-timing-function: cubic-bezier(0.785, 0.135, 0.35, 0.86);
     animation-iteration-count: infinite;
+    */
 }

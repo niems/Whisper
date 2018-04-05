@@ -5,12 +5,25 @@ const socket = require('socket.io');
 const hostname = '192.168.86.32';
 const port = '8080';
 let io = undefined;
-let allUsers = undefined;
-let activeUsers = undefined;
+let allUsers = undefined; //stores account data for all users - probably should store this in a DB instead of a file
+let activeUsers = []; //stores the current users' data
 
+const userAccountsPath = 'user_accounts.txt';
 const STATUS = {
     INITIAL_CONNECTION: 1,
 };
+
+//returns user accounts
+function loadUserAccounts(path) {
+    try {
+        let fileData = fs.readFileSync(path, {encoding: 'utf8', flag: 'a+'});
+        console.log('Succesfully loaded user accounts\n');
+        return fileData;
+    }
+    catch(err) {
+        console.log(`ERR server.js loadUserACcounts(): ${err.message}`);
+    }
+}
 
 //returns a string with the connection status msg
 function getConnectionStatusMsg(status) {
@@ -36,6 +49,7 @@ function displayUserData(data) {
     console.log(`IP: ${data.user.ip.address}`);
     console.log(`Total connections from this IP: ${data.user.ip.totalConnections}`);
     console.log(`Socket id: ${data.user.socketId}`);
+    console.log(`Image path: ${data.user.image}`);
     console.log(`Connecting as new user: ${data.user.newUser}`);
     console.log(`Email: ${data.user.email}`);
     console.log(`Password: ${data.user.pass}`);
@@ -55,6 +69,7 @@ function getSocketData(socket) {
             username: socketData.username,
             pass: socketData.pass,
             socketId: socket.id,
+            image: 'N/A',
             ip: {
                 address: socket.handshake.address,
                 mostRecentTimestamp: date.toLocaleDateString() + ' @ ' + date.toLocaleTimeString(),
@@ -63,7 +78,7 @@ function getSocketData(socket) {
         },
         status: {
             code: STATUS.INITIAL_CONNECTION,
-            msg: 'N/A'
+            msg: getConnectionStatusMsg( STATUS.INITIAL_CONNECTION ) //sets the initial connection status message
         }
     };
 
@@ -71,21 +86,36 @@ function getSocketData(socket) {
 }
 
 function main() {
-    io.on('connection', (socket) => {
-        console.log(`\n\n************************************************\n`);
-        console.log('Initial connect...');
-        
-        let userData = getSocketData( socket ); //pulls all user/socket data from the initial connection
-        userData.status.msg = getConnectionStatusMsg( userData.status.code ); //updates the connection status message
-        displayUserData( userData );
+    try {
+        let fileData = loadUserAccounts( userAccountsPath );
 
-        socket.on('disconnect', () => {
-            console.log('Socket disconnect');
+        io.on('connection', (socket) => {
+            console.log(`\n\n************************************************\n`);
+            console.log('Initial connect...');
+            
+            let userData = getSocketData( socket ); //pulls all user/socket data from the initial connection
             displayUserData( userData );
-            console.log(`\n************************************************\n`);
-        });
+    
+            socket.on('disconnect', () => {
+                console.log('Socket disconnect');
+                socket.handshake.query = {
+                    userData: {
+                        newUser: false,
+                        email: userData.user.email,
+                        username: userData.user.username,
+                        pass: userData.user.pass
+                    }
+                };
 
-    });  
+                displayUserData( userData );
+                console.log(`\n************************************************\n`);
+            });
+    
+        });  
+    }
+    catch(err) {
+        console.log(`ERR server.js main(): ${err.message}`);
+    }
 }
 
 const server = app.listen(port, hostname, () => {
