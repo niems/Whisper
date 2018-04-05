@@ -1,10 +1,10 @@
 @keyframes verify-spin {
     from {
-        transform: rotateZ(-355deg);
+        transform: rotateZ(0deg);
     }
 
     to {
-        transform: rotateZ(0deg);
+        transform: rotateZ(720deg);
     }
 }
 
@@ -39,8 +39,10 @@ div[id='verify-login-animation'] {
     background-position: center;
     background-repeat: no-repeat;
 
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(150deg);
+
     animation-name: verify-spin;
-    animation-duration: 2s;
-    animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.785, 0.135, 0.35, 0.86);
     animation-iteration-count: infinite;
 }
