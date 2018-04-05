@@ -38,7 +38,7 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     flex: 10 auto;
     
     color: var(--verify-login-fg);
@@ -46,15 +46,15 @@
 }
 
 h3[id='verify-login-header'] {
-    margin-top: 75px;
-    font-style: normal;    
-    font-variant-caps: titling-caps;
+    margin-bottom: 40vh;
+    font-style: italic;    
+    font-variant: normal;
     font-weight: bold;
 }
 
 img[id='verify-login-animation'] {
-    width: 150px;
-    height: 150px;
+    width: 20vw;
+    height: 20vh;
     position: fixed;
     box-sizing: border-box;
     align-self: center;
@@ -63,12 +63,14 @@ img[id='verify-login-animation'] {
     background-position: center;
     background-repeat: no-repeat;
 
-    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(75deg);
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(160deg);
     border-style: none;
     outline: none;
 
+    /*
     animation-name: verify-color-gradient;
     animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-direction: alternate-reverse;
+    */
 }

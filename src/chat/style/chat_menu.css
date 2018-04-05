@@ -17,6 +17,7 @@ div[id='chat-menu-container'] {
 
 div[id='chat-menu-user-info'] {
     width: 100%;
+    height: 100px;
     min-height: min-content;
     box-sizing: border-box;
     margin: 5px 10px 15px 0px;
@@ -36,17 +37,16 @@ div[id='chat-menu-user-info'] {
 
 .chat-menu-current-user-status-img {
     width: min-content;
-
-    r: 5;
-    cx: 10;
-    cy: 10;
+    r: 6;
+    cx: 12;
+    cy: 12;
 
     fill: var(--accent);
 }
 
 .chat-menu-user-status {
-    width: 16px;
-    height: 16px;
+    width: 30px;
+    height: 20px;
 
     object-position: center;
 
@@ -54,7 +54,7 @@ div[id='chat-menu-user-info'] {
 
 .chat-menu-user-status-img {
     object-position: center;
-    width: min-content;
+    width: 80px;
     r: 4;
     cx: 8;
     cy: 8;
@@ -211,7 +211,7 @@ div[id='all-menu-categories'] {
 
 .chat-menu-user-img {
     box-sizing: border-box;
-    width: 35px;
+    width: 40px;
     border-radius: 5px;
     margin-right: 5px;
     background: rgba(255, 255, 255, 0.85);

@@ -6,7 +6,25 @@ import Settings from './settings'
 import LandingPage from './login/landing_page'
 import './App.css'
 
-//const {BrowserWindow} = window.require('electron').remote;
+function isElectron() {
+  try {
+    const {BrowserWindow} = window.require('electron').remote;
+
+    alert( typeof( BrowserWindow ) ); 
+    
+    if ( typeof( BrowserWindow ) !== 'function' ) {
+      return false;
+    }
+
+    return true;
+  }
+  catch(err) {
+    console.log(`Electron not running: ${err.message}`);
+  }
+}
+
+let isElectronRunning = isElectron();
+
 
 function parseCookie() {
   let username = '';
@@ -87,8 +105,11 @@ class App extends Component {
   closeApp(e) {
     try {
       e.preventDefault();
-      alert('uncomment & make sure electron is imported to close');
-      //BrowserWindow.getAllWindows()[0].close();
+      //alert('uncomment & make sure electron is imported to close');
+
+      if ( isElectronRunning ) {
+        window.require('electron').remote.BrowserWindow.getAllWindows()[0].close();        
+      }
     }
     catch(e) {
     console.log(`ERR closeApp(): ${e.message}`);
