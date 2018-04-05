@@ -173,7 +173,7 @@ function updateUserIpInfo(storedUserIp, user) {
     return storedUserIp;
 }
 
-function addNewUserAccount(serverData) {
+function addNewUserAccount(serverData, socket) {
     try {
         let date = new Date();
         let dateInfo = date.toLocaleDateString() + ' @ ' + date.toLocaleTimeString();
@@ -197,6 +197,8 @@ function addNewUserAccount(serverData) {
         });
 
         saveUserAccountInfo(); //saves the new user info
+
+        
 
         return serverData;
     }
@@ -351,7 +353,7 @@ function doesUserAccountExist(user, socket) {
                 status: CONNECTION_STATUS.VERIFIED
             };
 
-            serverData = addNewUserAccount(serverData); //adds new user account to DB
+            serverData = addNewUserAccount(serverData, socket); //adds new user account to DB
             
             return serverData;
             //return CONNECTION_STATUS.VERIFIED; //account successfully created

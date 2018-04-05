@@ -154,6 +154,18 @@ div[id='all-menu-categories'] {
     }
 }
 
+@keyframes menu-fade-in {
+    from {
+        margin-right: -40em;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0px;
+        opacity: 1;
+    }
+}
+
 .menu-list {
     flex: 10 50%;
     height: 100%;
@@ -170,8 +182,8 @@ div[id='all-menu-categories'] {
 
     box-shadow: -3px -2px 4px black;    
 
-    animation-name: menu-grow-in;
-    animation-duration: 0.5s;
+    animation-name: menu-fade-in;
+    animation-duration: 0.75s;
 }
 
 

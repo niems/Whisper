@@ -6,7 +6,7 @@ import Settings from './settings'
 import LandingPage from './login/landing_page'
 import './App.css'
 
-const {BrowserWindow} = window.require('electron').remote;
+//const {BrowserWindow} = window.require('electron').remote;
 
 function parseCookie() {
   let username = '';
@@ -53,6 +53,7 @@ class App extends Component {
 
     this.loginAttempt = this.loginAttempt.bind(this);
     this.loginFailed = this.loginFailed.bind(this); //callback for chat.js - if user's login attempt fails
+    this.loginSuccess = this.loginSuccess.bind(this); //callback from chat.js when the user successfully logs in/creates account
     this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
   }
 
@@ -86,10 +87,22 @@ class App extends Component {
   closeApp(e) {
     try {
       e.preventDefault();
-      BrowserWindow.getAllWindows()[0].close();
+      alert('uncomment & make sure electron is imported to close');
+      //BrowserWindow.getAllWindows()[0].close();
     }
     catch(e) {
     console.log(`ERR closeApp(): ${e.message}`);
+    }
+  }
+
+  loginSuccess(status) {
+    if ( status === 'account created' ) {
+      this.userData.newUser = false;    
+      //alert(`${this.userData.username} newUser updated to false - account successfully created`);
+    }
+
+    else {
+
     }
   }
 

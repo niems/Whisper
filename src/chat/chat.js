@@ -30,7 +30,7 @@ class Chat extends Component {
             accountVerified: false //determines if the user has successfully connected to the server & logged in
         };
 
-        this.userData = this.props.userData;
+        this.userData = this.props.userData; //ONLY MODIFY HERE FOR TESTING, THEN ADD THE APP.JS MOD
         this.onSocketSetup = this.onSocketSetup.bind(this); //connects to server and sets up socket events
         this.onSendMessage = this.onSendMessage.bind(this); //sends a channel/user/group a message
     }
@@ -57,6 +57,11 @@ class Chat extends Component {
             this.socket.on('CONNECTION VERIFIED', (data) => {
                 //verify screen runs before this
                 //use app.js callback
+
+                if ( this.userData.newUser ) {
+                    this.props.loginSuccess('account created');                    
+                }
+
                 data = JSON.parse(data);
                 this.userData = data.user; //updates user data
 
@@ -66,6 +71,7 @@ class Chat extends Component {
                         accountVerified: true
                     }
                 );
+
             });
 
             //updates user's active user list

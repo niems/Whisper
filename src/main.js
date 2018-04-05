@@ -1,6 +1,9 @@
 const {app, BrowserWindow, Menu, Notification} = require('electron');
 const url = require('url');
 
+process.env.GOOGLE_API_KEY = '';
+process.env.ELECTRON_ENABLE_STACK_DUMPING=true;
+process.env.ELECTRON_DEFAULT_ERROR_MODE=true;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
