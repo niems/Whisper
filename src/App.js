@@ -20,7 +20,7 @@ function isElectron() {
   }
 }
 
-let isElectronRunning = isElectron();
+const isElectronRunning = isElectron();
 
 
 function parseCookie() {
@@ -146,14 +146,19 @@ class App extends Component {
 
   render() {
     let settingsMenu = null;
+    let titlebar = null;
 
     if ( this.state.displaySettings ) {
       settingsMenu = <Settings />;
-    }    
+    }
+    
+    if ( isElectronRunning ) {
+      titlebar = ( <Titlebar onOpenSettings={this.onOpenSettings} onClose={this.closeApp} /> );
+    }
 
     return (
       <div className="App wrapper">
-        <Titlebar onOpenSettings={this.onOpenSettings} onClose={this.closeApp} />
+        {titlebar}
         {settingsMenu}
         <DisplayAppView userData={this.userData} isLoggedIn={this.state.isLoggedIn}
                         loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} loginSuccess={this.loginSuccess} />

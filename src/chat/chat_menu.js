@@ -37,7 +37,17 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
     ];
 
     if ( selectedCategory === 'channels' ) {
-        let allChannels = channels.map( channel => (
+        let allChannels = channels;
+
+        if ( filter !== '' ) {
+            let regFilter = new RegExp(filter, 'i');
+
+            allChannels = channels.filter(
+                channel => regFilter.test(channel.channel) //removes user based on current filter
+            );
+        }
+
+        allChannels = allChannels.map( channel => (
             <li className='menu-list-item' key={channel.channel} id={channel.channel}>
                 <div className='display-online-menu'>
                     <b className='display-channel'>{channel.channel}</b>
@@ -52,6 +62,11 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
                     <b className='category-header'>Channels</b>
                     <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' alt='/images/placeholder.svg' />
                 </div>
+
+                <div className='category-filter-container selected'>
+                    <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' />
+                </div>
+
                 <ul id='category-menu-list' className='menu-list'>
                     {allChannels}
                 </ul>
