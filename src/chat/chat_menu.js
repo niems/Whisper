@@ -23,14 +23,7 @@ function DisplayMenuUserInfo({ user }) {
     );
 }
 
-/*
-username: user.data.username,
-        ip: user.ip,
-        status: 'online',
-        socketId: user.socketId
-        */
-
-function DisplayChannelsCategory({ selectedCategory, onSelect }) {
+function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onSelect }) {
     let channels = [
         {
             channel: '#random',
@@ -79,14 +72,22 @@ function DisplayChannelsCategory({ selectedCategory, onSelect }) {
     ) ;
 }
 
-function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) {
+function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect }) {
     try {
         if ( selectedCategory === 'online' ) {
-            let filteredUser = users.filter(
-                user => user.username !== userData.username
+            let filteredUsers = users.filter(
+                user => user.username !== userData.username //removes current user from online users display
             );
 
-            let aUsers = filteredUser.map( user => (
+            if ( filter !== '' ) {
+                let regFilter = new RegExp(filter, 'i');
+
+                filteredUsers = filteredUsers.filter(
+                    user => regFilter.test(user.username) //removes user based on current filter
+                );
+            }
+
+            let aUsers = filteredUsers.map( user => (
                 <li className='menu-list-item' key={user.username} id={user.username}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
@@ -102,6 +103,11 @@ function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) 
                         <b className='category-header'>online</b>
                         <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' alt='/images/placeholder.svg' />
                     </div>
+
+                    <div className='category-filter-container selected'>
+                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by username...' />
+                    </div>
+
                     <ul id='online-menu-list' className='menu-list'>
                         {aUsers}
                     </ul>
@@ -129,9 +135,13 @@ class ChatMenu extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {selectedCategory: 'online'}; //determines which category list is displayed
+        this.state = {
+            selectedCategory: 'online', //determines which category list is displayed
+            filter: '',   //filter - determines what is displayed from the selected category
+        }; 
 
         this.onCategorySelect = this.onCategorySelect.bind(this);
+        this.onFilterChange = this.onFilterChange.bind(this);
     }
 
     //determines which category list to display
@@ -163,6 +173,12 @@ class ChatMenu extends Component {
         
     }
 
+    onFilterChange(e) {
+        e.preventDefault();
+
+        this.setState({ filter: e.currentTarget.value });
+    }
+
     render() {
         /**need to pass updated DisplayMenuUserInfo() data in order to display the image, currently undefined */
         return (
@@ -170,8 +186,8 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayOnlineCategory userData={this.props.userData} users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
-                    <DisplayChannelsCategory selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData} users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
                 </div>
                 
             </div>
