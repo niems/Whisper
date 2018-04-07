@@ -4,7 +4,7 @@ import './style/sign_up.css'
 function DisplaySignInPane({ onSignIn }) {
     return (
         <div id='_sign-in-pane' onClick={onSignIn}>
-            <img id='_sign-in-pane-img' src='/images/user_36.png' alt='cannot load user_36.png' />
+            <img id='_sign-in-pane-img' src='/images/user_36.png' alt='/images/placeholder.svg' />
         </div>
     );
 }
@@ -169,7 +169,7 @@ class SignUp extends Component {
             <div id='_sign-up-container'>
                 <DisplaySignInPane onSignIn={this.props.onSignIn} />
 
-                <img id='navigate-back-img' src='/images/back_arrow.png' onClick={this.props.onBack} alt='cannot load back_arrow.png' />
+                <img id='navigate-back-img' src='/images/back_arrow.png' onClick={this.props.onBack} alt='/images/placeholder.svg' />
                 <DisplaySignUpPane email={this.state.email} username={this.state.username} password={this.state.password}
                                    confirmPassword={this.state.confirmPassword} onChange={this.onChange} onSubmit={this.onSubmit} />
             </div>

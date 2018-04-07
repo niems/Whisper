@@ -4,8 +4,8 @@ import './settings.css'
 function DisplaySettingsMenu({ onColorTheme, onTyping }) {
     return (
         <div id='settings-menu-container'>
-            <img className='settings-menu-item' id='settings-color-theme-icon' onClick={onColorTheme} src='/images/color_theme.png' alt='unable to load color_theme.png' />
-            <img className='settings-menu-item' id='settings-user-typing-icon' onClick={onTyping} src='/images/typing_notification.png' alt='unable to load typing_notification.png' />
+            <img className='settings-menu-item' id='settings-color-theme-icon' onClick={onColorTheme} src='/images/color_theme.png' alt='/images/placeholder.svg'  />
+            <img className='settings-menu-item' id='settings-user-typing-icon' onClick={onTyping} src='/images/typing_notification.png' alt='/images/placeholder.svg'  />
         </div>
     );
 }
@@ -13,7 +13,7 @@ function DisplaySettingsMenu({ onColorTheme, onTyping }) {
 function DisplayTypingNotification(props) {
     return (
         <div className='settings-submenu typing-notification-submenu'>
-            <img className='settings-submenu-img' id='typing-notification-img' src='/images/chat_bubble.gif' alt='unable to load chat_bubble.gif' />
+            <img className='settings-submenu-img' id='typing-notification-img' src='/images/chat_bubble.gif' alt='/images/placeholder.svg'  />
             <p className='settings-submenu-description'>Receive a notification when a user is typing to you</p>
         </div>
     )

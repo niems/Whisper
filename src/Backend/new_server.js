@@ -12,6 +12,7 @@ let activeUsers = []; //stores the current users' data
 const userAccountsPath = 'user_accounts.txt';
 const STATUS = {
     INITIAL_CONNECTION: 1,
+    CREATING_NEW_ACCOUNT: 10, 
 
     error: {
         /**NEW ACCOUNT ERRORS */
@@ -85,16 +86,21 @@ function verifyNewAccountInfo(userData) {
         if ( allUsers[i].user.email === userData.user.email ) { //email active on another account
             userData.status.code = STATUS.error.EMAIL_TAKEN;
             userData.status.msg = getConnectionStatusMsg( userData.status.code );
+            
             return userData;
         }
-
+        
         else if ( allUsers[i].user.username === userData.user.username ) { //username active on another account
-             userData.status.code = STATUS.error.USERNAME_TAKEN;
-             userData.status.msg = getConnectionStatusMsg( userData.status.code );
-             return userData;
-        }
-
+            userData.status.code = STATUS.error.USERNAME_TAKEN;
+            userData.status.msg = getConnectionStatusMsg( userData.status.code );
+            
+            return userData;
+        }    
     }
+    
+    userData.status.code = STATUS.CREATING_NEW_ACCOUNT;
+    userData.status.msg = getConnectionStatusMsg( userData.status.code );
+    return userData;
 }
 
 //determines if the user's login/sign up is valid - returns updated status & info

@@ -8,11 +8,8 @@ import './App.css'
 
 function isElectron() {
   try {
-    const {BrowserWindow} = window.require('electron').remote;
-
-    alert( typeof( BrowserWindow ) ); 
     
-    if ( typeof( BrowserWindow ) !== 'function' ) {
+    if ( typeof( window.require('electron').remote.BrowserWindow ) !== 'function' ) {
       return false;
     }
 
@@ -75,6 +72,12 @@ class App extends Component {
     this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
   }
 
+  componentDidMount() {
+    if ( isElectronRunning ) {
+     // window.require('electron').remote.BrowserWindow.getAllWindows()[0].get
+    }
+  }
+
   //checks login data against server
   loginAttempt(data) {
     try {
@@ -92,8 +95,8 @@ class App extends Component {
   }
 
    loginFailed(msg) {
-     alert(msg);
-     //delete username cookie
+     //alert(msg);
+     //deletes username cookie
      document.cookie = 'username=; expires-Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
      this.setState({
@@ -119,6 +122,7 @@ class App extends Component {
   loginSuccess(status) {
     if ( status === 'account created' ) {
       this.userData.newUser = false;    
+      //alert(`Login success. Date updated:\n${JSON.stringify(this.userData)}`);
       //alert(`${this.userData.username} newUser updated to false - account successfully created`);
     }
 

@@ -24,15 +24,17 @@ div[id='chat-menu-user-info'] {
     padding: 5px 5px 15px 5px;
 
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
     flex: 1 auto;
 }
 
 .chat-menu-current-user-status {
+    display: none;
     width: 20px;
     height: 20px;
+    margin-right: 5px;
 }
 
 .chat-menu-current-user-status-img {
@@ -45,8 +47,8 @@ div[id='chat-menu-user-info'] {
 }
 
 .chat-menu-user-status {
-    width: 30px;
     height: 20px;
+    width: 30px;
 
     object-position: center;
 
@@ -69,15 +71,17 @@ div[id='chat-menu-user-info'] {
 }
 
 b[id='chat-menu-username'] {
-    margin-right: 5px;
-    font-size: 0.95em;
+    margin-top: 5px;
+    margin-right: 10px;
+    font-size: 1.1em;
     font-style: italic;
+    text-align: center;
 
     color: var(--chat-menu-username-fg);
 }
 
 .chat-menu-current-user-img {
-    width: 50px;
+    width: 70px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.85);
 }

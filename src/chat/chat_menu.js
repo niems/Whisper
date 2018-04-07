@@ -17,8 +17,8 @@ function DisplayMenuUserInfo({ user }) {
     return (
         <div id='chat-menu-user-info'>
             <DisplayUserStatusOrb id='current-user' status={user.status} />
+            <img className='chat-menu-current-user-img' src={user.image} alt='/images/placeholder.svg' /> 
             <b id='chat-menu-username'>{user.username}</b>
-            <img className='chat-menu-current-user-img' src={user.image} alt='cannot load main user img' /> 
         </div>
     );
 }
@@ -57,7 +57,7 @@ function DisplayChannelsCategory({ selectedCategory, onSelect }) {
 
                 <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                     <b className='category-header'>Channels</b>
-                    <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' alt='cannot load arrow-up.svg' />
+                    <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' alt='/images/placeholder.svg' />
                 </div>
                 <ul id='category-menu-list' className='menu-list'>
                     {allChannels}
@@ -72,7 +72,7 @@ function DisplayChannelsCategory({ selectedCategory, onSelect }) {
 
             <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                 <b className='category-header'>Channels</b>
-                <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-down.svg' alt='cannot load arrow-down.svg' />
+                <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-down.svg' alt='/images/placeholder.svg' />
             </div>
 
         </div>
@@ -90,7 +90,7 @@ function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) 
                 <li className='menu-list-item' key={user.username} id={user.username}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
-                        <img className='chat-menu-user-img' src={user.image} alt='failed to load user profile pic from given path' /> 
+                        <img className='chat-menu-user-img' src={user.image} alt='/images/placeholder.svg' /> 
                         <b className='display-username'>{user.username}</b>
                     </div>
                 </li>         
@@ -100,7 +100,7 @@ function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) 
                 <div className='category-container-layout selected' id='online-category-container'>
                     <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                         <b className='category-header'>online</b>
-                        <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' alt='cannot load arrow-up.svg' />
+                        <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' alt='/images/placeholder.svg' />
                     </div>
                     <ul id='online-menu-list' className='menu-list'>
                         {aUsers}
@@ -114,7 +114,7 @@ function DisplayOnlineCategory({ userData, users, selectedCategory, onSelect }) 
             
                 <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                     <b className='category-header'>online</b>
-                    <img className='category-header-icon' id='online-header-icon' src='/images/arrow-down.svg' alt='cannot load arrow-down.svg' />
+                    <img className='category-header-icon' id='online-header-icon' src='/images/arrow-down.svg' alt='/images/placeholder.svg' />
                 </div>
 
             </div>        
