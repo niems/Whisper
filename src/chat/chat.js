@@ -12,7 +12,7 @@ function DisplayChat({ accountVerified, userData, users, messages, onSendMsg, on
         return (
             <div id='chat-container'>
                 <ChatMenu userData={userData} users={users} onImgFail={onImgFail} />
-                <ChatMessages messages={messages} onSendMsg={onSendMsg} onImgFail={onImgFail} />
+                <ChatMessages messages={messages} onSendMsg={onSendMsg} />
             </div>
         );
     }
@@ -244,29 +244,48 @@ class Chat extends Component {
 
     //called when user img fails to load. Placeholder image used
     onImgLoadFail(source) {
+        let placeholderImg = '/images/placeholder.svg';
+        let userInfo = undefined; //used to update
+
         console.log(`Img fail: ${source}`);
 
         if ( source === 'current user' ) {
             let userUpdate = this.state.userData;
-            userUpdate.image = '/images/placeholder.svg';
+            userUpdate.image = placeholderImg;
+            userInfo = userUpdate;
     
             this.setState({ userData: userUpdate });
         }
 
         else { //source is the id of the active user
             console.log('active user img fail');
-
+            
             let allUsers = this.state.activeUsers;
+            let allMsgs = this.state.messages;
 
             for(let i = 0; i < allUsers.length; i++) { //goes through all active users
                 if ( allUsers[i].socketId === source ) { //user found - replace failed img with placeholder
-                    allUsers[i].image = '/images/placeholder.svg';
+                    allUsers[i].image = placeholderImg;
+                    userInfo = allUsers[i];
+
+                    for(let k = 0; k < allMsgs.length; k++) { //checks all messages for this user 
+                        if ( allMsgs[k].socketId === allUsers[i].socketId ) { //found msg from this user
+                            allMsgs[k].image = placeholderImg; //updates to placeholder img
+                        }
+                    }
                     
-                    this.setState({ activeUsers: allUsers });
-                    console.log('active user img updated');
+                    this.setState({ 
+                        activeUsers: allUsers,
+                        messages: allMsgs
+                    });
+                    console.log('active user img & messages updated');
                     break;
                 }
             }
+        }
+
+        if ( typeof( userInfo ) !== 'undefined' ) {
+            this.socket.emit('SERVER USER IMG UPDATE', JSON.stringify( userInfo ) );
         }
 
     }
