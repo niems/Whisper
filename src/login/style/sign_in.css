@@ -145,5 +145,6 @@ div[id='sign-up-pane']:hover {
 }
 
 img[id='sign-up-pane-img'] {
+    width: 60px;
     filter: invert(1);
 }

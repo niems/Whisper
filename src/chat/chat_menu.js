@@ -13,11 +13,11 @@ function DisplayUserStatusOrb({ id, status }) {
     );
 }
 
-function DisplayMenuUserInfo({ user }) {
+function DisplayMenuUserInfo({ user, onImgError }) {
     return (
         <div id='chat-menu-user-info'>
             <DisplayUserStatusOrb id='current-user' status={user.status} />
-            <img className='chat-menu-current-user-img' src={user.image} alt='/images/placeholder.svg' /> 
+            <img className='chat-menu-current-user-img' id='chat-menu-current-user-profile-pic' src={user.image} alt='/images/placeholder.svg' data-user='current user' onError={onImgError} /> 
             <b id='chat-menu-username'>{user.username}</b>
         </div>
     );
@@ -60,11 +60,11 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
 
                 <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                     <b className='category-header'>Channels</b>
-                    <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-up.svg' alt='/images/placeholder.svg' />
+                    <img className='category-header-icon' id='channels-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
                 </div>
 
                 <div className='category-filter-container selected'>
-                    <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' />
+                    <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' autocomplete='off' />
                 </div>
 
                 <ul id='category-menu-list' className='menu-list'>
@@ -80,14 +80,14 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
 
             <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                 <b className='category-header'>Channels</b>
-                <img className='category-header-icon' id='channels-header-icon' src='/images/arrow-down.svg' alt='/images/placeholder.svg' />
+                <img className='category-header-icon' id='channels-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
             </div>
 
         </div>
     ) ;
 }
 
-function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect }) {
+function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onImgError }) {
     try {
         if ( selectedCategory === 'online' ) {
             let filteredUsers = users.filter(
@@ -106,7 +106,7 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
                 <li className='menu-list-item' key={user.username} id={user.username}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
-                        <img className='chat-menu-user-img' src={user.image} alt='/images/placeholder.svg' /> 
+                        <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
                         <b className='display-username'>{user.username}</b>
                     </div>
                 </li>         
@@ -116,11 +116,11 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
                 <div className='category-container-layout selected' id='online-category-container'>
                     <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                         <b className='category-header'>online</b>
-                        <img className='category-header-icon' id='online-header-icon' src='/images/arrow-up.svg' alt='/images/placeholder.svg' />
+                        <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
                     </div>
 
                     <div className='category-filter-container selected'>
-                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by username...' />
+                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by username...' autoComplete='off' />
                     </div>
 
                     <ul id='online-menu-list' className='menu-list'>
@@ -135,7 +135,7 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
             
                 <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                     <b className='category-header'>online</b>
-                    <img className='category-header-icon' id='online-header-icon' src='/images/arrow-down.svg' alt='/images/placeholder.svg' />
+                    <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
                 </div>
 
             </div>        
@@ -157,6 +157,7 @@ class ChatMenu extends Component {
 
         this.onCategorySelect = this.onCategorySelect.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
+        this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
 
     //determines which category list to display
@@ -194,14 +195,29 @@ class ChatMenu extends Component {
         this.setState({ filter: e.currentTarget.value });
     }
 
+    onImgError(e) {
+        let targetData = e.currentTarget.dataset;
+
+        if ( targetData.user === 'current user' ) {
+            console.log('image fail current user');
+            this.props.onImgFail('current user'); //specifies the current user's img failed to load
+        }
+
+        else {
+            console.log('image fail other user');
+            this.props.onImgFail( targetData.socketid ); 
+        }
+    }
+
     render() {
         /**need to pass updated DisplayMenuUserInfo() data in order to display the image, currently undefined */
         return (
             <div id='chat-menu-container'>
-                <DisplayMenuUserInfo user={this.props.userData} />
+                <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData} users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData} users={this.props.users}
+                                           selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} onImgError={this.onImgError} />
                     <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
                 </div>
                 

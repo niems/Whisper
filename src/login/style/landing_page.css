@@ -1,13 +1,13 @@
 div[id='landing-page-container'] {
     width: inherit;
     height: 95%;
-    max-height: 95%;
 
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-content: center;
     align-items: center;
+    flex: 1 auto;
 
     overflow: hidden;
 

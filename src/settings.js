@@ -4,8 +4,8 @@ import './settings.css'
 function DisplaySettingsMenu({ onColorTheme, onTyping }) {
     return (
         <div id='settings-menu-container'>
-            <img className='settings-menu-item' id='settings-color-theme-icon' onClick={onColorTheme} src='/images/color_theme.png' alt='/images/placeholder.svg'  />
-            <img className='settings-menu-item' id='settings-user-typing-icon' onClick={onTyping} src='/images/typing_notification.png' alt='/images/placeholder.svg'  />
+            <img className='settings-menu-item' id='settings-color-theme-icon' onClick={onColorTheme} src='/images/settings_icons/color-theme.svg' alt='/images/placeholder.svg'  />
+            <img className='settings-menu-item' id='settings-user-typing-icon' onClick={onTyping} src='/images/settings_icons/typing-notification.svg' alt='/images/placeholder.svg'  />
         </div>
     );
 }

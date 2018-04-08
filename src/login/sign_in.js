@@ -28,7 +28,7 @@ function DisplaySignInPane({ username, password, onChange, onSubmit }) {
 function DisplaySignUpPane({ onSignUp }) {
     return (
         <div id='sign-up-pane' onClick={onSignUp}>
-            <img id='sign-up-pane-img' src='/images/user_add_36.png' alt='/images/placeholder.svg' />                    
+            <img id='sign-up-pane-img' src='/images/page_icons/user-add-36.svg' alt='/images/placeholder.svg' />                    
         </div>
     );
 }
@@ -113,7 +113,7 @@ class SignIn extends Component {
     render() {
         return (
             <div id='sign-in-container'>
-                <img id='navigate-back-img' src='/images/back_arrow.png' onClick={this.props.onBack} alt='/images/placeholder.svg' />
+                <img id='navigate-back-img' src='/images/page_icons/arrow-back.svg' onClick={this.props.onBack} alt='/images/placeholder.svg' />
                 <DisplaySignInPane username={this.state.username} password={this.state.password} onChange={this.onChange} onSubmit={this.onSubmit} />
                 <DisplaySignUpPane onSignUp={this.props.onSignUp} />
             </div>

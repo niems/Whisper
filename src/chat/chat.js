@@ -7,12 +7,12 @@ import './style/chat.css'
 const io = require('socket.io-client');
 const serverHost = '192.168.86.32:8080';
 
-function DisplayChat({ accountVerified, userData, users, messages, onSendMsg }) {
+function DisplayChat({ accountVerified, userData, users, messages, onSendMsg, onImgFail }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
-                <ChatMenu userData={userData} users={users} />
-                <ChatMessages messages={messages} onSendMsg={onSendMsg} />
+                <ChatMenu userData={userData} users={users} onImgFail={onImgFail} />
+                <ChatMessages messages={messages} onSendMsg={onSendMsg} onImgFail={onImgFail} />
             </div>
         );
     }
@@ -25,12 +25,16 @@ class Chat extends Component {
         super(props);
 
         this.state = {
+            userData: this.props.userData, //current user info (initialized w/login info from landing page, updated on server connect)
+            accountVerified: false, //determines if the user has successfully connected to the server & logged in
             activeUsers: [],
-            messages: [],
-            accountVerified: false //determines if the user has successfully connected to the server & logged in
+
+            messages: [], //displays the messages based on the current view
+            selectedConversation: '#general', //determines the messages
+            allConversations: [], //collection of all the current conversations
         };
 
-        this.userData = this.props.userData; //ONLY MODIFY HERE FOR TESTING, THEN ADD THE APP.JS MOD
+        //this.state.userData = this.props.userData; //ONLY MODIFY HERE FOR TESTING, THEN ADD THE APP.JS MOD
         
         this.onSocketSetup = this.onSocketSetup.bind(this); //connects to server and sets up socket events
         this.removeActiveUser = this.removeActiveUser.bind(this); //socket id passed, boolean returned - true if user is removed from active users pool 
@@ -39,6 +43,8 @@ class Chat extends Component {
         this.onNewUserConnection = this.onNewUserConnection.bind(this); //new user connected to server - updates current user info
         this.onUserDisconnect = this.onUserDisconnect.bind(this); //user disconnected - removes from active users' list & adds disconnect msg
         this.onChatMessage = this.onChatMessage.bind(this); //user received new message
+
+        this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
 
     componentDidMount() {
@@ -55,7 +61,7 @@ class Chat extends Component {
         try {
             this.socket = io(serverHost, {
                 query: {
-                    userData: JSON.stringify(this.userData) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
+                    userData: JSON.stringify(this.state.userData) //passes user data - {newUser(true/false), email(if newUser is true), username, pass}
                 }
             });
 
@@ -65,7 +71,7 @@ class Chat extends Component {
                 //use app.js callback
                 data = JSON.parse(data);
                 
-                if ( this.userData.newUser ) {
+                if ( this.state.userData.newUser ) {
                     this.socket.query.userData = JSON.stringify({
                         newUser: false,
                         username: data.user.username,
@@ -75,12 +81,20 @@ class Chat extends Component {
                     this.props.loginSuccess('account created');                    
                 }
 
+                let imgExp = new RegExp('([.]png|[.]svg|[.].jpg)$'); //checks if correct image path is given
+                let userUpdate = data.user;
+                userUpdate.image = imgExp.test(userUpdate.image) ? userUpdate.image : '/images/placeholder.svg';
+                
+                /*
                 this.userData = data.user; //updates user data
+                this.userData.image = imgExp.test(this.userData.image) ? this.userData.image : '/images/placeholder.svg';
+                */
 
                 this.setState(
                     {
                         activeUsers: data.activeUsers,
-                        accountVerified: true
+                        accountVerified: true,
+                        userData: userUpdate
                     }
                 );
 
@@ -134,9 +148,9 @@ class Chat extends Component {
         let id = ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
 
         let message = {
-            username: this.userData.username,
-            socketId: this.userData.socketId,
-            image: this.userData.image,
+            username: this.state.userData.username,
+            socketId: this.state.userData.socketId,
+            image: this.state.userData.image,
             msgId: id,
             msg: msg,
             timestamp: date.toLocaleTimeString()
@@ -228,10 +242,39 @@ class Chat extends Component {
         this.setState({ messages });
     }
 
+    //called when user img fails to load. Placeholder image used
+    onImgLoadFail(source) {
+        console.log(`Img fail: ${source}`);
+
+        if ( source === 'current user' ) {
+            let userUpdate = this.state.userData;
+            userUpdate.image = '/images/placeholder.svg';
+    
+            this.setState({ userData: userUpdate });
+        }
+
+        else { //source is the id of the active user
+            console.log('active user img fail');
+
+            let allUsers = this.state.activeUsers;
+
+            for(let i = 0; i < allUsers.length; i++) { //goes through all active users
+                if ( allUsers[i].socketId === source ) { //user found - replace failed img with placeholder
+                    allUsers[i].image = '/images/placeholder.svg';
+                    
+                    this.setState({ activeUsers: allUsers });
+                    console.log('active user img updated');
+                    break;
+                }
+            }
+        }
+
+    }
+
     render() {
         return (
-            <DisplayChat accountVerified={this.state.accountVerified} userData={this.userData} users={this.state.activeUsers}
-                         messages={this.state.messages} onSendMsg={this.onSendMessage} />
+            <DisplayChat accountVerified={this.state.accountVerified} userData={this.state.userData} users={this.state.activeUsers}
+                         messages={this.state.messages} onSendMsg={this.onSendMessage} onImgFail={this.onImgLoadFail} />
         );
     }
 }

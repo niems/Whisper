@@ -37,6 +37,7 @@ div[id='_sign-up-container'] {
 
 img[id='navigate-back-img'] {
     align-self: flex-start;
+    width: 55px;
     padding-top: 2%;
     filter: invert(1);    
 
@@ -156,6 +157,7 @@ div[id='_sign-in-pane']:hover {
 }
 
 img[id='_sign-in-pane-img'] {
+    width: 60px;
     filter: invert(1);
 }
 
