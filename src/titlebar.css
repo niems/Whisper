@@ -29,3 +29,18 @@ div[id='display-titlebar-container'] {
     filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
     transform: scale(1.25, 1.25);
   }
+
+  img[id='close-app'] {
+    -webkit-app-region: no-drag;
+    margin-left: auto;
+    float: right;
+    filter: invert(1);
+    width: 30px;
+  
+    transition: transform 0.4s;
+  }
+  
+  img[id='close-app']:hover {
+    transform: rotateZ(180deg);
+    filter: invert(.5) sepia(1) saturate(100); /* hue-rotate(335deg);*/  
+  }

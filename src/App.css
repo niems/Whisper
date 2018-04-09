@@ -13,21 +13,6 @@
   background-color: black;
 }
 
-
-
-img[id='close-app'] {
-  -webkit-app-region: no-drag;
-  margin-left: auto;
-  float: right;
-
-  transition: transform 0.4s;
-}
-
-img[id='close-app']:hover {
-  transform: rotateZ(180deg);
-  filter: invert(.5) sepia(1) saturate(100); /* hue-rotate(335deg);*/  
-}
-
 ::-webkit-scrollbar {
   
   width: 4px;
