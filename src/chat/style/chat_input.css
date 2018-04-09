@@ -111,7 +111,7 @@ button[id='message-input-btn1'] {
     font-size: 1em;
     font-weight: bold;
 
-    background-image: url('/images/attach-file.svg');
+    background-image: url('/images/page_icons/attach-file.svg');
 
     border-color: var(--message-input-button-border);
 }
@@ -131,11 +131,11 @@ button[id='message-input-btn2'] {
     border-style: solid solid solid none;
 
     
-    background-image: url('/images/cupcake.svg');
+    background-image: url('/images/page_icons/cupcake.svg');
 }
 
 button[id='message-input-btn2']:hover {
-    background-image: url('/images/cupcake-happy.svg');
+    background-image: url('/images/page_icons/cupcake-happy.svg');
     border-style: none;
 
     animation-name: emoji-bounce;
