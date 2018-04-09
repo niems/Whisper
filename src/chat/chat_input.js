@@ -36,7 +36,7 @@ class ChatInput extends Component {
 
                 <form id='message-input-form' onSubmit={this.onSubmit}>
                     <input className='message-input' id='chat-message-inputfield' type='text' placeholder='Message #random'
-                           value={this.state.value} onChange={this.onChange} autocomplete='off' /> 
+                           value={this.state.value} onChange={this.onChange} autoComplete='off' /> 
                 </form>
                     
                 <button className='message-input-button' id='message-input-btn1'></button>

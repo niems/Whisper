@@ -4,7 +4,7 @@ import './style/sign_in.css'
 function DisplayInput({ formId, inputType, inputId, placeholder, value, onChange, onSubmit }) {
     return (
         <form className='sign-in-input-form' id={formId} onSubmit={onSubmit}>
-            <input type={inputType} className='sign-in-input' id={inputId} value={value} onChange={onChange} placeholder={placeholder} />
+            <input type={inputType} className='sign-in-input' id={inputId} value={value} onChange={onChange} placeholder={placeholder} autoComplete='false' />
         </form>
     );
 }

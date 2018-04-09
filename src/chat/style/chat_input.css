@@ -48,7 +48,7 @@ button[id='message-input-add-button'] {
     font-weight: bold;
 
     
-    background-image: url('/images/add.svg');
+    background-image: url('/images/page_icons/add.svg');
     background-position: center;
     background-repeat: no-repeat;
     filter: invert(0.5);

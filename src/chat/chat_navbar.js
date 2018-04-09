@@ -24,7 +24,7 @@ const ChatNavbar = (props) => {
                 <button className='navbar-function-button' id='navbar-info-function'></button>
                 <button className='navbar-function-button' id='navbar-settings-function'></button>    
 
-                <input type='text' id='navbar-search-input' placeholder='Search...' />
+                <input type='text' id='navbar-search-input' placeholder='Search...' autoComplete='false' />
             
                 <button className='navbar-function-button' id='navbar-star-function'></button>                
                 <button className='navbar-function-button' id='navbar-show-items-function'></button>                                            

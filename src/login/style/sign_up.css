@@ -81,28 +81,28 @@ div[id='_sign-up-pane'] {
 }
 
 input[id='sign-up-email'] {
-    background-image: url('/images/email_white.png');
+    background-image: url('/images/page_icons/email-white.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;
 }
 
 input[id='sign-up-username'] {
-    background-image: url('/images/person_white.png');
+    background-image: url('/images/page_icons/user-36.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;
 }
 
 input[id='sign-up-password'] {
-    background-image: url('/images/lock_white.png');
+    background-image: url('/images/page_icons/lock-white.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;
 }
 
 input[id='sign-up-confirm-password'] {
-    background-image: url('/images/lock_white.png');
+    background-image: url('/images/page_icons/lock-white.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;

@@ -89,14 +89,14 @@ div[id='sign-in-pane'] {
 }
 
 input[id='sign-in-username'] {
-    background-image: url('/images/person_black.png');
+    background-image: url('/images/page_icons/user-black-36.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;
 }
 
 input[id='sign-in-password'] {
-    background-image: url('/images/lock_black.png');
+    background-image: url('/images/page_icons/lock-black.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;

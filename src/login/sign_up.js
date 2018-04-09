@@ -12,7 +12,7 @@ function DisplaySignInPane({ onSignIn }) {
 function DisplayInput({ formId, inputType, inputId, placeholder, value, onChange, onSubmit }) {
     return (
         <form className='sign-up-input-form' id={formId} onSubmit={onSubmit}>
-            <input type={inputType} className='sign-up-input' id={inputId} value={value} onChange={onChange} placeholder={placeholder} />
+            <input type={inputType} className='sign-up-input' id={inputId} value={value} onChange={onChange} placeholder={placeholder} autoComplete='false' />
         </form>
     );
 }

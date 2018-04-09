@@ -45,6 +45,7 @@ class Chat extends Component {
         this.onChatMessage = this.onChatMessage.bind(this); //user received new message
 
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
+
     }
 
     componentDidMount() {
