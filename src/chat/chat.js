@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import VerifyLogin from './verify_login'
 import ChatMenu from './chat_menu'
-import ChatMessages from './chat_messages'
+import ChannelView from './channel_view'
 import './style/chat.css'
 
 const io = require('socket.io-client');
@@ -12,7 +12,7 @@ function DisplayChat({ accountVerified, userData, users, messages, onSendMsg, on
         return (
             <div id='chat-container'>
                 <ChatMenu userData={userData} users={users} onImgFail={onImgFail} />
-                <ChatMessages messages={messages} onSendMsg={onSendMsg} />
+                <ChannelView messages={messages} onSendMsg={onSendMsg} />
             </div>
         );
     }
