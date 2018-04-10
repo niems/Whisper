@@ -7,11 +7,11 @@ import './style/chat.css'
 const io = require('socket.io-client');
 const serverHost = '192.168.86.32:8080';
 
-function DisplayChat({ accountVerified, userData, users, messages, onSendMsg, onImgFail }) {
+function DisplayChat({ accountVerified, userData, users, messages, onSendMsg, onSelect, onImgFail }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
-                <ChatMenu userData={userData} users={users} onImgFail={onImgFail} />
+                <ChatMenu userData={userData} users={users} onSelect={onSelect} onImgFail={onImgFail} />
                 <ChannelView messages={messages} onSendMsg={onSendMsg} />
             </div>
         );
@@ -24,14 +24,41 @@ class Chat extends Component {
     constructor(props) {
         super(props);
 
+        this._adminId = undefined; //testing only - used to send message to only the admin
+
         this.state = {
             userData: this.props.userData, //current user info (initialized w/login info from landing page, updated on server connect)
             accountVerified: false, //determines if the user has successfully connected to the server & logged in
             activeUsers: [],
 
             messages: [], //displays the messages based on the current view
-            selectedConversation: '#general', //determines the messages
-            allConversations: [], //collection of all the current conversations
+
+            /*
+            let date = new Date();
+        let id = ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
+
+        let message = {
+            username: this.state.userData.username,
+            socketId: this.state.userData.socketId,
+            image: this.state.userData.image,
+            msgId: id,
+            msg: msg,
+            timestamp: date.toLocaleTimeString()
+        };
+            */
+
+            selectedChannel: '#general', //determines the messages
+            allMessages: [ //collection of all the current conversations
+                {
+                    channel: '#general',
+                    description: 'general desc.',
+                    toReceive: '', //'' - everyone. Determines which user(socket id) or channel(group name) are sent the message
+                    messages: [], //all the messages for the current channel
+                },
+                {
+
+                }
+            ], 
         };
 
         //this.state.userData = this.props.userData; //ONLY MODIFY HERE FOR TESTING, THEN ADD THE APP.JS MOD
@@ -40,9 +67,12 @@ class Chat extends Component {
         this.removeActiveUser = this.removeActiveUser.bind(this); //socket id passed, boolean returned - true if user is removed from active users pool 
         this.onSendMessage = this.onSendMessage.bind(this); //sends a channel/user/group a message
 
+        this.onConnectionVerified = this.onConnectionVerified.bind(this); //runs when the current user's connection is verified by the server
         this.onNewUserConnection = this.onNewUserConnection.bind(this); //new user connected to server - updates current user info
         this.onUserDisconnect = this.onUserDisconnect.bind(this); //user disconnected - removes from active users' list & adds disconnect msg
         this.onChatMessage = this.onChatMessage.bind(this); //user received new message
+
+        this.onChannelSelect = this.onChannelSelect.bind(this); // user/channel selected - determines channel view display
 
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
 
@@ -52,7 +82,7 @@ class Chat extends Component {
         this.onSocketSetup(); //socket event setup
     }
 
-    componentWillMount() {
+    componentWillUnmount() {
         if ( this.state.accountVerified ) {
             alert('closing w/account verified');
         }
@@ -68,37 +98,7 @@ class Chat extends Component {
 
             //calling loginSuccess and having userData in state there may cause the page to refresh
             this.socket.on('CONNECTION VERIFIED', (data) => {
-                //verify screen runs before this
-                //use app.js callback
-                data = JSON.parse(data);
-                
-                if ( this.state.userData.newUser ) {
-                    this.socket.query.userData = JSON.stringify({
-                        newUser: false,
-                        username: data.user.username,
-                        pass: data.user.pass
-                    });
-                    
-                    this.props.loginSuccess('account created');                    
-                }
-
-                let imgExp = new RegExp('([.]png|[.]svg|[.].jpg)$'); //checks if correct image path is given
-                let userUpdate = data.user;
-                userUpdate.image = imgExp.test(userUpdate.image) ? userUpdate.image : '/images/placeholder.svg';
-                
-                /*
-                this.userData = data.user; //updates user data
-                this.userData.image = imgExp.test(this.userData.image) ? this.userData.image : '/images/placeholder.svg';
-                */
-
-                this.setState(
-                    {
-                        activeUsers: data.activeUsers,
-                        accountVerified: true,
-                        userData: userUpdate
-                    }
-                );
-
+                this.onConnectionVerified(data);
             });
 
             //user received a message - adds new message to the top
@@ -157,8 +157,27 @@ class Chat extends Component {
             timestamp: date.toLocaleTimeString()
         };
 
-        //sends user's message to all active users
-        this.socket.emit('chat message', JSON.stringify(message) );
+        let serverInfo = {
+            sendTo: this.state.selectedChannel //'/' //default path 
+        };
+
+        let packedMsg = {
+            msgInfo: message,
+            serverInfo: serverInfo
+        };
+
+        /*
+        if ( this.state.userData.username !== 'admin' ) {
+            if ( typeof( this._adminId ) !== 'undefined' ) {
+                packedMsg.serverInfo.sendTo = this._adminId;
+
+                //this.socket.to( this._adminId ).emit('chat message', JSON.stringify(message) );
+            }
+        }
+        */
+        
+        this.socket.emit('chat message', JSON.stringify(packedMsg) );
+        
 
         //appends user's message to message list
         let messages = this.state.messages;
@@ -166,6 +185,54 @@ class Chat extends Component {
 
         messages.unshift( message );
         this.setState({ messages });
+    }
+
+    onConnectionVerified(data) {
+        try {
+            data = JSON.parse(data);
+            
+            if ( this.state.userData.newUser ) {
+                this.socket.query.userData = JSON.stringify({
+                    newUser: false,
+                    username: data.user.username,
+                    pass: data.user.pass
+                });
+                
+                this.props.loginSuccess('account created');                    
+            }
+    
+            let extTest = new RegExp('([.](png|jpg|svg|gif))$'); //checks if correct image path is given - only accepts .png/jpg/svg images
+            let userUpdate = data.user;
+            userUpdate.image = extTest.test(userUpdate.image) ? userUpdate.image : '/images/placeholder.svg'; //uses the placeholder image if a valid image isn't given
+    
+            console.log('****CONNECTION VERIFIED**************');
+            console.log(`user image: ${userUpdate.image}`);
+            console.log(`Reg exp test: ${extTest.test(userUpdate.image)}`);
+            
+            /*
+            this.userData = data.user; //updates user data
+            this.userData.image = imgExp.test(this.userData.image) ? this.userData.image : '/images/placeholder.svg';
+            */
+    
+            //testing only - finds the socket id of the admin 
+            for(let i = 0; i < data.activeUsers.length; i++) {
+                if ( data.activeUsers[i].username === 'admin' ) {
+                    this._adminId = data.activeUsers[i].socketId;
+                    break;
+                }
+            }
+    
+            this.setState(
+                {
+                    activeUsers: data.activeUsers,
+                    accountVerified: true,
+                    userData: userUpdate
+                }
+            );
+        }
+        catch(err) {
+            console.log(`Chat onConnectionVerified(): ${err.message}`);
+        }
     }
 
     onNewUserConnection(data) {
@@ -243,6 +310,14 @@ class Chat extends Component {
         this.setState({ messages });
     }
 
+    //determines the channel view, argument is a user/channel id
+    onChannelSelect(selectedChannel) {
+        //if the selected is a user, replace w/socket id
+
+        alert( typeof(selectedChannel) );
+        this.setState({ selectedChannel });
+    }
+
     //called when user img fails to load. Placeholder image used
     onImgLoadFail(source) {
         let placeholderImg = '/images/placeholder.svg';
@@ -294,7 +369,7 @@ class Chat extends Component {
     render() {
         return (
             <DisplayChat accountVerified={this.state.accountVerified} userData={this.state.userData} users={this.state.activeUsers}
-                         messages={this.state.messages} onSendMsg={this.onSendMessage} onImgFail={this.onImgLoadFail} />
+                         messages={this.state.messages} onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail} />
         );
     }
 }

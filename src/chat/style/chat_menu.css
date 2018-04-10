@@ -160,17 +160,22 @@ div[id='all-menu-categories'] {
     box-sizing: border-box;
 
     outline: none;
-    border-style: inset;
+    /*
+    border-style: none outset outset none;
     border-color: var(--sixth);
     border-width: 2px;
     border-radius: 7px 7px 5px 5px;
+    */
 
+    border-style: none none double none;
+    border-width: 1px;
+    border-color: #757575;
     text-align: center;
 
     color: var(--ten);
     background-color: inherit;
 
-    background-image: url('/images/search.svg');
+    background-image: url('/images/page_icons/search-black.svg');
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;
@@ -202,7 +207,7 @@ div[id='all-menu-categories'] {
     }
 
     to {
-        margin-left: 0px;
+        margin-right: 0px;
         opacity: 1;
     }
 }
@@ -217,11 +222,8 @@ div[id='all-menu-categories'] {
     overflow-y: auto;
     border-radius: 5px 5px 10px 10px;
 
-    background: var(--chat-menu-list-bg);
-
-    
-
-    box-shadow: -3px -2px 4px black;    
+    background: inherit;
+    box-shadow: 3px 2px 4px var(--chat-menu-list-bg);
 
     animation-name: menu-fade-in;
     animation-duration: 0.75s;
@@ -234,6 +236,10 @@ div[id='all-menu-categories'] {
 
     text-align: left;
     list-style-type: none;
+}
+
+.menu-list-item:hover {
+    background-color: var(--chat-menu-list-bg);
 }
 
 .display-online-menu {

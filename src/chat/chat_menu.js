@@ -87,7 +87,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
     ) ;
 }
 
-function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onImgError }) {
+function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onChannelSelect, onImgError }) {
     try {
         if ( selectedCategory === 'online' ) {
             let filteredUsers = users.filter(
@@ -103,7 +103,7 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
             }
 
             let aUsers = filteredUsers.map( user => (
-                <li className='menu-list-item' key={user.username} id={user.username}>
+                <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
                     <div className='display-online-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
                         <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
@@ -157,6 +157,9 @@ class ChatMenu extends Component {
 
         this.onCategorySelect = this.onCategorySelect.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
+        this.onChannelSelect = this.onChannelSelect.bind(this); //sends selected channel/user info back to chat
+
+
         this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
 
@@ -195,6 +198,11 @@ class ChatMenu extends Component {
         this.setState({ filter: e.currentTarget.value });
     }
 
+    onChannelSelect(e) {
+        let id = e.currentTarget.id;
+        this.props.onSelect( id );
+    }
+
     onImgError(e) {
         let targetData = e.currentTarget.dataset;
 
@@ -217,7 +225,7 @@ class ChatMenu extends Component {
                 
                 <div id='all-menu-categories'>
                     <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData} users={this.props.users}
-                                           selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} onImgError={this.onImgError} />
+                                           selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
                     <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
                 </div>
                 
