@@ -9,7 +9,7 @@ const ChannelView = ({ messages, selectedChannel, selectedMsgs, onSendMsg }) => 
         <div id='channel-view-container'>
             <ChatNavbar selectedChannel={selectedChannel} />
             <ChatMessageList messages={messages} selectedMsgs={selectedMsgs} />
-            <ChatInput onSendMsg={onSendMsg} />                                    
+            <ChatInput selectedChannel={selectedChannel} onSendMsg={onSendMsg} />                                    
         </div>                
     );
 }

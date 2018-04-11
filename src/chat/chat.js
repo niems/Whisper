@@ -395,7 +395,7 @@ class Chat extends Component {
 
             for(let i = 0; i < aUsers.length; i++) { //checks through all active users
                 if ( channel === aUsers[i].username ) { //selected user found                    
-                    tempChannel.name = '@ \t' + channel;
+                    tempChannel.name = ' @  ' + channel;
                     tempChannel.description = "Sending P.M's to " + channel;
                     tempChannel.path = aUsers[i].socketId;
                     tempChannel.isUser = true;
