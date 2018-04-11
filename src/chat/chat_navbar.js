@@ -1,7 +1,7 @@
 import React from 'react'
 import './style/chat_navbar.css'
 
-const ChatNavbar = (props) => {
+const ChatNavbar = ({ selectedChannel }) => {
     let channel = '#random';
     let channelDesc = 'Non-work banter and general foolishness';
     let userCount = '1';
@@ -10,13 +10,13 @@ const ChatNavbar = (props) => {
     return (
         <div id='chat-messages-navbar'>
             <div id='navbar-msg-info-container'>
-                <h6 className='navbar-msg-channel'>{channel}</h6>
+                <h6 className='navbar-msg-channel'>{selectedChannel.name}</h6>
 
                 <div id='navbar-msg-channel-info'>
                     <button className='navbar-button' id='navbar-star-btn'></button> | 
                     <button className='navbar-button' id='navbar-user-count-btn'></button><small>{userCount}</small> |
                     <button className='navbar-button' id='navbar-pin-btn'></button><small>{pinCount}</small> |        
-                    <small id='navbar-channel-info'>{channelDesc}</small>
+                    <small id='navbar-channel-info'>{selectedChannel.description}</small>
                 </div>
             </div>
 

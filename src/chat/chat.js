@@ -7,12 +7,12 @@ import './style/chat.css'
 const io = require('socket.io-client');
 const serverHost = '192.168.86.32:8080';
 
-function DisplayChat({ accountVerified, userData, users, messages, onSendMsg, onSelect, onImgFail }) {
+function DisplayChat({ accountVerified, userData, users, messages, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
                 <ChatMenu userData={userData} users={users} onSelect={onSelect} onImgFail={onImgFail} />
-                <ChannelView messages={messages} onSendMsg={onSendMsg} />
+                <ChannelView messages={messages} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} />
             </div>
         );
     }
@@ -33,33 +33,20 @@ class Chat extends Component {
 
             messages: [], //displays the messages based on the current view
 
-            /*
-            let date = new Date();
-        let id = ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
-
-        let message = {
-            username: this.state.userData.username,
-            socketId: this.state.userData.socketId,
-            image: this.state.userData.image,
-            msgId: id,
-            msg: msg,
-            timestamp: date.toLocaleTimeString()
-        };
-            */
             selectedChannel: {
-                name: '#general', //name of the channel - #channel_name for channels, pm - [username] for private messages
+                name: '#random', //name of the channel - #channel_name for channels, pm - [username] for private messages
+                description: 'All about that #random talk',
                 path: '/', //socket id for private messages, #channel_name for channels
                 isUser: false
             },
-            //selectedChannel: '#general', //determines the messages
             selectedMessages: [], //all messages for the selected channel 
         };
 
         this.allMessages = [ //collection of all the current conversations
             {
-                channel: '#general',
-                description: 'general desc.',
-                //toReceive: 'everyone', //'' - everyone. Determines which user(socket id) or channel(group name) are sent the message
+                channel: '#random',
+                description: 'All about that #random talk',
+                path: '/', // N/A for private messages(no point storing socket id), #channel_name for channels
                 messages: [], //all the messages for the current channel
             },
         ];
@@ -170,26 +157,23 @@ class Chat extends Component {
             msgInfo: message,
             serverInfo: serverInfo
         };
-
-        /*
-        if ( this.state.userData.username !== 'admin' ) {
-            if ( typeof( this._adminId ) !== 'undefined' ) {
-                packedMsg.serverInfo.sendTo = this._adminId;
-
-                //this.socket.to( this._adminId ).emit('chat message', JSON.stringify(message) );
-            }
-        }
-        */
         
         this.socket.emit('chat message', JSON.stringify(packedMsg) );
         
 
         //appends user's message to message list
+        //alert(`selected messages: ${JSON.stringify(this.state.selectedMessages)}`);
+        let selectedMessages = this.state.selectedMessages;
         let messages = this.state.messages;
         message.receivedTimestamp = date.toLocaleTimeString(); //receive time is the same as sent time for the sender...
 
+        selectedMessages.unshift( message );
         messages.unshift( message );
-        this.setState({ messages });
+
+        this.setState({
+            messages: messages,
+            selectedMessages: selectedMessages
+        });
     }
 
     onConnectionVerified(data) {
@@ -250,9 +234,12 @@ class Chat extends Component {
 
         let date = new Date();
         let messages = this.state.messages;
+        let selectedMsgs = this.state.selectedMessages;
         let newMsg = data.message;
         newMsg.receivedTimestamp = date.toLocaleTimeString();
+
         messages.unshift( newMsg );
+        selectedMsgs.unshift( newMsg );
 
         let currentUsers = this.state.activeUsers; //current active users
         currentUsers.unshift(data.newUser); //adds new user
@@ -260,7 +247,8 @@ class Chat extends Component {
 
         this.setState({ 
             activeUsers: currentUsers,
-            messages: messages
+            messages: messages,
+            selectedMessages: selectedMsgs
         }); 
     }
 
@@ -283,8 +271,11 @@ class Chat extends Component {
             //updates messages w/user disconnect msg
             let newMsg = user;
             let messages = this.state.messages;
+            let selectedMsgs = this.state.selectedMessages;
             newMsg.receivedTimestamp = date.toLocaleTimeString();
+
             messages.unshift( newMsg );
+            selectedMsgs.unshift( newMsg );
 
             //removes disconnected user from active user pool
             let currentUsers = this.removeActiveUser( user.socketId );
@@ -292,6 +283,7 @@ class Chat extends Component {
             if ( currentUsers !== false ) { //user successfully disconnected
                 this.setState({
                     messages: messages, //adds user DC msg
+                    selectedMessages: selectedMsgs,
                     activeUsers: currentUsers //removes DC'd user
                 });
             }
@@ -307,12 +299,18 @@ class Chat extends Component {
 
     onChatMessage(msg) {
         let date = new Date();
+        let selectedMsgs = this.state.selectedMessages;
         let messages = this.state.messages;
         let newMsg = JSON.parse(msg);
         newMsg.receivedTimestamp = date.toLocaleTimeString();
 
         messages.unshift( newMsg );
-        this.setState({ messages });
+        selectedMsgs.unshift( newMsg );
+
+        this.setState({ 
+            messages: messages,
+            selectedMessages: selectedMsgs
+         });
     }
 
     updateChannelInfo(selectedChannel) {
@@ -328,9 +326,12 @@ class Chat extends Component {
         if ( typeof(foundMsgInfo) !== 'undefined' ) { //channel info & messages found 
 
             //updates the selected channel & corresponding messages 
+            selectedChannel.description = foundMsgInfo.description; //updating description based on what server has stored
+            //selectedChannel.path = foundMsgInfo.path;
+
             this.setState({ 
                 selectedChannel: selectedChannel,
-                selectedMessages: foundMsgInfo
+                selectedMessages: foundMsgInfo.messages
             });
 
             return true;
@@ -338,29 +339,53 @@ class Chat extends Component {
 
         //channel does not exist yet - creating channel
         else {
-            //let receiver = undefined; //who the messages are being sent to
-            let desc = selectedChannel.isUser ? selectedChannel.name : ('no description of ' + selectedChannel.name); //description of channel/PM
-            
-            this.allMessages.unshift(
-                {
-                    channel: selectedChannel.name,
-                    description: desc,
-                    messages: [],
+            let path = undefined;
+
+            if ( selectedChannel.isUser ) { //if this is a private message
+                path = 'N/A'; //if there was a point to saving the socket id, it would be saved as path
+            }
+
+            else {
+                if ( selectedChannel.name === '#random' ) { //default channel path
+                    path = '/';
                 }
-            );
+
+                else { //normal channel path
+                    path = selectedChannel.name;
+                }
+            }
+
+            //let receiver = undefined; //who the messages are being sent to
+            //let desc = selectedChannel.isUser ? selectedChannel.name : ('no description of ' + selectedChannel.name); //description of channel/PM
+            foundMsgInfo = {
+                channel: selectedChannel.name,
+                description: selectedChannel.description,
+                path: path,
+                messages: [],
+            };
+
+            this.allMessages.unshift( foundMsgInfo );
+
+            this.setState({
+                selectedChannel: selectedChannel,
+                selectedMessages: []
+            });
+
+            return true;
         }
 
         alert()
         return false;
     }
 
-    //returns the name and path 
+    //returns the name and path. 'channel' is the id of what the user clicked
     getChannelInfo(channel) {
         //if the selected is a user, replace w/socket id
         let isChannel = new RegExp('^[#]'); 
         let tempChannel = { 
             name: '',
             path: '',
+            description: '',
             isUser: undefined
         };
 
@@ -370,7 +395,8 @@ class Chat extends Component {
 
             for(let i = 0; i < aUsers.length; i++) { //checks through all active users
                 if ( channel === aUsers[i].username ) { //selected user found                    
-                    tempChannel.name = 'pm - ' + channel;
+                    tempChannel.name = '@ \t' + channel;
+                    tempChannel.description = "Sending P.M's to " + channel;
                     tempChannel.path = aUsers[i].socketId;
                     tempChannel.isUser = true;
                     return tempChannel; 
@@ -381,6 +407,7 @@ class Chat extends Component {
 
         //channel selected - group message
         tempChannel.name = channel;
+        tempChannel.description = 'All about that ' + channel + ' talk';
         tempChannel.path = channel;
         tempChannel.isUser = false;
 
@@ -397,35 +424,6 @@ class Chat extends Component {
         }
 
         this.updateChannelInfo( tempChannel );
-        /*
-        let isChannel = new RegExp('^[#]'); 
-        let tempChannel = { 
-            name: '',
-            path: ''
-        };
-        //user selected - private message
-        if ( !isChannel.test(selected) ) { 
-            let aUsers = this.state.activeUsers;
-
-            for(let i = 0; i < aUsers.length; i++) {
-                if ( selected === aUsers[i].username ) { //selected user found
-                    //selected = aUsers[i].socketId; //user's socket id used as channel
-                    
-                    tempChannel.name = 'pm - ' + selected;
-                    tempChannel.path = aUsers[i].socketId;
-                    break;
-                }
-            }
-        }
-
-        //channel selected - group message
-        else { 
-            tempChannel.name = selected;
-            tempChannel.path = selected;
-        }
-        */
-        //update message selection also
-        //this.setState({ selectedChannel: tempChannel });
     }
 
     //called when user img fails to load. Placeholder image used
@@ -479,7 +477,8 @@ class Chat extends Component {
     render() {
         return (
             <DisplayChat accountVerified={this.state.accountVerified} userData={this.state.userData} users={this.state.activeUsers}
-                         messages={this.state.messages} onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail} />
+                         messages={this.state.messages} selectedChannel={this.state.selectedChannel} selectedMsgs={this.state.selectedMessages}
+                         onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail} />
         );
     }
 }
