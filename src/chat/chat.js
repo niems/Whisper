@@ -61,6 +61,7 @@ class Chat extends Component {
         this.onNewUserConnection = this.onNewUserConnection.bind(this); //new user connected to server - updates current user info
         this.onUserDisconnect = this.onUserDisconnect.bind(this); //user disconnected - removes from active users' list & adds disconnect msg
         this.onChatMessage = this.onChatMessage.bind(this); //user received new message
+        this.onSocketChannelUpdate = this.onSocketChannelUpdate.bind(this); //user clicked new channel - socket joins/leaves room
 
         this.onChannelSelect = this.onChannelSelect.bind(this); // user/channel selected - determines channel view display
         this.getChannelInfo = this.getChannelInfo.bind(this);
@@ -313,6 +314,47 @@ class Chat extends Component {
          });
     }
 
+    onSocketChannelUpdate(selected) {
+        try {
+            //determines the channels the socket will join/leave
+            let update = {
+                join: undefined,
+                leave: undefined
+            };
+    
+            if ( !selected.isUser ) { //channel selected
+                if ( selected.name !== this.state.selectedChannel.name ) { //different channel selected - doesn't update if same channel is clicked
+                    if ( selected.path === '/' || selected.path === '#random' ) { //default path selected - need to leave other socket group
+                        if ( !this.state.selectedChannel.isUser && this.state.selectedChannel.path !== '/') { //previous selection is a group and not the default
+                            update.leave = this.state.selectedChannel.name; //leaves previous group
+                        }
+                        
+                        //no need to do anything if previous selection is a private message
+                    }
+    
+                    else { //new channel room selected
+                        if ( !this.state.selectedChannel.isUser ) { //previous selection is a group
+                            update.join = selected.name; //joins new group
+                            if ( this.state.selectedChannel.path !== '/' ) { //only leaves group if it isn't the default path
+                                update.leave = this.state.selectedChannel.name; //leaves previous group
+                            }
+                        }
+
+                        else { //previous selection is a private message
+                            update.join = selected.name; //joins new group 
+                        }
+                    }
+
+                    //emits event to server to update current socket channel
+                    this.socket.emit('UPDATE CHANNEL', JSON.stringify(update) );
+                }
+            }
+        }
+        catch(err) {
+            console.log(`Chat onSocketChannelUpdate(): ${err.message}`);
+        }
+    }
+
     updateChannelInfo(selectedChannel) {
         let foundMsgInfo = undefined; //channel info/messages for the current channel
 
@@ -327,7 +369,7 @@ class Chat extends Component {
 
             //updates the selected channel & corresponding messages 
             selectedChannel.description = foundMsgInfo.description; //updating description based on what server has stored
-            //selectedChannel.path = foundMsgInfo.path;
+            selectedChannel.path = foundMsgInfo.path;
 
             this.setState({ 
                 selectedChannel: selectedChannel,
@@ -417,6 +459,7 @@ class Chat extends Component {
     onChannelSelect(selected) {
         //if the selected is a user, replace w/socket id
         let tempChannel = this.getChannelInfo( selected ); //returns the name and path of the channel
+        this.onSocketChannelUpdate( tempChannel );
 
         if ( typeof(tempChannel) === 'undefined' ) {
             alert('ERROR - temp channel is undefined D:');
@@ -424,6 +467,15 @@ class Chat extends Component {
         }
 
         this.updateChannelInfo( tempChannel );
+        /*
+        if ( this.updateChannelInfo( tempChannel ) ) { //successfully updated channel info
+            if ( !this.state.selectedChannel.isUser ) { //channel selected
+                if ( this.state.selectedChannel.path !== '/' ) { //not default channel namespace
+                    //call update channel function here
+                }
+            }
+        }
+        */
     }
 
     //called when user img fails to load. Placeholder image used

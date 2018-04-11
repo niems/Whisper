@@ -23,7 +23,7 @@ function DisplayMenuUserInfo({ user, onImgError }) {
     );
 }
 
-function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onSelect }) {
+function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onSelect, onChannelSelect }) {
     let channels = [
         {
             channel: '#random',
@@ -48,7 +48,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
         }
 
         allChannels = allChannels.map( channel => (
-            <li className='menu-list-item' key={channel.channel} id={channel.channel}>
+            <li className='menu-list-item' key={channel.channel} id={channel.channel} onClick={onChannelSelect}>
                 <div className='display-online-menu'>
                     <b className='display-channel'>{channel.channel}</b>
                 </div>
@@ -198,6 +198,7 @@ class ChatMenu extends Component {
         this.setState({ filter: e.currentTarget.value });
     }
 
+    //determines the channel view - clicking a user changes the channel view to a PM w/that user
     onChannelSelect(e) {
         let id = e.currentTarget.id;
         this.props.onSelect( id );
@@ -224,9 +225,12 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData} users={this.props.users}
-                                           selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
-                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect} />
+                    <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
+                                           users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect}
+                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
+
+                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategory={this.state.selectedCategory}
+                                             onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} />
                 </div>
                 
             </div>
