@@ -148,6 +148,8 @@ input[id='navbar-search-input'] {
     background-position-x: left;
     background-position-y: center;
     background-repeat: no-repeat;    
+
+    background-color: var(--titlebar-bg);
 }
 
 button[id='navbar-at-function'] {
