@@ -4,7 +4,7 @@ import './style/chat_message_list.css'
 
 const ChatMessageList = ({ messages, selectedMsgs }) => {
 
-    const items = messages.map( msg => (
+    const items = selectedMsgs.map( msg => (
         <li className='message-items' key={msg.msgId} id={msg.msgId}>
             <div className='message-item'>
                 <img className='item-username-img' src={msg.image} alt='failed to load user img' />
