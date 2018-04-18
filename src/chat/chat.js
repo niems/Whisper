@@ -124,25 +124,14 @@ class Chat extends Component {
             activeUsers: [],
             
             selectedMessages: [], //all messages for the selected channel 
-            /*
+            
             selectedChannel: {
-                name: '#random', //name of the channel - #channel_name for channels, pm - [username] for private messages
+                channelId: undefined,
+                channelDisplayName: undefined,
+                isUser: undefined,
 
-                channelId: '#random', //used as the unique id when searching for a particular channel. ex. '_admin - _root' for a direct message channelId
-                channelDisplayName: '#random', //used when displaying
-                isUser: false,
-
-                description: 'All about that #random talk',
-                path: '#random', //socket id for private messages, #channel_name for channels
-            },
-            */
-           selectedChannel: {
-               channelId: undefined,
-               channelDisplayName: undefined,
-               isUser: undefined,
-
-               description: undefined,
-               path: undefined,
+                description: undefined,
+                path: undefined,
            }
         };
 
@@ -280,7 +269,7 @@ class Chat extends Component {
             currentStatus = this.addMessageToChannel( this.state.selectedChannel.channelId, message );
 
             if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added message to channel
-                
+                console.log('onSendMessage(): successfully added msg to this.allMessages channel');
                 //update selected messages here
                 currentStatus = this.addSelectedChannelMessage( message ); //attempts to add message to selected channel
                 if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added message to selected channel
@@ -302,34 +291,6 @@ class Chat extends Component {
 
             displayMessage( message );            
             console.log(`LEAVING onSendMessage()\n`);
-            
-          
-            /*
-            this.socket.emit('chat message', JSON.stringify(packedMsg) );
-            displayMessage( message );
-    
-            //appends user's message to message list
-            //alert(`selected messages: ${JSON.stringify(this.state.selectedMessages)}`);
-            //let selectedMessages = this.state.selectedMessages;
-    
-            if ( this.addSelectedChannelMessage( message ) ) {
-                console.log(`Successfully added ${JSON.stringify(msg)} to selected channel ${this.state.selectedChannel.name}`);
-            }
-
-            else {
-                console.log(`Failed to add msg to channel: ${message.channel}: ${message.msg}\n`);
-            }           
-    
-            //adds message to this.allMessages
-            if ( this.addMessageToChannel( this.state.selectedChannel.name, message ) ) {
-                console.log(`Successfully added message to channel ${this.state.selectedChannel.name}`);
-                displayMessage( message );
-            }
-
-            else {
-                console.log(`Failed to add message to channel ${this.state.selectedChannel.name}`);  
-            }
-        */
         }
         catch(err) {
             console.log(`Chat onSendMessage(): ${err.message}`);
@@ -597,25 +558,32 @@ class Chat extends Component {
     }
 
     addSelectedChannelMessage(msg) {
-        let selectedMessages = this.state.selectedMessages;
-
-        for(let i = 0; i < selectedMessages.length; i++) { //checking for duplicate messages
-            if  ( selectedMessages[i].msgId === msg.msgId ) { //found duplicate msg
-                console.log('\nERR addSelectedChannelMessage(): duplicate message found...not adding');
-                console.log(`selectedMessages[i].msgId: ${selectedMessages[i].msgId}`);
-                console.log(`Msg id: ${msg.msgId}\n`);
-                
-                return STATUS.error.DUPLICATE_MESSAGE;
-                //return false;
+        try {
+            console.log('*ENTERING addSelectedChannelMessage()');
+            let selectedMessages = this.state.selectedMessages;
+    
+            for(let i = 0; i < selectedMessages.length; i++) { //checking for duplicate messages
+                if  ( selectedMessages[i].msgId === msg.msgId ) { //found duplicate msg
+                    console.log('\nERR addSelectedChannelMessage(): duplicate message found...not adding');
+                    console.log(`selectedMessages[i].msgId: ${selectedMessages[i].msgId}`);
+                    console.log(`Msg id: ${msg.msgId}\n`);
+                    
+                    return STATUS.error.DUPLICATE_MESSAGE;
+                    //return false;
+                }
             }
+    
+            //duplicate msg not found
+            selectedMessages.unshift( msg );
+            this.setState({ selectedMessages });
+            
+            console.log('*Leaving addSelectedChannelMessage()');        
+            return STATUS.MESSAGE_ADDED;
+            //return true;
         }
-
-        //duplicate msg not found
-        selectedMessages.unshift( msg );
-        this.setState({ selectedMessages });
-        
-        return STATUS.MESSAGE_ADDED;
-        //return true;
+        catch(err) {
+            console.log(`ERR Chat addSelectedChannelMessage(): ${err.message}`);
+        }
     }
 
     //adds message to given channel name, provided the channel exists and message isn't a duplicate - returns false if not added
@@ -629,7 +597,7 @@ class Chat extends Component {
 
             //checks for duplicate messages
             for(let k = 0; k < this.allMessages[i].messages.length; k++) {
-                if ( this.allMessages[i].messages[k].msgId === msg.msgId ) {
+                if ( this.allMessages[i].messages[k].msgId === msg.msgId ) { //duplicate msg found
                     console.log('addMessageToChannel(): duplicate message found...not adding');
                     console.log(`new msg: ${msg.msg}`)
                     console.log(`current msg: ${this.allMessages[i].messages[k].msg}`);

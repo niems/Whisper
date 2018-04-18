@@ -8,7 +8,7 @@ const ChatNavbar = ({ selectedChannel }) => {
     return (
         <div id='chat-messages-navbar'>
             <div id='navbar-msg-info-container'>
-                <h6 className='navbar-msg-channel'>{selectedChannel.name}</h6>
+                <h6 className='navbar-msg-channel'>{selectedChannel.channelDisplayName}</h6>
 
                 <div id='navbar-msg-channel-info'>
                     <button className='navbar-button' id='navbar-star-btn'></button> | 

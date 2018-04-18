@@ -33,18 +33,13 @@ class ChatInput extends Component {
     }
 
     render() {
-        let placeholder = this.props.selectedChannel.name;
-
-        if ( this.props.selectedChannel.isUser ) {
-            placeholder = '@ ' + this.props.selectedChannel.name;
-        }
 
         return (
             <div id='chat-messages-input-container'>
                 <button id='message-input-add-button'></button>
 
                 <form id='message-input-form' onSubmit={this.onSubmit}>
-                    <input className='message-input' id='chat-message-inputfield' type='text' placeholder={placeholder}
+                    <input className='message-input' id='chat-message-inputfield' type='text' placeholder={this.props.selectedChannel.channelDisplayName}
                            value={this.state.value} onChange={this.onChange} autoComplete='off' /> 
                 </form>
                     
