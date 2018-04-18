@@ -4,11 +4,11 @@ import ChatMessageList from './chat_message_list'
 import ChatInput from './chat_input'
 import './style/channel_view.css'
 
-const ChannelView = ({ messages, selectedChannel, selectedMsgs, onSendMsg }) => {
+const ChannelView = ({ selectedChannel, selectedMsgs, onSendMsg }) => {
     return (
         <div id='channel-view-container'>
             <ChatNavbar selectedChannel={selectedChannel} />
-            <ChatMessageList messages={messages} selectedMsgs={selectedMsgs} />
+            <ChatMessageList selectedMsgs={selectedMsgs} />
             <ChatInput selectedChannel={selectedChannel} onSendMsg={onSendMsg} />                                    
         </div>                
     );

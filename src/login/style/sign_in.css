@@ -103,25 +103,31 @@ input[id='sign-in-password'] {
 }
 
 button[id='sign-in-connect'] {
-    margin-top: 5px;
-    padding: 4px 12px; 
+    margin-top: 15px;
+    padding: 6px 12px; 
+    width: 130px;
 
     outline: none;
-    border-radius: 5px;
     border-style: solid;
     border-width: 1px;
 
     font-weight: bold;
     font-style: italic;
+    font-size: 1.1em;
 
     color: var(--landing-sign-in-button-fg);
     background: var(--landing-sign-in-button-bg);
     border-color: var(--landing-sign-in-button-border);
 
-    transition: all 0.5s;
+    transition: all 0.75s;
 }
 
-button[id='sign-in-connect']:focus {
+button[id='sign-in-connect']:focus  {
+    color: var(--landing-sign-in-button-focus-fg);
+    background: var(--landing-sign-in-button-focus-bg);
+}
+
+button[id='sign-in-connect']:hover {
     color: var(--landing-sign-in-button-focus-fg);
     background: var(--landing-sign-in-button-focus-bg);
 }

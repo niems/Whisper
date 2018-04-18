@@ -2,8 +2,6 @@ import React from 'react'
 import './style/chat_navbar.css'
 
 const ChatNavbar = ({ selectedChannel }) => {
-    let channel = '#random';
-    let channelDesc = 'Non-work banter and general foolishness';
     let userCount = '1';
     let pinCount = '0';
 

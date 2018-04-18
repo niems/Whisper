@@ -1,8 +1,10 @@
-import React, {Component} from 'react'
+import React from 'react'
 import './style/chat_message_list.css'
 
 
-const ChatMessageList = ({ messages, selectedMsgs }) => {
+const ChatMessageList = ({ selectedMsgs }) => {
+
+    console.log( JSON.stringify(selectedMsgs) );
 
     const items = selectedMsgs.map( msg => (
         <li className='message-items' key={msg.msgId} id={msg.msgId}>

@@ -64,7 +64,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
                 </div>
 
                 <div className='category-filter-container selected'>
-                    <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' autocomplete='off' />
+                    <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' autoComplete='off' />
                 </div>
 
                 <ul id='category-menu-list' className='menu-list'>
@@ -86,6 +86,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
         </div>
     ) ;
 }
+
 
 function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onChannelSelect, onImgError }) {
     try {
@@ -200,7 +201,8 @@ class ChatMenu extends Component {
 
     //determines the channel view - clicking a user changes the channel view to a PM w/that user
     onChannelSelect(e) {
-        let id = e.currentTarget.id;
+        let id = e.currentTarget.id; 
+        console.log(`Chat Menu onChannelSelect: ${id}`);
         this.props.onSelect( id );
     }
 

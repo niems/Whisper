@@ -25,17 +25,26 @@ class ChatInput extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        this.props.onSendMsg( this.state.value );
-        this.setState({ value: '' }); //reset
+        //only submits if there is something to send
+        if ( this.state.value !== '' ) {
+            this.props.onSendMsg( this.state.value );
+            this.setState({ value: '' }); //reset
+        }
     }
 
     render() {
+        let placeholder = this.props.selectedChannel.name;
+
+        if ( this.props.selectedChannel.isUser ) {
+            placeholder = '@ ' + this.props.selectedChannel.name;
+        }
+
         return (
             <div id='chat-messages-input-container'>
                 <button id='message-input-add-button'></button>
 
                 <form id='message-input-form' onSubmit={this.onSubmit}>
-                    <input className='message-input' id='chat-message-inputfield' type='text' placeholder={this.props.selectedChannel.name}
+                    <input className='message-input' id='chat-message-inputfield' type='text' placeholder={placeholder}
                            value={this.state.value} onChange={this.onChange} autoComplete='off' /> 
                 </form>
                     

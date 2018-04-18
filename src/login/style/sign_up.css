@@ -113,28 +113,35 @@ input[id='sign-up-confirm-password'] {
 }
 
 button[id='sign-up-connect'] {
-    margin-top: 5px;
-    padding: 4px 12px; 
+    margin-top: 15px;
+    padding: 6px 12px;
+    width: 130px; 
 
     outline: none;
-    border-radius: 5px;
     border-style: solid;
     border-width: 1px;
 
     font-weight: bold;
     font-style: italic;
+    font-size: 1.1em;
 
-    color: var(--landing-sign-up-button-fg);
+    color: white;
     background: var(--landing-sign-up-button-bg);
-    border-color: var(--landing-sign-up-button-border); 
+    border-color: white; 
 
-    transition: all 0.5s;
+    transition: all 0.75s;
 }
 
 button[id='sign-up-connect']:focus {
-    color: var(--landing-sign-up-button-focus-fg);
-    background-color: var(--landing-sign-up-button-focus-bg);
-    border-color: var(--landing-sign-up-button-focus-border);
+    color: var(--landing-sign-in-button-focus-fg);
+    background: var(--landing-sign-in-button-focus-bg);
+    border-color: var(--nine);
+}
+
+button[id='sign-up-connect']:hover {
+    color: var(--landing-sign-in-button-focus-bg);
+    background-color: var(--landing-sign-in-button-focus-fg);
+    border-color: var(--nine);
 }
 
 

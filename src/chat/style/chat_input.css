@@ -24,29 +24,36 @@ form[id='message-input-form'] {
 
 .message-input {
     width: 100%;
-    padding: 7px 10px;
+    box-sizing: border-box;
+    padding: 0px 20px;
 
     outline: none;
     border-radius: 0px;
-    border-width: 2px;
-    border-style: solid none solid solid;
+    border-width: 0px;
+    border-style: none;
 
     color: var(--message-input-fg);
+}
+
+#chat-message-inputfield {
+    border-width: 1px;
+    padding: 5px 20px;
+    border-style: none none solid none;
+        
     background-color: var(--message-input-bg);
     border-color: var(--message-input-border);
 }
 
 button[id='message-input-add-button'] {
-    padding: 19px;
+    margin-right: 10px;
+    padding: 19px 19px 0px 19px;
 
     outline: none;
-    border-radius: 5px 0px 0px 5px;
-    border-width: 2px;
-    border-style: solid none solid solid;
+    border-style: none;
 
     font-size: 1em;
     font-weight: bold;
-
+    
     
     background-image: url('/images/page_icons/add.svg');
     background-position: center;
@@ -57,19 +64,21 @@ button[id='message-input-add-button'] {
     background-color: var(--message-input-button-bg);
     border-color: var(--message-input-button-border);
 
+    transform: scale(1.5, 1.5);
     transition: all 0.4s;
 }
 
 button[id='message-input-add-button']:hover {
-    background-color: var(--message-input-button-hover-bg);
-    filter: invert(0);
+    color: var(--message-input-button-hover-bg);
+    filter: invert(1);
 }
 
 .message-input-button {
     padding: 19px;
 
     outline: none;
-    border-width: 2px;
+    border-style: none;
+    
 
     font-size: 1em;
     font-weight: bold;
@@ -82,6 +91,8 @@ button[id='message-input-add-button']:hover {
     color: var(--message-input-button-fg);
     background-color: var(--message-input-button-bg);
     border-color: var(--message-input-button-border);
+
+    transform: scale(1.15, 1.15);
 }
 
 @keyframes clip-flip {
@@ -96,7 +107,7 @@ button[id='message-input-add-button']:hover {
 
 @keyframes emoji-bounce {
     from {
-        transform: scale(1, 1);
+        transform: scale(1.15, 1.15);
     }
 
     to {
@@ -105,7 +116,6 @@ button[id='message-input-add-button']:hover {
 }
 
 button[id='message-input-btn1'] {
-    border-style: solid none solid none;
 
     outline: none;
     font-size: 1em;
@@ -117,8 +127,6 @@ button[id='message-input-btn1'] {
 }
 
 button[id='message-input-btn1']:hover {
-    border-style: none;
-
     animation-name: clip-flip;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
@@ -127,16 +135,11 @@ button[id='message-input-btn1']:hover {
 }
 
 button[id='message-input-btn2'] {
-    border-radius: 0px 5px 5px 0px;
-    border-style: solid solid solid none;
-
-    
     background-image: url('/images/page_icons/cupcake.svg');
 }
 
 button[id='message-input-btn2']:hover {
     background-image: url('/images/page_icons/cupcake-happy.svg');
-    border-style: none;
 
     animation-name: emoji-bounce;
     animation-duration: 1s;
