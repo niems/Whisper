@@ -8,10 +8,12 @@ function DisplayLandingPane({ onSignIn, onSignUp }) {
         <div id='landing-page-container'>
 
             <div className='landing-page-section-container' id='landing-page-sign-in-container' onClick={onSignIn}>
+                <small className='login-keybind'>{'(i)'}</small>
                 <img className='landing-page-user-img' id='landing-page-sign-in-img' src='/images/page_icons/user-48.svg' alt='/images/placeholder.svg'  />
                 <h4 className='landing-page-selection-header'>Sign In</h4>
             </div>
             <div className='landing-page-section-container' id='landing-page-sign-up-container' onClick={onSignUp}>
+                <small className='login-keybind'>{'(u)'}</small>
                 <img className='landing-page-user-img' id='landing-page-sign-up-img' src='/images/page_icons/user-add-48.svg'  alt='/images/placeholder.svg'  />
                 <h4 className='landing-page-selection-header'>Sign Up</h4>
             </div>
