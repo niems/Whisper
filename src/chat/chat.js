@@ -180,11 +180,15 @@ class Chat extends Component {
         this.updateChannelInfo = this.updateChannelInfo.bind(this);
         this.addNewChannel = this.addNewChannel.bind(this); //adds a new channel to this.allMessages
         this.addSelectedChannelMessage = this.addSelectedChannelMessage.bind(this);
+        this.addMsgAllChannels = this.addMsgAllChannels.bind(this);
+
+        this.doesMessageExist = this.doesMessageExist.bind(this);
 
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
 
     componentDidMount() {
+        console.log('***COMPONENT DID MOUNT');
         this.onChannelSelect('#random'); //default channel selected
         this.onSocketSetup(); //socket event setup
     }
@@ -278,14 +282,27 @@ class Chat extends Component {
                 serverInfo: serverInfo
             };
 
+            let msgAdded = this.addMsgAllChannels( message );
+
+            if ( msgAdded ) {
+                console.log('onSendMessage(): successfully added message to both channels');
+                this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added                
+            }
+
+            else {
+                console.log('ERR Chat onSendMessage(): failed to add message to both channels');
+            }
+
+            /*
             currentStatus = this.addSelectedChannelMessage( message );
             if ( currentStatus === STATUS.MESSAGE_ADDED ) { //msg added to selected messages
                 console.log('onSendMessage(): successfully added new msg to selectedMessages()');
-
+                
                 currentStatus = this.addMessageToChannel( message.channelId, message );
                 if ( currentStatus === STATUS.MESSAGE_ADDED ) { //msg added to this.allMessages()
                     console.log('onSendMessage(): successfully added new msg to this.allMessages()')
                     console.log('Emitting server "chat message" event');
+                    
                     this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added
                 }
 
@@ -298,7 +315,12 @@ class Chat extends Component {
             else { //failed to add new msg to selected messages
                 console.log(`ERR Chat onSendMessage(): failed to save new msg to selected messages`);
             }
+            */
             /*
+            
+
+            
+
             currentStatus = this.addMessageToChannel( this.state.selectedChannel.channelId, message );
             if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added message to channel
                 console.log('onSendMessage(): successfully added msg to this.allMessages channel');
@@ -368,6 +390,7 @@ class Chat extends Component {
                 newUser: {username, socketId, image, status}
         */
         try {
+            console.log('\n*ENTERING onNewUserConnection()');
             data = JSON.parse(data); 
     
             let date = new Date();
@@ -389,9 +412,12 @@ class Chat extends Component {
             }
 
             this.setState({ activeUsers: currentUsers });
+            console.log('*LEAVING onNewUserConnection()\n');
+            
         }
         catch(err) {
             console.log(`ERR Chat onNewUserConnection(): ${err.message}`);
+            console.log('*LEAVING onNewUserConnection()\n');            
         }
 
     }
@@ -409,6 +435,7 @@ class Chat extends Component {
         }
         */
        try {
+            console.log('\n*ENTERING onUserDisconnect()');
             let date = new Date();
             user = JSON.parse( user );
 
@@ -435,9 +462,12 @@ class Chat extends Component {
             else {
                 alert(`Failed to remove disconnected user: ${user.username}`);
             }
+
+            console.log('*LEAVING onUserDisconnect()\n');            
        }
        catch(err) {
            console.log(`ERR Chat onUserDisconnect(): ${err.message}`);
+           console.log('*LEAVING onUserDisconnect()\n');                       
        }
     }
 
@@ -500,42 +530,6 @@ class Chat extends Component {
 
         console.log(`onReceiveMessage() ending status: ${currentStatus}`);
         console.log('LEAVING onReceiveMessage()\n'); 
-           
-        
-        /*
-         //only runs if message isn't from current user (possibly broadcast to a group so the user would receive it twice)
-         //added to allMessages & selectedMessages when initially sent
-        if ( newMsg.username !== this.state.userData.username ) { //you didn't send the message
-            let isChannel = (new RegExp('^[#]') ).test( newMsg.channel ); 
-    
-            console.log(`Message received: `);
-            displayMessage( newMsg );
-            newMsg.receivedTimestamp = date.toLocaleTimeString();
-
-            if ( this.state.selectedChannel.name === newMsg.channel ) { //message received is from the selected channel
-                this.addSelectedChannelMessage( newMsg );
-            }
-
-            if ( this.addMessageToChannel( newMsg.channel, newMsg ) ) { //successfully adds the message to the channel
-                console.log(`\n--onReceiveMessage(): added ${newMsg.msg} to ${newMsg.channel}`);
-            }   
-
-            else { //failed to add msg to channel - channel doesn't exist - creating channel now
-                if ( typeof( this.addNewChannel( undefined, newMsg ) ) !== 'undefined') { //successfully adds new channel w/message
-                    console.log(`Successfully created channel: ${newMsg.channel}`);
-                    console.log(`Message added to channel: ${newMsg.msg}\n`);
-                }
-
-                else { //failed to add new channel w/message
-                    console.log(`ERR Chat onReceiveMessage(): failed to add new channel w/message`);
-                }
-            }
-        }
-
-        else {
-            console.log('Not adding message - received from original user');
-        }
-        */
     }
 
     //runs when sending message (may also run when receiving - if so, need to add code when a different channel is selected (2nd if statement))
@@ -591,7 +585,7 @@ class Chat extends Component {
     addSelectedChannelMessage(msg) {
         try {
             console.log('*ENTERING addSelectedChannelMessage()');
-            let selectedMsgs = this.state.selectedMessages;
+            let selectedMsgs = JSON.parse( JSON.stringify(this.state.selectedMessages) );
 
             console.log(`Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);
     
@@ -642,8 +636,10 @@ class Chat extends Component {
                     return STATUS.error.DUPLICATE_MESSAGE;
                 }
             }
-
+            console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);
+            
             this.allMessages[i].messages.unshift( msg ); //adds message
+            console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);            
             console.log(`Successfully added ${msg.msg} to ${channelName} (this.allMessages[])`);
             console.log(`*LEAVING addMessageToChannel():\n`);
         //return true;
@@ -655,6 +651,69 @@ class Chat extends Component {
         console.log(`*LEAVING addMessageToChannel():\n`);
         //return false;
         return STATUS.error.CHANNEL_NOT_FOUND;
+    }
+
+    doesMessageExist(msg, allMsgs) {
+        try {
+            //if length > 0, the message is stored at least once
+            let msgExists = allMsgs.filter( message => message.msgId === msg.msgId );
+
+            if ( msgExists === 0 ) { //message doesn't exist
+                console.log('doesMessageExist(): message not currently stored :D')
+                return true;
+            }
+
+            else { //message already exists
+                console.log('doesMessageExist(): message ALREADY STORED D:');
+            }
+
+            return false;
+        }
+        catch(err) {
+            console.log(`ERR Chat doesMessageExist(): ${err.message}`);
+            return false;
+        }
+    }
+    //adds the message to the selected channel and to this.allMessages
+    addMsgAllChannels(msg) {
+        try {
+            console.log('\n*ENTERING addMsgAllChannels()');
+            
+            //checks if the message already exists in selected messages
+            if ( this.doesMessageExist( msg, this.state.selectedMessages ) ) {
+                console.log('\n**addMsgAllChannels(): message already exists - no changes');
+            }
+
+            else { //message does not exist, stores in all messages & selected messages
+                console.log('addMsgAllChannels(): storing message in all channels...');
+                
+                let tempSelectedMsgs = this.state.selectedMessages;
+                tempSelectedMsgs.unshift( msg );
+                
+                for(let i = 0; i < this.allMessages.length; i++) {
+                    if ( this.allMessages[i].channelId === msg.channelId ) { //found channel to add message
+                        console.log('**ASSUMPTION: message did not exist in selected messages, so storing there & this.allMessages (assumption)');
+                        console.log('**Adding msg to BOTH channels now');
+
+                        this.allMessages[i].messages.unshift( msg ); //adding message to channel
+                        this.setState({
+                            selectedMessages: JSON.parse( JSON.stringify( tempSelectedMsgs ) )
+                        });
+
+                        console.log('*LEAVING addMsgAllChannels()\n');            
+                        return true;
+                    }
+                }
+            }
+
+            console.log('*LEAVING addMsgAllChannels()\n');
+            return false;
+        }
+        catch(err) {
+            console.log(`ERR Chat addMsgAllChannels(): ${err.message}`);
+            console.log('*LEAVING addMsgAllChannels()\n'); 
+            return false;           
+        }
     }
     
     addNewChannel(channelInfo = undefined, msg = undefined) {
@@ -778,7 +837,7 @@ class Chat extends Component {
 
         for(let i = 0; i < this.allMessages.length; i++) { //search through all stored messages for selected channel
             if ( this.allMessages[i].channelId === channelId ) { //channel found
-                channelInfo = this.allMessages[i]; 
+                channelInfo = JSON.parse( JSON.stringify(this.allMessages[i]) ); 
                 return {channel: channelInfo, status: STATUS.SELECTED_CHANNEL_FOUND};
             }
         }
