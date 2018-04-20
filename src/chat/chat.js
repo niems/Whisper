@@ -22,6 +22,119 @@ const STATUS = {
     }
 }
 
+/**
+ * if ( isChannel( msg.channelId ) ) { //message is for a channel
+                    newChannel.channelDisplayName = msg.channelId; //channel display name is the same as the channel id
+                    newChannel.isUser = false;
+                    newChannel.description = 'All about that ' + msg.channelId + ' talk';
+                    newChannel.path = msg.channelId;
+                }
+
+                else { //message is for a user (direct message)
+                    newChannel.channelDisplayName = ' @ ' + msg.username;
+                    newChannel.isUser = true;
+                    newChannel.description = "Sending D.M's to " + msg.username;
+                    newChannel.path = 'N/A'; //no need to store socket path here
+                }
+ */
+
+//returns a new selected channel - if channel is supplied, ensures to return a new reference for the object
+//'type' determines the type of channel created (selected channel doesn't have a messages array)
+function createNewChannel(channelInfo = undefined, msg = undefined, channelType = 'selected') {
+    try {
+        console.log('\n*ENTERING createNewChannel()');
+
+        let channel = {
+            channelId: '',
+            channelDisplayName: '',
+            isUser: '',
+    
+            description: '',
+            path: '',
+        };
+
+        if ( typeof(channelInfo) !== 'undefined' ) { //creating info for selected channel
+            console.log('createNewChannel(): creating based on given channel info');
+            channel.channelId = ( typeof( channelInfo.channelId ) === 'undefined' ) ? '' : channelInfo.channelId;
+            channel.channelDisplayName = ( typeof( channelInfo.channelDisplayName ) === 'undefined' ) ? '' : channelInfo.channelDisplayName;
+            channel.isUser = ( typeof( channelInfo.isUser ) === 'undefined' ) ? '' : channelInfo.isUser;
+    
+            channel.description = ( typeof( channelInfo.description ) === 'undefined' ) ? '' : channelInfo.description;
+            channel.path = ( typeof( channelInfo.path ) === 'undefined' ) ? '' : channelInfo.path;
+        }
+
+        else if ( typeof(msg) !== 'undefined' ) { //creating info for new channel (received from msg)
+            console.log('createNewChannel(): creating based on received msg');            
+            let _isChannel = isChannel( msg.channelId ); //is the channel a direct message (false) or group chat (true)
+            channel.channelId = ( typeof( msg.channelId ) === 'undefined' ) ? '' : msg.channelId;
+
+            if ( _isChannel ) { //message for group chat
+                channel.channelDisplayName = msg.channelId; //channel display name is the same as the channel id
+                channel.isUser = false;
+                channel.description = 'All about that ' + msg.channelId + ' talk';
+                channel.path = msg.channelId;
+            }
+
+            else { //message for specific user (direct message)
+                channel.channelDisplayName = ' @ ' + msg.username;
+                channel.isUser = true;
+                channel.description = "Sending D.M's to " + msg.username;
+                channel.path = 'N/A'; //no need to store socket path here
+            }
+        }
+
+        else {
+            console.log('createNewChannel(): empty channel being returned - both channel info & msg not provided');
+        }
+    
+        //if a regular channel is created (stored w/this.allMessages which includes the messages property)
+        if ( channelType !== 'selected' ) {
+            if ( typeof(msg) !== 'undefined' ) { //msg passed (first channel msg)
+                channel.messages = [ createNewMsg(msg) ]; //stores a new reference for the msg object
+            }
+
+            else {
+                channel.messages = ( typeof( channelInfo.messages ) === 'undefined' ) ? [] : JSON.parse( JSON.stringify( channelInfo.messages ) );
+            }
+        }
+    
+        console.log('*LEAVING createNewChannel()\n');
+        return channel;
+    }
+    catch(err) {
+        console.log(`ERR Chat createNewChannel(): ${err.message}`);
+        console.log('*LEAVING createNewChannel()\n');
+        return undefined;
+    }
+}
+
+//returns a new message - if msg is supplied, ensures to return a new reference for the object
+function createNewMsg(msg = undefined) {
+    try {
+        console.log('\n*ENTERING createNewMsg()');
+
+        let message = {
+            channelId: ( typeof( msg.channelId ) === 'undefined' ) ? '' : msg.channelId,
+            username: ( typeof( msg.username ) === 'undefined' ) ? '' : msg.username,
+            socketId: ( typeof( msg.username ) === 'undefined' ) ? '' : msg.socketId,
+            image: ( typeof( msg.image ) === 'undefined' ) ? '' : msg.image,
+            msg: ( typeof( msg.msg ) === 'undefined' ) ? '' : JSON.parse( JSON.stringify( msg.msg ) ),
+            msgId: ( typeof( msg.msgId ) === 'undefined' ) ? '' : msg.msgId,
+            timestamp: ( typeof( msg.timestamp ) === 'undefined' ) ? '' : msg.timestamp,
+            receivedTimestamp: ( typeof( msg.receivedTimestamp ) === 'undefined' ) ? '' : msg.receivedTimestamp
+        };
+
+        displayMessage( message );
+        console.log('*LEAVING createNewMsg()\n');        
+        return message;
+    }
+    catch(err) {
+        console.log(`ERR Chat createNewMsg(): ${err.message}`);
+        console.log('*LEAVING createNewMsg()\n');
+        return undefined;
+    }
+}
+
 //given the username, returns user's current socket id
 function getUserInfo( username, activeUsers ) {
     for(let i = 0; i < activeUsers.length; i++) { //goes through all active users
@@ -258,7 +371,8 @@ class Chat extends Component {
     onSendMessage(msg) {
         try {
             console.log(`\nENTERING onSendMessage()`);
-            console.log(`Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);            
+            console.log(`Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);       
+
             let currentStatus = undefined;
             let date = new Date();
             let id = ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString();
@@ -285,192 +399,23 @@ class Chat extends Component {
             let msgAdded = this.addMsgAllChannels( message );
 
             if ( msgAdded ) {
-                console.log('onSendMessage(): successfully added message to both channels');
+                console.log('onSendMessage(): successfully added message to both channels');                
                 this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added                
             }
 
             else {
                 console.log('ERR Chat onSendMessage(): failed to add message to both channels');
             }
-
-            /*
-            currentStatus = this.addSelectedChannelMessage( message );
-            if ( currentStatus === STATUS.MESSAGE_ADDED ) { //msg added to selected messages
-                console.log('onSendMessage(): successfully added new msg to selectedMessages()');
-                
-                currentStatus = this.addMessageToChannel( message.channelId, message );
-                if ( currentStatus === STATUS.MESSAGE_ADDED ) { //msg added to this.allMessages()
-                    console.log('onSendMessage(): successfully added new msg to this.allMessages()')
-                    console.log('Emitting server "chat message" event');
-                    
-                    this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added
-                }
-
-                else { //failed to add new msg to this.allMessages()
-                    console.log(`ERR Chat onSendMessage(): failed to save new msg to this.allMessages()`);
-                }
-
-            }
-
-            else { //failed to add new msg to selected messages
-                console.log(`ERR Chat onSendMessage(): failed to save new msg to selected messages`);
-            }
-            */
-            /*
-            
-
-            
-
-            currentStatus = this.addMessageToChannel( this.state.selectedChannel.channelId, message );
-            if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added message to channel
-                console.log('onSendMessage(): successfully added msg to this.allMessages channel');
-                console.log(`\nSelected Msg status: ${JSON.stringify(this.state.selectedMessages)}\n`); 
-    
-                
-                //update selected messages here
-                currentStatus = this.addSelectedChannelMessage( message ); //attempts to add message to selected channel
-                console.log('right after addSelectedChannelMsg');
-                console.log(`\nSelected Msg status: ${JSON.stringify(this.state.selectedMessages)}\n`); 
-                
-                if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added message to selected channel
-                    console.log('onSendMessage(): successfully added message to allMessages() & selectedMessages()');
-                    console.log('Emitting server "chat message" event');
-                    this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added
-                }
-
-                else { //failed to add message to selected channel
-                    console.log(`ERR onSendMessage(): failed to add message to selected channel, added message to allMessages()`);
-                    console.log(`Exit status code: ${currentStatus}`);
-                }
-            }
-            */
-
-            displayMessage( message );            
-            console.log(`LEAVING onSendMessage()\n`);
+           
+           displayMessage( message );            
+           console.log(`Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);                  
+           console.log(`LEAVING onSendMessage()\n`);
         }
         catch(err) {
             console.log(`Chat onSendMessage(): ${err.message}`);
         }
     }
-
-    onConnectionVerified(data) {
-        try {
-            data = JSON.parse(data);
-            
-            if ( this.state.userData.newUser ) {
-                this.socket.query.userData = JSON.stringify({
-                    newUser: false,
-                    username: data.user.username,
-                    pass: data.user.pass
-                });
-                
-                this.props.loginSuccess('account created');                    
-            }
     
-            let extTest = new RegExp('([.](png|jpg|svg|gif))$'); //checks if correct image path is given - only accepts .png/jpg/svg images
-            let userUpdate = data.user;
-            userUpdate.image = extTest.test(userUpdate.image) ? userUpdate.image : '/images/placeholder.svg'; //uses the placeholder image if a valid image isn't given
-    
-            this.setState(
-                {
-                    activeUsers: data.activeUsers,
-                    accountVerified: true,
-                    userData: userUpdate
-                }
-            );
-        }
-        catch(err) {
-            console.log(`Chat onConnectionVerified(): ${err.message}`);
-        }
-    }
-
-    onNewUserConnection(data) {
-        /*
-        data = {message: {username, socketId, image, msgId, msg, timestamp}, 
-                newUser: {username, socketId, image, status}
-        */
-        try {
-            console.log('\n*ENTERING onNewUserConnection()');
-            data = JSON.parse(data); 
-    
-            let date = new Date();
-            let newMsg = data.message;
-            newMsg.receivedTimestamp = date.toLocaleTimeString();
-    
-            let currentUsers = this.state.activeUsers; //current active users
-            currentUsers.unshift(data.newUser); //adds new user
-            //alert(`New user info: ${JSON.stringify(data.newUser)}`);
-    
-            this.addMessageToChannel( newMsg.channelId, newMsg );
-    
-            if ( this.state.selectedChannel.channelId === newMsg.channelId ) { //currently on default channel
-                this.addSelectedChannelMessage( newMsg );
-            }
-    
-            else {
-                
-            }
-
-            this.setState({ activeUsers: currentUsers });
-            console.log('*LEAVING onNewUserConnection()\n');
-            
-        }
-        catch(err) {
-            console.log(`ERR Chat onNewUserConnection(): ${err.message}`);
-            console.log('*LEAVING onNewUserConnection()\n');            
-        }
-
-    }
-
-    onUserDisconnect(user) {
-        /* SENT AS 'USER' FROM SERVER
-        let userInfo = {
-            username: userData.user.username,
-            socketId: userData.user.socketId,
-            image: userData.user.image,
-            status: 'offline',
-            msgId: ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString(),
-            msg: 'connected to the server :D',
-            timestamp: date.toLocaleTimeString()
-        }
-        */
-       try {
-            console.log('\n*ENTERING onUserDisconnect()');
-            let date = new Date();
-            user = JSON.parse( user );
-
-            //updates messages w/user disconnect msg
-            let newMsg = user;
-            //let selectedMsgs = this.state.selectedMessages;
-            newMsg.receivedTimestamp = date.toLocaleTimeString();
-
-            this.addMessageToChannel( newMsg.channelId, newMsg );
-            if ( this.state.selectedChannel.channelId === newMsg.channelId ) { //currently on default channel
-                this.addSelectedChannelMessage( newMsg );
-            }
-
-            //removes disconnected user from active user pool
-            let currentUsers = this.removeActiveUser( user.socketId );
-
-            if ( currentUsers !== false ) { //user successfully disconnected
-                this.setState({
-                    //selectedMessages: selectedMsgs,
-                    activeUsers: currentUsers //removes DC'd user
-                });
-            }
-        
-            else {
-                alert(`Failed to remove disconnected user: ${user.username}`);
-            }
-
-            console.log('*LEAVING onUserDisconnect()\n');            
-       }
-       catch(err) {
-           console.log(`ERR Chat onUserDisconnect(): ${err.message}`);
-           console.log('*LEAVING onUserDisconnect()\n');                       
-       }
-    }
-
     onReceiveMessage(msg) {
         let currentStatus = undefined; //current status when attempting to store message 
         msg = JSON.parse(msg);
@@ -530,6 +475,127 @@ class Chat extends Component {
 
         console.log(`onReceiveMessage() ending status: ${currentStatus}`);
         console.log('LEAVING onReceiveMessage()\n'); 
+    }
+    
+    onConnectionVerified(data) {
+        try {
+            data = JSON.parse(data);
+            
+            if ( this.state.userData.newUser ) {
+                this.socket.query.userData = JSON.stringify({
+                    newUser: false,
+                    username: data.user.username,
+                    pass: data.user.pass
+                });
+                
+                this.props.loginSuccess('account created');                    
+            }
+    
+            let extTest = new RegExp('([.](png|jpg|svg|gif))$'); //checks if correct image path is given - only accepts .png/jpg/svg images
+            let userUpdate = data.user;
+            userUpdate.image = extTest.test(userUpdate.image) ? userUpdate.image : '/images/placeholder.svg'; //uses the placeholder image if a valid image isn't given
+    
+            this.setState(
+                {
+                    activeUsers: data.activeUsers,
+                    accountVerified: true,
+                    userData: userUpdate
+                }
+            );
+        }
+        catch(err) {
+            console.log(`Chat onConnectionVerified(): ${err.message}`);
+        }
+    }
+
+    onNewUserConnection(data) {
+        /*
+        data = {message: {username, socketId, image, msgId, msg, timestamp}, 
+                newUser: {username, socketId, image, status}
+        */
+        try {
+            console.log('\n*ENTERING onNewUserConnection()');
+            data = JSON.parse(data); 
+    
+            let date = new Date();
+            let newMsg = data.message;
+            newMsg.receivedTimestamp = date.toLocaleTimeString();
+    
+            let currentUsers = this.state.activeUsers; //current active users
+            currentUsers.unshift(data.newUser); //adds new user
+            //alert(`New user info: ${JSON.stringify(data.newUser)}`);
+    
+            
+            if ( this.state.selectedChannel.channelId === newMsg.channelId ) { //currently on selected channel
+                //this.addSelectedChannelMessage( newMsg );
+                this.addMsgAllChannels( newMsg );
+            }
+            
+            else {
+                this.addMessageToChannel( newMsg.channelId, newMsg );                
+            }
+
+            this.setState({ activeUsers: currentUsers });
+            console.log('*LEAVING onNewUserConnection()\n');
+            
+        }
+        catch(err) {
+            console.log(`ERR Chat onNewUserConnection(): ${err.message}`);
+            console.log('*LEAVING onNewUserConnection()\n');            
+        }
+
+    }
+
+    onUserDisconnect(user) {
+        /* SENT AS 'USER' FROM SERVER
+        let userInfo = {
+            username: userData.user.username,
+            socketId: userData.user.socketId,
+            image: userData.user.image,
+            status: 'offline',
+            msgId: ( Math.floor( Math.random() * 1000 ) ).toString() + date.getDay() + date.getHours().toString() + date.getSeconds().toString(),
+            msg: 'connected to the server :D',
+            timestamp: date.toLocaleTimeString()
+        }
+        */
+       try {
+            console.log('\n*ENTERING onUserDisconnect()');
+            let date = new Date();
+            user = JSON.parse( user );
+
+            //updates messages w/user disconnect msg
+            let newMsg = user;
+            //let selectedMsgs = this.state.selectedMessages;
+            newMsg.receivedTimestamp = date.toLocaleTimeString();
+
+            if ( this.state.selectedChannel.channelId === newMsg.channelId ) { //currently on selected channel
+                this.addMsgAllChannels( newMsg );
+            }
+            
+            else {
+                this.addMessageToChannel( newMsg.channelId, newMsg );
+            }
+
+            //removes disconnected user from active user pool
+            let currentUsers = this.removeActiveUser( user.socketId );
+
+            if ( currentUsers !== false ) { //user successfully disconnected
+                this.setState({
+                    //selectedMessages: selectedMsgs,
+                    activeUsers: currentUsers //removes DC'd user
+                });
+            }
+        
+            else {
+                alert(`Failed to remove disconnected user: ${user.username}`);
+            }
+
+            console.log('*LEAVING onUserDisconnect()\n');            
+       }
+       catch(err) {
+           console.log(`ERR Chat onUserDisconnect(): ${err.message}`);
+           console.log('*LEAVING onUserDisconnect()\n');                       
+       }
     }
 
     //runs when sending message (may also run when receiving - if so, need to add code when a different channel is selected (2nd if statement))
@@ -655,22 +721,28 @@ class Chat extends Component {
 
     doesMessageExist(msg, allMsgs) {
         try {
+            console.log('\n*ENTERING doesMessageExist()');
             //if length > 0, the message is stored at least once
             let msgExists = allMsgs.filter( message => message.msgId === msg.msgId );
 
-            if ( msgExists === 0 ) { //message doesn't exist
-                console.log('doesMessageExist(): message not currently stored :D')
+            console.log(`\ndoesMessageExist(): filtered type: ${typeof(msgExists) }`);
+            console.log(`filtered content: ${JSON.stringify(msgExists) }\n`);
+
+            if ( msgExists.length > 0 ) { //message exists
+                console.log('doesMessageExist(): message ALREADY STORED D:');
                 return true;
             }
 
-            else { //message already exists
-                console.log('doesMessageExist(): message ALREADY STORED D:');
-            }
-
+            //message doesn't exist
+            console.log('doesMessageExist(): message not currently stored :D');     
+            console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);                        
+            console.log('*LEAVING doesMessageExist()\n');                       
             return false;
         }
         catch(err) {
             console.log(`ERR Chat doesMessageExist(): ${err.message}`);
+            console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);                        
+            console.log('*LEAVING doesMessageExist()\n');                                   
             return false;
         }
     }
@@ -678,28 +750,34 @@ class Chat extends Component {
     addMsgAllChannels(msg) {
         try {
             console.log('\n*ENTERING addMsgAllChannels()');
-            
+            console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);            
+
             //checks if the message already exists in selected messages
-            if ( this.doesMessageExist( msg, this.state.selectedMessages ) ) {
+            if ( this.doesMessageExist( msg, JSON.parse( JSON.stringify( this.state.selectedMessages ) ) ) ) {
                 console.log('\n**addMsgAllChannels(): message already exists - no changes');
             }
 
             else { //message does not exist, stores in all messages & selected messages
-                console.log('addMsgAllChannels(): storing message in all channels...');
+                console.log('addMsgAllChannels(): message DOES NOT exist - storing message in all channels...');
+                console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);            
                 
-                let tempSelectedMsgs = this.state.selectedMessages;
-                tempSelectedMsgs.unshift( msg );
+                let tempSelectedMsgs = JSON.parse( JSON.stringify( this.state.selectedMessages ) );
+                tempSelectedMsgs.unshift( createNewMsg( msg ) );
+                //tempSelectedMsgs.unshift( JSON.parse( JSON.stringify( msg ) ) );
                 
                 for(let i = 0; i < this.allMessages.length; i++) {
                     if ( this.allMessages[i].channelId === msg.channelId ) { //found channel to add message
                         console.log('**ASSUMPTION: message did not exist in selected messages, so storing there & this.allMessages (assumption)');
                         console.log('**Adding msg to BOTH channels now');
 
-                        this.allMessages[i].messages.unshift( msg ); //adding message to channel
+                        this.allMessages[i].messages.unshift( createNewMsg( msg ) ); //adding message to channel
+                        console.log(`**Selected Msg status (ONLY added to this.allMessages): ${JSON.stringify(this.state.selectedMessages)}`);
+                        
                         this.setState({
-                            selectedMessages: JSON.parse( JSON.stringify( tempSelectedMsgs ) )
+                            selectedMessages: tempSelectedMsgs
                         });
 
+                        console.log(`**Selected Msg status (added to selected messages): ${JSON.stringify(this.state.selectedMessages)}`);
                         console.log('*LEAVING addMsgAllChannels()\n');            
                         return true;
                     }
@@ -728,17 +806,17 @@ class Chat extends Component {
 
                 description: '',
                 path: '',
-                messages: ( typeof(msg) === 'undefined' ) ? [] : [ msg ]
+                messages: ( typeof(msg) === 'undefined' ) ? [] : [ createNewMsg(msg) ]
             };           
             
             //creating channel for new user/group message
             if ( typeof(channelInfo) !== 'undefined' ) {
                 console.log('addNewChannel(): creating channel for selected user/group msg');
                 channelInfo.messages = ( typeof(msg) === 'undefined' ) ? [] : [ msg ];
-                this.allMessages.unshift( channelInfo );
+                this.allMessages.unshift( JSON.parse( JSON.stringify(channelInfo) ) );
                 
                 displayChannelInfo( channelInfo );
-                return {channel: channelInfo, status: STATUS.CHANNEL_CREATED};
+                return {channel: JSON.parse( JSON.stringify(channelInfo) ), status: STATUS.CHANNEL_CREATED};
             }
 
             //received a message from a new channel/user (direct message)
@@ -760,7 +838,7 @@ class Chat extends Component {
                     newChannel.path = 'N/A'; //no need to store socket path here
                 }
 
-                this.allMessages.unshift( newChannel );
+                this.allMessages.unshift( JSON.parse( JSON.stringify(newChannel) ) );
                 displayChannelInfo( newChannel );
                 return {channel: newChannel, status: STATUS.CHANNEL_CREATED};
                 //return STATUS.CHANNEL_CREATED;
@@ -783,19 +861,13 @@ class Chat extends Component {
     //the selected channel info
     updateChannelInfo(channelInfo) {
         try {
-            const newChannel = {
-                channelId: channelInfo.channelId,
-                channelDisplayName: channelInfo.channelDisplayName,
-                isUser: channelInfo.isUser,
-    
-                description: channelInfo.description,
-                path: channelInfo.path
-            };
+            
+            let newChannel = createNewChannel( channelInfo ); //returns new referenced object for selected channel
     
             //updates selected channel/msgs state
             this.setState({
                 selectedChannel: newChannel,
-                selectedMessages: channelInfo.messages,
+                selectedMessages: JSON.parse( JSON.stringify(channelInfo.messages) ),
             });
             return true;
         }
@@ -808,42 +880,53 @@ class Chat extends Component {
     //selectedId(id of element user clicked) - if user, it will be the user's id (their username)
     //channelId(what the channel id is/would be based on selected id)
     getChannelInfo(selectedId, channelId) {
-        //template (used if channel info isn't found in this.allMessages)
-        let _isChannel = isChannel( selectedId ); //boolean - true if selectedId is a group channel (not direct message)
-        let channelInfo = {
-            channelId: channelId, //used as the unique id when searching for a particular channel. ex. '_admin - _root' for a direct message channelId
-            channelDisplayName: _isChannel ? channelId : `@ ${selectedId}`, 
-            isUser: _isChannel ? false : true,
+        try {
+            console.log(`\n*ENTERING getChannelInfo()`);
 
-            description: _isChannel ? `All about that ${selectedId} talk` : `Sending D.M's to ${selectedId}`,
-            path: _isChannel ? channelId : 'N/A', //socket id for private messages, #channel_name for channels
-
-            messages: [], //message list for current channel
-        }
-
-        if ( !_isChannel ) { //channel not selected (direct message)
-            let userInfo = getUserInfo( selectedId, this.state.activeUsers ); //gets the info of the user we're messaging
-
-            if ( typeof(userInfo) !== 'undefined' ) { //user info found
-                channelInfo.path = userInfo.socketId; //selected path updated to user's socket id
-                console.log("getChannelInfo(): successfully updated selected channel path to user's socket id");
+            //template (used if channel info isn't found in this.allMessages)
+            let _isChannel = isChannel( selectedId ); //boolean - true if selectedId is a group channel (not direct message)
+            let channelInfo = {
+                channelId: channelId, //used as the unique id when searching for a particular channel. ex. '_admin - _root' for a direct message channelId
+                channelDisplayName: _isChannel ? channelId : `@ ${selectedId}`, 
+                isUser: _isChannel ? false : true,
+    
+                description: _isChannel ? `All about that ${selectedId} talk` : `Sending D.M's to ${selectedId}`,
+                path: _isChannel ? channelId : 'N/A', //socket id for private messages, #channel_name for channels
+    
+                messages: [], //message list for current channel
             }
-
-            else {
-                console.log('ERR getChannelInfo(): info not found for selected user');
+    
+            if ( !_isChannel ) { //channel not selected (direct message)
+                let userInfo = getUserInfo( selectedId, this.state.activeUsers ); //gets the info of the user we're messaging
+    
+                if ( typeof(userInfo) !== 'undefined' ) { //user info found
+                    channelInfo.path = userInfo.socketId; //selected path updated to user's socket id
+                    console.log("getChannelInfo(): successfully updated selected channel path to user's socket id");
+                }
+    
+                else {
+                    console.log('ERR getChannelInfo(): info not found for selected user');
+                }
             }
-        }
+    
+    
+            for(let i = 0; i < this.allMessages.length; i++) { //search through all stored messages for selected channel
+                if ( this.allMessages[i].channelId === channelId ) { //channel found
+                    console.log('getChannelInfo(): channel found in this.allMessages');
+                    channelInfo = JSON.parse( JSON.stringify( this.allMessages[i] ) ); 
 
-
-        for(let i = 0; i < this.allMessages.length; i++) { //search through all stored messages for selected channel
-            if ( this.allMessages[i].channelId === channelId ) { //channel found
-                channelInfo = JSON.parse( JSON.stringify(this.allMessages[i]) ); 
-                return {channel: channelInfo, status: STATUS.SELECTED_CHANNEL_FOUND};
+                    return {channel: channelInfo, status: STATUS.SELECTED_CHANNEL_FOUND};
+                }
             }
+    
+            console.log(`*LEAVING getChannelInfo()\n`);            
+            //channel not found (doesn't exist) - returns error status & template for creating new channel
+            return {channel: channelInfo, status: STATUS.error.CHANNEL_NOT_FOUND};
         }
-
-        //channel not found (doesn't exist) - returns error status & template for creating new channel
-        return {channel: channelInfo, status: STATUS.error.CHANNEL_NOT_FOUND};
+        catch(err) {
+            console.log(`ERR Chat getChannelInfo(): ${err.message}`);
+            console.log(`*LEAVING getChannelInfo()\n`);                        
+        }
     }
     
     //determines the channel view, argument is a user/channel id
@@ -861,6 +944,7 @@ class Chat extends Component {
 
             if ( channelInfo.status === STATUS.SELECTED_CHANNEL_FOUND ) { //selected channel found  
                 console.log('onChannelSelect(): selected channel found - not creating');
+
                 if ( this.updateChannelInfo( channelInfo.channel ) ) { //successfully updated selected channel/msg state
                     console.log('onChannelSelect(): successfully updated selected channel/msg state');
                     displayChannelInfo( channelInfo.channel );

@@ -4,7 +4,7 @@ import './style/chat_message_list.css'
 
 const ChatMessageList = ({ selectedMsgs }) => {
 
-    console.log( JSON.stringify(selectedMsgs) );
+    //console.log( JSON.stringify(selectedMsgs) );
 
     const items = selectedMsgs.map( msg => (
         <li className='message-items' key={msg.msgId} id={msg.msgId}>
