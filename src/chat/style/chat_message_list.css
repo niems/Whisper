@@ -18,63 +18,10 @@ ul[id='chat-messages-list'] {
     width: inherit;
 
     overflow-x: hidden;
-     overflow-y: auto;
+    overflow-y: auto;
+
+    padding: 5px;
 }
 
-/**li style */
-.message-items {
-    margin: 1.5em 0.5em;
-    list-style-type: none;
-}
 
-/**li div container */
-.message-item {
-    width: inherit;
-    height: inherit;
-
-    border-style: none;
-    border-width: 1px;
-    border-color: black;
-}
-
-.item-timestamp {
-    margin-right: 15px;
-    font-size: 0.85em;
-
-    color: var(--chat-timestamp-fg);
-}
-
-/**msg receive time */
-.item-timestamp-current {
-    font-size: 0.9em;
-    font-style: italic;
-    color: var(--ten);
-}
-
-.item-username {
-    margin-right: 8px;    
-    font-weight: bold;
-    
-    color: var(--chat-username-fg);
-}
-
-.item-username-img {
-    height: 45px;
-    margin: 2px 10px 2px 0px;
-
-    border-radius: 10px;
-    padding: 0px;
-    background: rgba(255, 255, 255, 0.9);
-
-    transition: all 0.5s;
-}
-
-.item-username-img:hover {
-    filter: invert(1);
-}
-
-.item-msg {
-    margin-left: 6%;
-    color: var(--chat-msg-text-fg);
-}
 

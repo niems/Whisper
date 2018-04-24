@@ -96,6 +96,7 @@ input[id='sign-in-username'] {
 }
 
 input[id='sign-in-password'] {
+    height: 35px;
     background-image: url('/images/page_icons/lock-black.svg');
     background-position-x: left;
     background-position-y: center;
