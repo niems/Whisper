@@ -1,18 +1,11 @@
 @keyframes message-enter {
     0% {
-        width: 25%;
         margin-top: -100px;
         opacity: 0;
     }
     
-    50% {
-        margin-top: 0px;
-    }
-    
     100% {
-        width: 60%;
         opacity: 1;
-        
     }
 }
 
@@ -23,16 +16,16 @@
     
     list-style-type: none;
     
-    margin: 1.5em 0.5em;    
+    margin: 0.5em;    
     padding: 5px 10px;
     border-radius: 5px;
     
-    /*
-    background-color: green;
+    
+    
     animation-name: message-enter;
-    animation-duration: 1s;
+    animation-duration: 0.75s;
     animation-timing-function: ease;
- */   
+   
 }
 
 .message-items-current-user {
@@ -52,13 +45,9 @@
     justify-content: flex-start;
     align-items: center;
 
-    margin: 10px 5px;
+    margin: 5px;
     padding: 5px 10px;
-    border-radius: 15px;
-
-
-
-    
+    border-radius: 15px;    
 }    
 
 .message-item-current-user {
@@ -104,9 +93,10 @@
 }
 
 .item-timestamp-current {
-    font-size: 0.9em;
+    font-size: 0.85em;
     font-style: italic;
-    color: var(--ten);
+    /*color: var(--ten);*/
+    color: var(--chat-timestamp-fg);    
 }
 
 .item-username {

@@ -15,7 +15,7 @@ const ChatMessageListItem = ({ userData, msg }) => {
             <li className={msgClass}>
                     <div className={itemClass}>
                         <div className='user-msg-text'>
-                            <span className='item-timestamp'><small className='item-timestamp-sender'>{`${msg.timestamp} / `}</small><b className='item-timestamp-current'>{msg.receivedTimestamp}</b></span>
+                            <span className='item-timestamp'><small className='item-timestamp-current'>{msg.receivedTimestamp}</small></span>
                             <span className='item-msg'>{msg.msg}</span>
                         </div>
                     
@@ -28,21 +28,6 @@ const ChatMessageListItem = ({ userData, msg }) => {
         );
     }
     console.log(`classes: ${msgClass}`);
-    
-
-    /*
-    return (
-        <li className={msgClass}>
-            <div className='message-item'>
-                <img className='item-username-img' src={msg.image} alt='failed to load user img' />
-                <span className='item-username'>{msg.username}</span>
-                <span className='item-timestamp'><small className='item-timestamp-sender'>{`${msg.timestamp} / `}</small><b className='item-timestamp-current'>{msg.receivedTimestamp}</b></span>
-                <br />
-                <span className='item-msg'>{msg.msg}</span>
-            </div>
-        </li>
-    );
-    */
 
     return (
         <li className={msgClass}>
@@ -54,7 +39,7 @@ const ChatMessageListItem = ({ userData, msg }) => {
                     </div>
                     
                     <div className='user-msg-text'>
-                        <span className='item-timestamp'><small className='item-timestamp-sender'>{`${msg.timestamp} / `}</small><b className='item-timestamp-current'>{msg.receivedTimestamp}</b></span>
+                        <span className='item-timestamp'><small className='item-timestamp-current'>{msg.receivedTimestamp}</small></span>
                         <span className='item-msg'>{msg.msg}</span>
                     </div>
                 
@@ -63,4 +48,5 @@ const ChatMessageListItem = ({ userData, msg }) => {
     );
 };
 
+/*<small className='item-timestamp-sender'>{`${msg.timestamp} / `}</small>*/
 export default ChatMessageListItem;
