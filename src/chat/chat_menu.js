@@ -2,15 +2,15 @@ import React, {Component} from 'react'
 import './style/chat_menu.css'
 
 //returns true if category is a selected category
-function displaySelectedCategory( category, selectedCategories ) {
-    console.log(`displaySelectedCategory(): ${JSON.stringify(selectedCategories)}`);
+function displayselectedCategories( category, selectedCategories ) {
+    console.log(`displayselectedCategories(): ${JSON.stringify(selectedCategories)}`);
 
     if ( selectedCategories.includes( category ) ) { //category is a selected category
-        console.log(`displaySelectedCategory(): ${category} is a selected category`);
+        console.log(`displayselectedCategories(): ${category} is a selected category`);
         return true;
     }
 
-    console.log(`displaySelectedCategory(): ${category} is NOT a selected category`);    
+    console.log(`displayselectedCategories(): ${category} is NOT a selected category`);    
     return false; //category is not selected
 }
 
@@ -36,11 +36,7 @@ function DisplayMenuUserInfo({ user, onImgError }) {
     );
 }
 
-function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onChannelSelect, onImgError }) {
-
-}
-
-function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onSelect, onChannelSelect }) {
+function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, onSelect, onChannelSelect }) {
     let channels = [
         {
             channel: '#random',
@@ -53,8 +49,8 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
         }
     ];
 
-    //if ( selectedCategory === 'channels' ) {
-    if ( displaySelectedCategory( 'channels', selectedCategory ) ) {
+    //if ( selectedCategories === 'channels' ) {
+    if ( displayselectedCategories( 'channels', selectedCategories ) ) {
         let allChannels = channels;
 
         if ( filter !== '' ) {
@@ -105,11 +101,24 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
     ) ;
 }
 
-
-function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onChannelSelect, onImgError }) {
+function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
     try {
-        //if ( selectedCategory === 'online' ) {
-        if ( displaySelectedCategory( 'online', selectedCategory ) ) {
+        let recentMessages = [
+            {
+                channelId: '#random',
+                channelDisplayName: '#random',
+                image: '/images/placeholder.svg',
+                path: '#random'
+            },
+            {
+                channelId: '#general',
+                channelDisplayName: '#general',
+                image: '/images/placeholder.svg',
+                path: '#general'
+            }
+        ];
+
+        if ( displayselectedCategories( 'recent', selectedCategories ) ) {
             let filteredUsers = users.filter(
                 user => user.username !== userData.username //removes current user from online users display
             );
@@ -162,6 +171,70 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
         );
     }
     catch(err) {
+        console.log(`Chat menu DisplayRecentCategory(): ${err.message}`);
+    }
+
+
+
+}
+
+function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
+    try {
+        let categoryText = `online (${users.length})`;
+        //if ( selectedCategories === 'online' ) {
+        if ( displayselectedCategories( 'online', selectedCategories ) ) {
+            let filteredUsers = users.filter(
+                user => user.username !== userData.username //removes current user from online users display
+            );
+
+            if ( filter !== '' ) {
+                let regFilter = new RegExp(filter, 'i');
+
+                filteredUsers = filteredUsers.filter(
+                    user => regFilter.test(user.username) //removes user based on current filter
+                );
+            }
+
+            let aUsers = filteredUsers.map( user => (
+                <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
+                    <div className='display-online-menu'>
+                        <DisplayUserStatusOrb id='user' status={user.status} />
+                        <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
+                        <b className='display-username'>{user.username}</b>
+                    </div>
+                </li>         
+            ));
+             
+            return (
+                <div className='category-container-layout selected' id='online-category-container'>
+                    <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
+                        <b className='category-header'>online<small>{` (${users.length - 1})`}</small></b>
+                        <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
+                    </div>
+
+                    <div className='category-filter-container selected'>
+                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by username...' autoComplete='off' />
+                    </div>
+
+                    <ul id='online-menu-list' className='menu-list'>
+                        {aUsers}
+                    </ul>
+                </div>        
+            );
+        }
+
+        return (
+            <div className='category-container-layout' id='online-category-container'>
+            
+                <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
+                    <b className='category-header'>online<small>{` (${users.length - 1})`}</small></b>
+                    <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
+                </div>
+
+            </div>        
+        );
+    }
+    catch(err) {
         console.log(`ERR chat_menu.js DisplayOnlineCategory(): ${err.message}`);
     }
 }
@@ -171,8 +244,8 @@ class ChatMenu extends Component {
         super(props);
 
         this.state = {
-            // selectedCategory: 'online', //determines which category list is displayed
-            selectedCategory: ['online'],
+            // selectedCategories: 'online', //determines which category list is displayed
+            selectedCategories: ['online'],
             filter: '',   //filter - determines what is displayed from the selected category
         }; 
 
@@ -193,18 +266,18 @@ class ChatMenu extends Component {
             /*
             switch(target) {
                 case 'online-category-header':
-                    selection = this.state.selectedCategory === 'online' ? '' : 'online';
+                    selection = this.state.selectedCategories === 'online' ? '' : 'online';
                     break;
 
                 case 'channels-category-header':
-                selection = this.state.selectedCategory === 'channels' ? '' : 'channels';
+                selection = this.state.selectedCategories === 'channels' ? '' : 'channels';
                     break;
 
                 default:
                     selection = '';
             }
             */
-           let newSelections = JSON.parse( JSON.stringify( this.state.selectedCategory ) );
+           let newSelections = JSON.parse( JSON.stringify( this.state.selectedCategories ) );
 
            switch(target) {
             case 'online-category-header':
@@ -231,13 +304,13 @@ class ChatMenu extends Component {
             if ( selection.index >= 0 ) { //if the channel already exists
                 console.log(`Chat menu onCategorySelect(): ${selection.channel} already exists, removing channel`); 
                 newSelections.splice( selection.index, 1 ); //removes channel from selected channels
-                this.setState({ selectedCategory: newSelections });
+                this.setState({ selectedCategories: newSelections });
             }
 
             else if( selection.channel !== 'N/A' ) { //channel doesn't exist yet 
                 console.log(`Chat menu onCategorySelect(): ${selection.channel} doesn't exist, adding channel`);             
                 newSelections.unshift( selection.channel ) //adds channel to selected channels
-                this.setState({ selectedCategory: newSelections });                
+                this.setState({ selectedCategories: newSelections });                
             }
 
             else {
@@ -286,10 +359,10 @@ class ChatMenu extends Component {
                 
                 <div id='all-menu-categories'>
                     <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
-                                           users={this.props.users} selectedCategory={this.state.selectedCategory} onSelect={this.onCategorySelect}
+                                           users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
 
-                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategory={this.state.selectedCategory}
+                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategories={this.state.selectedCategories}
                                              onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} />
                 </div>
                 
