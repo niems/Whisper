@@ -4,7 +4,7 @@ div[id='chat-menu-container'] {
     height: 100%;
     width: 250px;
     min-width: 203px;
-    padding: 5px;
+    padding: 5px 0px 5px 5px;
 
     display: flex;
     flex-flow: column nowrap;
@@ -260,7 +260,7 @@ b[id='chat-menu-username'] {
     background-color: var(--chat-menu-list-bg);
 }
 
-.display-online-menu {
+.display-category-menu {
     width: 100%;
     box-sizing: border-box;
     padding: 5px 0px 5px 10px;

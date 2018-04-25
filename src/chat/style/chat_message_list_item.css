@@ -71,9 +71,10 @@
 .user-msg-text {
     box-sizing: border-box;
     height: max-content;
+    width: max-content;
 
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column wrap;
     justify-content: center;
     align-items: flex-start;
     flex: 1 auto;
@@ -107,8 +108,9 @@
 
 .item-msg {
     margin-top: 5px;
-    text-indent: 0.5em;
+    text-indent: 1em;
     word-wrap: break-word;
+    word-break: break-all;
     color: var(--chat-msg-text-fg);
 }
 

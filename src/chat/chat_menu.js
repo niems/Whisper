@@ -63,7 +63,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
 
         allChannels = allChannels.map( channel => (
             <li className='menu-list-item' key={channel.channel} id={channel.channel} onClick={onChannelSelect}>
-                <div className='display-online-menu'>
+                <div className='display-category-menu'>
                     <b className='display-channel'>{channel.channel}</b>
                 </div>
             </li>
@@ -103,68 +103,68 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
 
 function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
     try {
-        let recentMessages = [
+        let recentChannels = [
             {
                 channelId: '#random',
                 channelDisplayName: '#random',
                 image: '/images/placeholder.svg',
+                status: 'online',
                 path: '#random'
             },
             {
                 channelId: '#general',
                 channelDisplayName: '#general',
                 image: '/images/placeholder.svg',
+                status: 'online',
                 path: '#general'
             }
         ];
 
         if ( displayselectedCategories( 'recent', selectedCategories ) ) {
-            let filteredUsers = users.filter(
-                user => user.username !== userData.username //removes current user from online users display
-            );
+            let filteredChannels = recentChannels;
 
             if ( filter !== '' ) {
                 let regFilter = new RegExp(filter, 'i');
 
-                filteredUsers = filteredUsers.filter(
-                    user => regFilter.test(user.username) //removes user based on current filter
+                filteredChannels = recentChannels.filter(
+                    channel => regFilter.test( channel.channelDisplayName ) //removes recent messages based on current filter
                 );
             }
 
-            let aUsers = filteredUsers.map( user => (
-                <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
-                    <div className='display-online-menu'>
-                        <DisplayUserStatusOrb id='user' status={user.status} />
-                        <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
-                        <b className='display-username'>{user.username}</b>
+                filteredChannels = filteredChannels.map( channel => (
+                <li className='menu-list-item' key={channel.channelId} id={channel.channelId} onClick={onChannelSelect}>
+                    <div className='display-category-menu'>
+                        <DisplayUserStatusOrb id='user' status={channel.status} />
+                        <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
+                        <b className='display-username'>{channel.channelDisplayName}</b>
                     </div>
                 </li>         
             ));
             
             return (
-                <div className='category-container-layout selected' id='online-category-container'>
-                    <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
-                        <b className='category-header'>online</b>
-                        <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
+                <div className='category-container-layout selected' id='recent-category-container'>
+                    <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
+                        <b className='category-header'>recent</b>
+                        <img className='category-header-icon' id='recent-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
                     </div>
 
                     <div className='category-filter-container selected'>
-                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by username...' autoComplete='off' />
+                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by display name...' autoComplete='off' />
                     </div>
 
-                    <ul id='online-menu-list' className='menu-list'>
-                        {aUsers}
+                    <ul id='recent-menu-list' className='menu-list'>
+                        {filteredChannels}
                     </ul>
                 </div>        
             );
         }
 
         return (
-            <div className='category-container-layout' id='online-category-container'>
+            <div className='category-container-layout' id='recent-category-container'>
             
-                <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
-                    <b className='category-header'>online</b>
-                    <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
+                <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
+                    <b className='category-header'>recent</b>
+                    <img className='category-header-icon' id='recent-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
                 </div>
 
             </div>        
@@ -173,9 +173,6 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
     catch(err) {
         console.log(`Chat menu DisplayRecentCategory(): ${err.message}`);
     }
-
-
-
 }
 
 function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
@@ -197,7 +194,7 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
 
             let aUsers = filteredUsers.map( user => (
                 <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
-                    <div className='display-online-menu'>
+                    <div className='display-category-menu'>
                         <DisplayUserStatusOrb id='user' status={user.status} />
                         <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
                         <b className='display-username'>{user.username}</b>
@@ -293,6 +290,13 @@ class ChatMenu extends Component {
                     channel: 'channels',
                 };
                 break;
+            
+            case 'recent-catengory-header':
+                selection = {
+                    index: newSelections.indexOf('recent'),
+                    channel: 'recent',
+                };
+                break;
 
             default:
                 selection = {
@@ -358,6 +362,10 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} />
                 
                 <div id='all-menu-categories'>
+                    <DisplayRecentCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
+                                           users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
+                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
+                                           
                     <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
