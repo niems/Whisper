@@ -149,7 +149,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
                     </div>
 
                     <div className='category-filter-container selected'>
-                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by display name...' autoComplete='off' />
+                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' autoComplete='off' />
                     </div>
 
                     <ul id='recent-menu-list' className='menu-list'>
@@ -242,7 +242,7 @@ class ChatMenu extends Component {
 
         this.state = {
             // selectedCategories: 'online', //determines which category list is displayed
-            selectedCategories: ['online'],
+            selectedCategories: [],
             filter: '',   //filter - determines what is displayed from the selected category
         }; 
 
@@ -260,6 +260,7 @@ class ChatMenu extends Component {
             e.preventDefault();
             let target = e.currentTarget.id;
             let selection = ''; //defaults to '' if selection is not found
+            console.log(`onCategorySelect(): ${target}`);
             /*
             switch(target) {
                 case 'online-category-header':
@@ -291,7 +292,7 @@ class ChatMenu extends Component {
                 };
                 break;
             
-            case 'recent-catengory-header':
+            case 'recent-category-header':
                 selection = {
                     index: newSelections.indexOf('recent'),
                     channel: 'recent',
@@ -304,6 +305,10 @@ class ChatMenu extends Component {
                     channel: 'N/A',
                 };
             }
+
+            console.log('onCategorySelect() selection info:');
+            console.log(`-index: ${selection.index}`);
+            console.log(`-channel: ${selection.channel}`);
 
             if ( selection.index >= 0 ) { //if the channel already exists
                 console.log(`Chat menu onCategorySelect(): ${selection.channel} already exists, removing channel`); 

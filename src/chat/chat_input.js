@@ -24,7 +24,7 @@ class ChatInput extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-
+        
         //only submits if there is something to send
         if ( this.state.value !== '' ) {
             this.props.onSendMsg( this.state.value );

@@ -15,9 +15,9 @@ const ChatMessageListItem = ({ userData, msg }) => {
       return (
           <li className={msgClass}>
                   <div className={itemClass}>
-                      <div className='user-msg-text'>
-                          <span className='item-timestamp'><small className='item-timestamp-current'>{msg.receivedTimestamp}</small></span>
-                          <span className='item-msg'>{msg.msg}</span>
+                      <div className='user-msg-text current-user'>
+                          <span className='item-timestamp'><small className='item-timestamp-current current-user'>{msg.receivedTimestamp}</small></span>
+                          <span className='item-msg current-user'>{msg.msg}</span>
                       </div>
                   
                       <div className='user-img-container'>
