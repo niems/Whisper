@@ -56,13 +56,27 @@ div[id='chat-menu-user-info'] {
 .chat-menu-user-status-img {
     object-position: center;
     width: 80px;
-    r: 4;
-    cx: 8;
-    cy: 8;
+    r: 5;
+    cx: 10;
+    cy: 10;
 }
 
+@keyframes status-anim {
+    from {
+        fill: var(--chat-menu-user-online);
+    }
+
+    to {
+        fill: var(--accent-two);
+    }
+}
 .chat-menu-user-status-img.online {
     fill: var(--chat-menu-user-online);
+
+    animation-name: status-anim;
+    animation-duration: 1s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
 }
 
 .chat-menu-user-status-img.offline {
@@ -86,7 +100,7 @@ b[id='chat-menu-username'] {
     background: rgba(255, 255, 255, 0.85);
 }
 
-div[id='all-menu-categories'] {
+#all-menu-categories {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 0px;
@@ -116,13 +130,13 @@ div[id='all-menu-categories'] {
 
 .category-container-layout.selected {
     width: 100%;
+    height: fit-content;
     box-sizing: border-box;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 1 100%;
 
     color: var(--chat-menu-category-selected-fg);   
 }
@@ -142,7 +156,7 @@ div[id='all-menu-categories'] {
 
 .category-filter-container.selected {
     width: 100%;
-    height: 35px;
+    height: min-content;
     margin: 5px 0px;
     box-sizing: border-box;
 
@@ -215,13 +229,15 @@ div[id='all-menu-categories'] {
 .menu-list {
     position: relative;
     flex: 10 50%;
-    height: 10vh;
+    height: max-content;
     /*height: 100%;*/
     width: 95%;
-    padding: 0px;
-
+    padding: 5px 0px;
+    margin: 5px 0px;
+    
     overflow-x: hidden;
     overflow-y: auto;
+    
     border-radius: 5px 5px 10px 10px;
 
     background: inherit;

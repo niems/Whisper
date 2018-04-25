@@ -1,61 +1,184 @@
 :root {
-    --accent: #21D47E;
-    --accent-transparent: rgba(33, 212, 126, 0.65);
-    --accent-dark-transparent: rgba(33, 212, 126, 0.5);
-    --accent-two-transparent: rgba(255, 0, 0, 0.68);  
-
-
-    --main-light-transparent: rgba(255, 255, 255, 0.7);
-    --main-transparent: rgba(100, 100, 100, 0.5);
-    --main-dark-transparent: rgba(37, 37, 37, 0.4);
-    --main-darker-transparent: rgba(0, 0, 0, 0.6);
-
-
-    --main-dark: #252525;
-    --main-darker: #1E1E1E;
     
-    --white-transparent: rgba(255, 255, 255, 0.85);
+    --accent: #69F0AE; 
+    --accent-two: #4EAAEB;
+    --accent-three: #4C9689;
+    --main: #3B3F42;
+    --second: #5f605d;
+    --third: #383838;
+    --fourth: #8C8D8F; 
+    --fifth: #eeeeee;
+    --sixth: #F4F7F6;
+    --seventh: #4D394B;
+    --eigth: #717274;
+    --nine: #9F69E7;
+    --ten: #2C2D30;
+    --eleven: red;
 
-    --dark-transparent: rgba(0, 0, 0, 0.4);
-    --darkest-transparent: rgba(0, 0, 0, 0.8);
-
-    --info-gradient-dark: #11171B;
-    --info-gradient-light: #3B3F42;
-
-
-    /*TITLEBAR SETUP*/
-    --titlebar-bg: var(--main-dark);
-    --titlebar-border: var(--main-light-transparent);
-
-    --titlebar-appname-bg: inherit;
-    --titlebar-appname-fg: var(--main-light-transparent);
-
-    --titlebar-icon-bg: inherit;
-    --titlebar-icon-fg: var(--main-light-transparent);
-    --titlebar-icon-hover-fg: var(--accent-two-transparent);
-
-    /*MAIN DISPLAY SETUP*/
-    --login-pane-container-bg: var(--main-dark);
+    /**react colors */
     
-    --login-pane-bg: var(--main-light-transparent);
-
-    --login-header-fg: var(--main-dark);
-    --login-header-info-fg: var(--main-dark-transparent);
-
-    --login-inputfield-bg: var(--main-dark);
-    --login-inputfield-fg: var(--white-transparent);
-    --login-inputfield-border: var(--main-dark);
-    --login-inputfield-hover-bg: var(--main-dark-transparent);
-    --login-inputfield-hover-fg: inherit;
-
-    --login-icon-bg: var(--main-dark);
-    --login-icon-fg: var(--main-light-transparent);
-
-    --login-button-bg: var(--accent-two-transparent);
-    --login-button-fg: var(--main-darker);
-    --login-button-border: var(--main-darker);
-    --login-button-hover-bg: var(--accent);
-    --login-button-hover-fg: var(--main-darker);
-    --login-button-hover-border: var(--accent-transparent);
+    --sixth: #262626;
+    --seventh:#2E2E2E;
+    --nine: #82B1FF;
+    --ten: #DDDDDD;
+    --eleven: #3C3C3E;
     
+    --sixth-transparent: rgba(0, 0, 0, 0.7);
+    /**new */
+    /*
+    --sixth: #F4F7F6;
+    --seventh:#607C8A;
+    --nine: #009AE0;
+    --ten: #555555;
+    */
+
+    /*SCROLLBAR SETUP*/
+    --scrollbar-track-bg: inherit;
+    --scrollbar-thumb-bg: var(--seventh);
+    /*END SCROLLBAR SETUP*/
+
+    /**VERIFY LOGIN.JS */
+    --verify-login-bg: var(--sixth);
+    --verify-login-fg: var(--nine);
+    /**END VERIFY LOGIN.JS */
+    
+
+    --react-gradient: linear-gradient(45deg, var(--sixth), var(--seventh));
+    --slate-gradient-transparent: rgba(59, 63, 66, 0.7);
+
+    --slate-gradient: linear-gradient(-95deg, #3B3F42, #383838);
+    --accent-gradient: var(--accent);
+
+    --landing-sign-in-bg: var(--nine);
+    --landing-sign-in-fg: var(--slate-gradient);
+    --landing-sign-in-input-bg: var(--sixth);
+    --landing-sign-in-input-fg: var(--main);
+    --landing-sign-in-input-border: var(--main);
+
+    --landing-sign-in-button-bg: inherit;
+    --landing-sign-in-button-fg: var(--sixth);
+    --landing-sign-in-button-border: var(--sixth);
+    --landing-sign-in-button-focus-bg: var(--sixth);
+    --landing-sign-in-button-focus-fg: var(--nine);
+    --landing-sign-in-button-focus-border: var(--seventh);
+
+    --landing-sign-up-bg: var(--slate-gradient);
+    --landing-sign-up-fg: white;
+
+    --landing-sign-up-button-bg: inherit;
+    --landing-sign-up-button-fg: white;
+    --landing-sign-up-button-border: white;
+    --landing-sign-up-button-focus-bg: var(--nine);
+    --landing-sign-up-button-focus-fg: var(--main);
+    --landing-sign-up-button-focus-border: black;
+
+    --landing-sign-up-input-bg: var(--slate-gradient-transparent);
+    --landing-sign-up-input-fg: var(--main);
+    --landing-sign-up-input-border: var(--main);
+
+
+    --chat-container-bg: var(--main);
+    --chat-timestamp-fg: var(--eigth);
+    --chat-username-fg: var(--nine);
+    --chat-msg-text-fg: var(--ten);
+    --chat-msg-text-bg: var(--eleven);
+
+    --chat-menu-container-bg: var(--seventh);
+    --category-menu-list-bg: var(--main);
+    --chat-menu-list-bg: var(--sixth);
+    
+    --chat-menu-category-bg: inherit;
+    --chat-menu-category-fg: var(--fourth);
+    --chat-menu-category-selected-fg: var(--ten);
+    --chat-menu-username-fg: var(--ten);
+    --chat-menu-users-fg: var(--ten);
+    --chat-menu-user-online: var(--accent);
+    --chat-menu-user-offline: var(--fourth);
+
+
+    --chat-messages-container-bg: var(--sixth);
+
+    --chat-messages-navbar-fg: var(--eigth);
+    --chat-messages-navbar-bg: var(--sixth);
+    --chat-messages-navbar-border: var(--fourth);
+
+    --chat-messages-list-pane-bg: var(--sixth);
+    
+    --chat-message-input-container: inherit;
+    --message-input-fg: var(--chat-msg-text-fg);
+    --message-input-bg: var(--slate-gradient);
+    --message-input-border: var(--eigth);
+    --message-input-focus-border: var(--eigth);
+    
+    --message-input-button-fg: var(--sixth);
+    --message-input-button-bg: inherit;
+    --message-input-button-border: var(--eigth);
+    --message-input-button-hover-bg: var(--nine);
+    --message-input-button-hover-border: var(--eigth);
+
+        /*blue 300*/
+        /*--blue-filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);*/
+    
+        --accent-slate-gradient: var(--accent);
+        --accent-blue-gradient: linear-gradient(45deg, rgba(25, 118, 210, 0.5), rgba(25, 118, 210, 0.25) );
+        --accent-green-gradient: linear-gradient(45deg, rgba(33, 212, 126, 0.5), rgba(33, 212, 126, 0.25) );
+    
+       /* --accent: #1976D2;*/
+        --accent-transparent: rgba(25, 118, 210, 0.65);
+        --accent-dark-transparent: rgba(25, 118, 210, 0.5);
+        --accent-darker-transparent: rgba(25, 118, 210, 0.25);
+    
+        --main-accent-gradient: linear-gradient(45deg, var(--accent-dark-transparent), var(--accent) );
+        --main-dark-accent-gradient: linear-gradient(45deg, var(--main-darkest-transparent), var(--main-dark-transparent) );
+    
+        --main-light-transparent: rgba(255, 255, 255, 0.7);
+        --main-transparent: rgba(100, 100, 100, 0.5);
+        --main-dark-transparent: rgba(37, 37, 37, 0.4);
+        --main-darker-transparent: rgba(0, 0, 0, 0.6);
+        --main-darkest-transparent: rgba(50, 50, 50, 0.7);
+    
+    
+        --main-dark: #2A2A2A;
+        --main-darker: #1E1E1E;
+        
+        --white-transparent: rgba(244, 244, 244, 0.85);
+    
+        --dark-transparent: rgba(0, 0, 0, 0.4);
+        --darkest-transparent: rgba(0, 0, 0, 0.8);
+    
+        --info-gradient-dark: #11171B;
+        --info-gradient-light: #3B3F42;
+    
+    
+        
+        
+        /*SETTINGS.JS SETUP*/
+        --settings-bg: var(--sixth-transparent);
+    
+        --settings-menu-container-bg: var(--nine);
+    
+        --settings-submenu-bg: var(--main-dark-transparent);
+        --settings-submenu-fg: var(--white-transparent);
+    
+        --settings-blue-color-theme-bg: var(--accent-blue-gradient);
+        --settings-blue-color-theme-fg: var(--main-dark);
+        --settings-blue-color-theme-border: var(--main-dark);
+    
+        --settings-green-color-theme-bg: var(--accent-green-gradient);
+        --settings-green-color-theme-fg: var(--main-dark);
+        --settings-green-color-theme-border: var(--main-dark);
+    
+        /*END SETTINGS.JS SETUP*/
+    
+        /*TITLEBAR SETUP*/
+        --titlebar-bg: var(--slate-gradient-transparent);
+        --titlebar-border: var(--main-transparent);
+    
+        --titlebar-icon-bg: inherit;
+        --titlebar-icon-fg: var(--main-light-transparent);
+        --titlebar-icon-hover-fg: var(--accent-transparent);
+        --titlebar-exit-hover-fg: var(--accent-two-transparent);
+        /*END TITLEBAR SETUP*/
+    
+       
 }

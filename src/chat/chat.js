@@ -839,7 +839,7 @@ class Chat extends Component {
             console.log('*LEAVING addMsgAllChannels()\n');
             //return channel not found err
             //return false;
-            STATUS.error.CHANNEL_NOT_FOUND;
+            return STATUS.error.CHANNEL_NOT_FOUND;
         }
         catch(err) {
             console.log(`ERR Chat addMsgAllChannels(): ${err.message}`);

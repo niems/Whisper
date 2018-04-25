@@ -1,6 +1,19 @@
 import React, {Component} from 'react'
 import './style/chat_menu.css'
 
+//returns true if category is a selected category
+function displaySelectedCategory( category, selectedCategories ) {
+    console.log(`displaySelectedCategory(): ${JSON.stringify(selectedCategories)}`);
+
+    if ( selectedCategories.includes( category ) ) { //category is a selected category
+        console.log(`displaySelectedCategory(): ${category} is a selected category`);
+        return true;
+    }
+
+    console.log(`displaySelectedCategory(): ${category} is NOT a selected category`);    
+    return false; //category is not selected
+}
+
 function DisplayUserStatusOrb({ id, status }) {
 
     let svgClass = 'chat-menu-' + id + '-status';
@@ -23,6 +36,10 @@ function DisplayMenuUserInfo({ user, onImgError }) {
     );
 }
 
+function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onChannelSelect, onImgError }) {
+
+}
+
 function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onSelect, onChannelSelect }) {
     let channels = [
         {
@@ -36,7 +53,8 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
         }
     ];
 
-    if ( selectedCategory === 'channels' ) {
+    //if ( selectedCategory === 'channels' ) {
+    if ( displaySelectedCategory( 'channels', selectedCategory ) ) {
         let allChannels = channels;
 
         if ( filter !== '' ) {
@@ -90,7 +108,8 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategory, onS
 
 function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategory, onSelect, onChannelSelect, onImgError }) {
     try {
-        if ( selectedCategory === 'online' ) {
+        //if ( selectedCategory === 'online' ) {
+        if ( displaySelectedCategory( 'online', selectedCategory ) ) {
             let filteredUsers = users.filter(
                 user => user.username !== userData.username //removes current user from online users display
             );
@@ -152,7 +171,8 @@ class ChatMenu extends Component {
         super(props);
 
         this.state = {
-            selectedCategory: 'online', //determines which category list is displayed
+            // selectedCategory: 'online', //determines which category list is displayed
+            selectedCategory: ['online'],
             filter: '',   //filter - determines what is displayed from the selected category
         }; 
 
@@ -170,7 +190,7 @@ class ChatMenu extends Component {
             e.preventDefault();
             let target = e.currentTarget.id;
             let selection = ''; //defaults to '' if selection is not found
-
+            /*
             switch(target) {
                 case 'online-category-header':
                     selection = this.state.selectedCategory === 'online' ? '' : 'online';
@@ -183,9 +203,47 @@ class ChatMenu extends Component {
                 default:
                     selection = '';
             }
+            */
+           let newSelections = JSON.parse( JSON.stringify( this.state.selectedCategory ) );
 
-    
-            this.setState({ selectedCategory: selection });
+           switch(target) {
+            case 'online-category-header':
+                selection = {
+                    index: newSelections.indexOf('online'),
+                    channel: 'online',
+                };
+                break;
+
+            case 'channels-category-header':
+                selection = {
+                    index: newSelections.indexOf('channels'),
+                    channel: 'channels',
+                };
+                break;
+
+            default:
+                selection = {
+                    index: -1,
+                    channel: 'N/A',
+                };
+            }
+
+            if ( selection.index >= 0 ) { //if the channel already exists
+                console.log(`Chat menu onCategorySelect(): ${selection.channel} already exists, removing channel`); 
+                newSelections.splice( selection.index, 1 ); //removes channel from selected channels
+                this.setState({ selectedCategory: newSelections });
+            }
+
+            else if( selection.channel !== 'N/A' ) { //channel doesn't exist yet 
+                console.log(`Chat menu onCategorySelect(): ${selection.channel} doesn't exist, adding channel`);             
+                newSelections.unshift( selection.channel ) //adds channel to selected channels
+                this.setState({ selectedCategory: newSelections });                
+            }
+
+            else {
+                console.log(`Chat menu onCategorySelect(): invalid channel selection - no action taken`);                 
+            }
+            
         }
         catch(err) {
             console.log(`ERR chat_menu.js onCategorySelect(): ${err.message}`);

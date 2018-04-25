@@ -28,7 +28,7 @@ div[id='sign-in-container'] {
     align-items: center;
     flex: 1 auto;
 
-    background-color: var(--landing-sign-in-bg);
+    background: var(--landing-sign-in-bg);
 
     animation-name: sign-in-fade;
     animation-duration: 0.25s;
