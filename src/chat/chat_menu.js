@@ -107,16 +107,14 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
             {
                 channelId: '#random',
                 channelDisplayName: '#random',
-                image: '/images/placeholder.svg',
+                image: '/images/default_channel_icon.png',
                 status: 'online',
-                path: '#random'
             },
             {
                 channelId: '#general',
                 channelDisplayName: '#general',
-                image: '/images/placeholder.svg',
+                image: '/images/default_channel_icon.png',
                 status: 'online',
-                path: '#general'
             }
         ];
 
