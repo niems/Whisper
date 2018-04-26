@@ -72,7 +72,7 @@ div[id='chat-menu-user-info'] {
 }
 .chat-menu-user-status-img.online {
     fill: var(--chat-menu-user-online);
-
+    
     animation-name: status-anim;
     animation-duration: 1s;
     animation-direction: alternate-reverse;
@@ -81,6 +81,10 @@ div[id='chat-menu-user-info'] {
 
 .chat-menu-user-status-img.offline {
     fill: var(--chat-menu-user-offline);
+}
+
+.chat-menu-user-status-img.none {
+    fill-opacity: 0;
 }
 
 b[id='chat-menu-username'] {

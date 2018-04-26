@@ -108,13 +108,13 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
                 channelId: '#random',
                 channelDisplayName: '#random',
                 image: '/images/default_channel_icon.png',
-                status: 'online',
+                status: 'none',
             },
             {
                 channelId: '#general',
                 channelDisplayName: '#general',
                 image: '/images/default_channel_icon.png',
-                status: 'online',
+                status: 'none',
             }
         ];
 
