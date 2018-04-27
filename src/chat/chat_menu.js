@@ -43,9 +43,6 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
         },
         {
             channel: '#general',
-        },
-        {
-            channel: '#rubbish',
         }
     ];
 
@@ -178,6 +175,8 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
         let categoryText = `online (${users.length})`;
         //if ( selectedCategories === 'online' ) {
         if ( displayselectedCategories( 'online', selectedCategories ) ) {
+            console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
+
             let filteredUsers = users.filter(
                 user => user.username !== userData.username //removes current user from online users display
             );

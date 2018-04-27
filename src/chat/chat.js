@@ -232,6 +232,14 @@ class Chat extends Component {
             accountVerified: false, //determines if the user has successfully connected to the server & logged in
             activeUsers: [],
             
+            recentChannels: [
+                /*
+                {
+                    channelId,
+                    displayName, //either #channel or the username of the sender
+                }
+                */
+            ],
             selectedMessages: [], //all messages for the selected channel 
             
             selectedChannel: {
@@ -279,6 +287,7 @@ class Chat extends Component {
         this.addNewChannel = this.addNewChannel.bind(this); //adds a new channel to this.allMessages
         this.addSelectedChannelMessage = this.addSelectedChannelMessage.bind(this);
         this.addMsgAllChannels = this.addMsgAllChannels.bind(this);
+        this.updateRecentChannels = this.updateRecentChannels.bind(this);
 
         this.doesMessageExist = this.doesMessageExist.bind(this);
 
@@ -846,6 +855,30 @@ class Chat extends Component {
             console.log('*LEAVING addMsgAllChannels()\n'); 
             //return false;           
             return STATUS.error.UNKNOWN;
+        }
+    }
+
+    //given the channel id, this either adds a new recent channel or doesn't because it already exists
+    updateRecentChannels(channelId) {
+        /*
+        recentChannels: [
+                
+                {
+                    channelId,
+                    displayName, //either #channel or the username of the sender
+                }
+                
+            ],
+            */
+        let recent = JSON.parse( JSON.stringify( this.state.recentChannels ) );
+        let doesChannelExist = ( recent.filter( channel => channel.channelId === channelId ) ).length; //if > 0 it is already a recent channel
+
+        if ( !doesChannelExist ) { //recent channel doesn't currently exist
+            
+        }
+
+        else { //recent channel already exists
+            console.log('updateRecentChannels(): recent channel already exists - no action taken')
         }
     }
     
