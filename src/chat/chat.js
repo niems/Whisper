@@ -208,11 +208,11 @@ function displayChannelInfo( channelInfo ) {
     console.log();
 }
 
-function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail }) {
+function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
-                <ChatMenu userData={userData} users={users} onSelect={onSelect} onImgFail={onImgFail} />
+                <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onImgFail={onImgFail} />
                 <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} />
             </div>
         );
@@ -233,6 +233,12 @@ class Chat extends Component {
             activeUsers: [],
             
             recentChannels: [
+                {
+                    channelId: '#random',
+                    displayName: '#random',
+                    image: './images/default_channel_icon.png',
+                    status: 'none' //default for group channels
+                }
                 /*
                 {
                     channelId,
@@ -1126,7 +1132,7 @@ class Chat extends Component {
         return (
             <DisplayChat accountVerified={this.state.accountVerified} userData={this.state.userData} users={this.state.activeUsers}
                          selectedChannel={this.state.selectedChannel} selectedMsgs={this.state.selectedMessages}
-                         onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail} />
+                         onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail} recentChannels={this.state.recentChannels} />
         );
     }
 }

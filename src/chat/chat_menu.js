@@ -98,25 +98,11 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
     ) ;
 }
 
-function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
+function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels }) {
     try {
-        let recentChannels = [
-            {
-                channelId: '#random',
-                channelDisplayName: '#random',
-                image: '/images/default_channel_icon.png',
-                status: 'none',
-            },
-            {
-                channelId: '#general',
-                channelDisplayName: '#general',
-                image: '/images/default_channel_icon.png',
-                status: 'none',
-            }
-        ];
 
         if ( displayselectedCategories( 'recent', selectedCategories ) ) {
-            let filteredChannels = recentChannels;
+            let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
 
             if ( filter !== '' ) {
                 let regFilter = new RegExp(filter, 'i');
@@ -131,7 +117,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
                     <div className='display-category-menu'>
                         <DisplayUserStatusOrb id='user' status={channel.status} />
                         <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
-                        <b className='display-username'>{channel.channelDisplayName}</b>
+                        <b className='display-username'>{channel.displayName}</b>
                     </div>
                 </li>         
             ));
@@ -366,7 +352,7 @@ class ChatMenu extends Component {
                 <div id='all-menu-categories'>
                     <DisplayRecentCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
-                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
+                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} recentChannels={this.props.recentChannels} />
                                            
                     <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}

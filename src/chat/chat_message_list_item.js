@@ -11,7 +11,7 @@ const ChatMessageListItem = ({ userData, msg }) => {
       msgClass = 'message-items message-items-current-user';
       itemClass = 'message-item message-item-current-user';
 
-      console.log(`classes: ${msgClass}`);
+   //   console.log(`classes: ${msgClass}`);
       return (
           <li className={msgClass}>
                   <div className={itemClass}>
@@ -28,7 +28,7 @@ const ChatMessageListItem = ({ userData, msg }) => {
           </li>
       );
   }
-  console.log(`classes: ${msgClass}`);
+ // console.log(`classes: ${msgClass}`);
 
   return (
       <li className={msgClass}>
