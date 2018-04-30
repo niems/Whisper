@@ -144,9 +144,17 @@ function isChannel( selectedId ) {
 //given the current username and selected Id, returns channel name (also will return the group channel (ex #general))
 function generateChannelId( username, selectedId ) {
     try {
+        console.log('\n*ENTERING generateChannelId()');
         let channelId = undefined;
+        let dmTest = new RegExp(' - '); //determines if the selected id is already been set as a channel id
     
         if ( isChannel( selectedId ) ) { //channel has been selected
+            console.log('generateChannelId(): channel selected');
+            return selectedId; 
+        }
+
+        else if ( dmTest.test( selectedId ) ) { //if channel id has already been set as the selected id
+            console.log('generateChannelId(): direct message selected w/channel id already generated')
             return selectedId; 
         }
     
@@ -234,16 +242,10 @@ class Chat extends Component {
             activeUsers: [],
             
             recentChannels: [
+                /*
                 {
                     channelId: '#random',
                     displayName: '#random',
-                    image: './images/default_channel_icon.png',
-                    status: 'none' //default for group channels
-                }
-                /*
-                {
-                    channelId,
-                    displayName, //either #channel or the username of the sender
                     image: './images/default_channel_icon.png',
                     status: 'none' //default for group channels
                 }
@@ -834,7 +836,10 @@ class Chat extends Component {
                     displayName: '#random',
                     image: './images/default_channel_icon.png',
                     status: 'none' //default for group channels
-            */
+        */
+           
+        console.log('\n*ENTERING updateRecentChannels()');
+
         let channelData = {
             channelId: undefined,
             displayName: undefined,
@@ -902,15 +907,14 @@ class Chat extends Component {
                 }
 
             }
-
-            //if channel goes through all messages to pull data for new recent channel
-            
-            //if DM go through all active users to pull data for new recent channel
         }
 
         else { //recent channel already exists
             console.log('updateRecentChannels(): recent channel already exists - no action taken')
         }
+
+
+        console.log('*LEAVING updateRecentChannels()\n');
     }
     
     addNewChannel(channelInfo = undefined, msg = undefined) {

@@ -113,7 +113,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
             }
 
                 filteredChannels = filteredChannels.map( channel => (
-                <li className='menu-list-item' key={channel.channelId} id={channel.channelId} onClick={onChannelSelect}>
+                <li className='menu-list-item' key={channel.displayName} id={channel.displayName} onClick={onChannelSelect}>
                     <div className='display-category-menu'>
                         <DisplayUserStatusOrb id='user' status={channel.status} />
                         <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
