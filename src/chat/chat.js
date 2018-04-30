@@ -439,7 +439,8 @@ class Chat extends Component {
 
                 if ( currentStatus === STATUS.MESSAGE_ADDED ) { //new msg added to both channels
                     console.log('onReceiveMessage(): successfully added new message to both channels');
-                    this.updateRecentChannels( this.state.selectedChannel.channelId, msg );
+                    //this.updateRecentChannels( this.state.selectedChannel.channelId, msg );
+                    this.updateRecentChannels( msg.channelId, msg );
                 }
 
                 else if ( currentStatus === STATUS.error.CHANNEL_NOT_FOUND ) {
@@ -457,13 +458,23 @@ class Chat extends Component {
 
                 if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added to channel
                     console.log('onReceiveMessage(): successfully added message to channel');
-                    this.updateRecentChannels( this.state.selectedChannel.channelId, msg );                    
+                    //this.updateRecentChannels( this.state.selectedChannel.channelId, msg );                    
+                    this.updateRecentChannels( msg.channelId, msg );
                 }
 
                 else if ( currentStatus === STATUS.error.CHANNEL_NOT_FOUND ) {
                     console.log('onReceiveMessage(): msg channel not found - creating channel & adding msg now');
                     //createNewChannel( undefined, msg, '' );
                     currentStatus = (this.addNewChannel( undefined, msg ) ).status;
+
+                    //update recent channel here also!
+                    if ( currentStatus === STATUS.CHANNEL_CREATED ) {
+                        this.updateRecentChannels( msg.channelId, msg );
+                    }
+
+                    else {
+                        console.log('ERR Chat OnReceiveMessage(): failed to add new channel and update recent channels');
+                    }
                 }
             }
          }
