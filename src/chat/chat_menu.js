@@ -45,22 +45,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
         },
         {
             channel: '#general',
-        },
-        {
-            channel: '#a',
-        },
-        {
-            channel: '#b',
-        },
-        {
-            channel: '#c',
-        },
-        {
-            channel: '#d',
-        },
-        {
-            channel: '#e',
-        },
+        }
     ];
     let allChannels = channels;
     
@@ -151,7 +136,6 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
                 <div className='category-container-layout selected' id='online-category-container'>
                     <div className='category-header-layout' id='online-category-header'>
                         <b className='category-header'>online<small>{` (${users.length - 1})`}</small></b>
-                        <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
                     </div>
 
                     <ul id='online-menu-list' className='menu-list'>
