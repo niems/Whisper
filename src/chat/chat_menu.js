@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import './style/chat_menu.css'
 
+
 //returns true if category is a selected category
 function displayselectedCategories( category, selectedCategories ) {
     console.log(`displayselectedCategories(): ${JSON.stringify(selectedCategories)}`);
@@ -13,6 +14,7 @@ function displayselectedCategories( category, selectedCategories ) {
     console.log(`displayselectedCategories(): ${category} is NOT a selected category`);    
     return false; //category is not selected
 }
+
 
 function DisplayUserStatusOrb({ id, status }) {
 
@@ -43,20 +45,26 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
         },
         {
             channel: '#general',
-        }
+        },
+        {
+            channel: '#a',
+        },
+        {
+            channel: '#b',
+        },
+        {
+            channel: '#c',
+        },
+        {
+            channel: '#d',
+        },
+        {
+            channel: '#e',
+        },
     ];
-
-    //if ( selectedCategories === 'channels' ) {
-    if ( displayselectedCategories( 'channels', selectedCategories ) ) {
-        let allChannels = channels;
-
-        if ( filter !== '' ) {
-            let regFilter = new RegExp(filter, 'i');
-
-            allChannels = channels.filter(
-                channel => regFilter.test(channel.channel) //removes user based on current filter
-            );
-        }
+    let allChannels = channels;
+    
+    if ( allChannels.length > 0 ) { //only displays the category if content exists
 
         allChannels = allChannels.map( channel => (
             <li className='menu-list-item' key={channel.channel} id={channel.channel} onClick={onChannelSelect}>
@@ -69,13 +77,8 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
         return (
             <div className='category-container-layout selected' id='channels-category-container'>
 
-                <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
+                <div className='category-header-layout' id='channels-category-header'>
                     <b className='category-header'>Channels</b>
-                    <img className='category-header-icon' id='channels-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
-                </div>
-
-                <div className='category-filter-container selected'>
-                    <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' autoComplete='off' />
                 </div>
 
                 <ul id='category-menu-list' className='menu-list'>
@@ -86,32 +89,14 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
         );
     }
 
-    return (
-        <div className='category-container-layout' id='channels-category-container'>
-
-            <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
-                <b className='category-header'>Channels</b>
-                <img className='category-header-icon' id='channels-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
-            </div>
-
-        </div>
-    ) ;
+    return null;
 }
 
 function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels }) {
     try {
+        let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
 
-        if ( displayselectedCategories( 'recent', selectedCategories ) ) {
-            let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
-
-            if ( filter !== '' ) {
-                let regFilter = new RegExp(filter, 'i');
-
-                filteredChannels = recentChannels.filter(
-                    channel => regFilter.test( channel.channelDisplayName ) //removes recent messages based on current filter
-                );
-            }
-
+        if( filteredChannels.length > 0 ) {
                 filteredChannels = filteredChannels.map( channel => (
                 <li className='menu-list-item' key={channel.displayName} id={channel.displayName} onClick={onChannelSelect}>
                     <div className='display-category-menu'>
@@ -124,13 +109,8 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
             
             return (
                 <div className='category-container-layout selected' id='recent-category-container'>
-                    <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
+                    <div className='category-header-layout' id='recent-category-header'>
                         <b className='category-header'>recent</b>
-                        <img className='category-header-icon' id='recent-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
-                    </div>
-
-                    <div className='category-filter-container selected'>
-                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by channel...' autoComplete='off' />
                     </div>
 
                     <ul id='recent-menu-list' className='menu-list'>
@@ -140,16 +120,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
             );
         }
 
-        return (
-            <div className='category-container-layout' id='recent-category-container'>
-            
-                <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
-                    <b className='category-header'>recent</b>
-                    <img className='category-header-icon' id='recent-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
-                </div>
-
-            </div>        
-        );
+        return null;
     }
     catch(err) {
         console.log(`Chat menu DisplayRecentCategory(): ${err.message}`);
@@ -159,22 +130,13 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
 function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
     try {
         let categoryText = `online (${users.length})`;
-        //if ( selectedCategories === 'online' ) {
-        if ( displayselectedCategories( 'online', selectedCategories ) ) {
-            console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
+        console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
 
-            let filteredUsers = users.filter(
-                user => user.username !== userData.username //removes current user from online users display
-            );
+        let filteredUsers = users.filter(
+            user => user.username !== userData.username //removes current user from online users display
+        );
 
-            if ( filter !== '' ) {
-                let regFilter = new RegExp(filter, 'i');
-
-                filteredUsers = filteredUsers.filter(
-                    user => regFilter.test(user.username) //removes user based on current filter
-                );
-            }
-
+        if ( filteredUsers.length > 0 ) { //only displays the online category if there's content
             let aUsers = filteredUsers.map( user => (
                 <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
                     <div className='display-category-menu'>
@@ -184,16 +146,12 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
                     </div>
                 </li>         
             ));
-             
+                
             return (
                 <div className='category-container-layout selected' id='online-category-container'>
-                    <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
+                    <div className='category-header-layout' id='online-category-header'>
                         <b className='category-header'>online<small>{` (${users.length - 1})`}</small></b>
                         <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-up.svg' alt='/images/placeholder.svg' />
-                    </div>
-
-                    <div className='category-filter-container selected'>
-                        <input type='text' className='category-filter-input' value={filter} onChange={onFilterChange} placeholder='Search by username...' autoComplete='off' />
                     </div>
 
                     <ul id='online-menu-list' className='menu-list'>
@@ -203,16 +161,7 @@ function DisplayOnlineCategory({ filter, onFilterChange, userData, users, select
             );
         }
 
-        return (
-            <div className='category-container-layout' id='online-category-container'>
-            
-                <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
-                    <b className='category-header'>online<small>{` (${users.length - 1})`}</small></b>
-                    <img className='category-header-icon' id='online-header-icon' src='/images/page_icons/arrow-down.svg' alt='/images/placeholder.svg' />
-                </div>
-
-            </div>        
-        );
+        return null;
     }
     catch(err) {
         console.log(`ERR chat_menu.js DisplayOnlineCategory(): ${err.message}`);
@@ -244,20 +193,6 @@ class ChatMenu extends Component {
             let target = e.currentTarget.id;
             let selection = ''; //defaults to '' if selection is not found
             console.log(`onCategorySelect(): ${target}`);
-            /*
-            switch(target) {
-                case 'online-category-header':
-                    selection = this.state.selectedCategories === 'online' ? '' : 'online';
-                    break;
-
-                case 'channels-category-header':
-                selection = this.state.selectedCategories === 'channels' ? '' : 'channels';
-                    break;
-
-                default:
-                    selection = '';
-            }
-            */
            let newSelections = JSON.parse( JSON.stringify( this.state.selectedCategories ) );
 
            switch(target) {
@@ -354,12 +289,12 @@ class ChatMenu extends Component {
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} recentChannels={this.props.recentChannels} />
                                            
+                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategories={this.state.selectedCategories}
+                                             onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} />
+
                     <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
-
-                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategories={this.state.selectedCategories}
-                                             onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} />
                 </div>
                 
             </div>

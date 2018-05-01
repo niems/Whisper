@@ -113,7 +113,10 @@ b[id='chat-menu-username'] {
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    flex: 1 90%;
+    flex: 1 100%;
+
+    overflow-x: hidden;
+    overflow-y: auto;
 
     background-color: var(--chat-menu-container-bg);
 }
@@ -134,13 +137,17 @@ b[id='chat-menu-username'] {
 
 .category-container-layout.selected {
     width: 100%;
-    height: fit-content;
+    height: max-content;
     box-sizing: border-box;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
+    flex: 1 auto;
+
+    margin: 10px 0px;
+    padding: 5px 0px;
 
     color: var(--chat-menu-category-selected-fg);   
 }
@@ -148,14 +155,27 @@ b[id='chat-menu-username'] {
 
 .category-header-layout{
     width: inherit;
-    margin-top: 10px;
+    height: max-content;
     
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
     flex: 1 auto;
+
+    padding: 10px 0px;
     
+    border-style: none none solid none;
+    border-width: 1px;
+    border-color: var(--sixth);
+}
+
+.category-header {
+    transition: all 0.5s;
+}
+
+.category-header:hover {
+    color: var(--ten);
 }
 
 .category-filter-container.selected {
@@ -168,6 +188,7 @@ b[id='chat-menu-username'] {
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+    flex: 1 auto;
 
     background-color: inherit;
 }
@@ -231,21 +252,11 @@ b[id='chat-menu-username'] {
 }
 
 .menu-list {
-    position: relative;
-    flex: 10 50%;
     height: max-content;
-    /*height: 100%;*/
     width: 95%;
     padding: 5px 0px;
-    margin: 5px 0px;
     
-    overflow-x: hidden;
-    overflow-y: auto;
-    
-    border-radius: 5px 5px 10px 10px;
-
     background: inherit;
-    box-shadow: 3px 2px 4px var(--chat-menu-list-bg);
 
     animation-name: menu-fade-in;
     animation-duration: 1s;
