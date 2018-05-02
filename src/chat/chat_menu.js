@@ -42,9 +42,11 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
     let channels = [
         {
             channel: '#random',
+            image: './images/default_channel_icon.png',
         },
         {
             channel: '#general',
+            image: './images/default_channel_icon.png',
         }
     ];
     let allChannels = channels;
@@ -54,6 +56,7 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
         allChannels = allChannels.map( channel => (
             <li className='menu-list-item' key={channel.channel} id={channel.channel} onClick={onChannelSelect}>
                 <div className='display-category-menu'>
+                    <img className='chat-menu-user-img' src={channel.image} alt='failed to load channel default img' />             
                     <b className='display-channel'>{channel.channel}</b>
                 </div>
             </li>
