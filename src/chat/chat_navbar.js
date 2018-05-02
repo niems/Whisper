@@ -5,10 +5,12 @@ const ChatNavbar = ({ selectedChannel }) => {
     let userCount = '1';
     let pinCount = '0';
 
+    let channelDisplay = selectedChannel.isUser ? ` @   ${selectedChannel.channelDisplayName}` : selectedChannel.channelDisplayName;
+
     return (
         <div id='chat-messages-navbar'>
             <div id='navbar-msg-info-container'>
-                <h6 className='navbar-msg-channel'>{selectedChannel.channelDisplayName}</h6>
+                <h6 className='navbar-msg-channel'>{channelDisplay}</h6>
 
                 <div id='navbar-msg-channel-info'>
                     <button className='navbar-button' id='navbar-star-btn'></button> | 

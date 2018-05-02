@@ -533,33 +533,20 @@ class Chat extends Component {
     
             let currentUsers = JSON.parse( JSON.stringify( this.state.activeUsers ) ); //current active users
             currentUsers.unshift(data.newUser); //adds new user
-            //alert(`New user info: ${JSON.stringify(data.newUser)}`);
             
             /*
-            create list menu item component
-            -animation on entry - should come in from -item.height on top, then fly in scale from small to normal
-            -either that animation, or just scale in place the same way
-            /*
-            if ( this.state.selectedChannel.isUser ) { //selected view is currently a direct message
-                //update socket id for selected channel
-                let selectedUpdate = new RegExp( data.newUser.username );
-                if ( selectedUpdate.test( newMsg.channelId ) ) { //new user is also on selected channel - need to update socket id for selected channel
-                    console.log('onNewUserConnection(): updating socket id of new connection (from selected channel)');
-                    this.setState({
-                        selectedChannel: {
-                            channelId: this.state.selectedChannel.channelId,
-                            channelDisplayName: this.state.selectedChannel.channelDisplayName,
-                            isUser: this.state.selectedChannel.isUser,
-
-                            description: this.state.selectedChannel.description,
-                            path: newMsg.socketId //updates socket id for selected view (user dc'd and reconnected)
-                        }
-                    });
-                }
-
-                this.addMsgAllChannels( newMsg );
-            }
+            let tempChannelId = generateChannelId( this.state.userData.username, newMsg.username )
+            compare generated channel id(current username & username from new msg) to current selected channel
+            if they're the same, the path needs to be updated
             */
+
+            let tempChannelId = generateChannelId( this.state.userData.username, newMsg.username );
+
+            if ( tempChannelId === this.state.selectedChannel.channelId ) {
+                let updatedSelection = this.state.selectedChannel;
+                updatedSelection.path = newMsg.socketId; //updates the socket id for the current user (probably dc'd and reconnected)
+            }
+
             if ( this.state.selectedChannel.channelId === newMsg.channelId ) {
                 this.addMsgAllChannels( newMsg );
             }
