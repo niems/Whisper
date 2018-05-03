@@ -217,11 +217,11 @@ function displayChannelInfo( channelInfo ) {
     console.log();
 }
 
-function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels }) {
+function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
-                <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onImgFail={onImgFail} />
+                <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onRemoveRecentChannel={onRemoveRecentChannel} onImgFail={onImgFail} />
                 <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} />
             </div>
         );
@@ -299,8 +299,10 @@ class Chat extends Component {
         this.addSelectedChannelMessage = this.addSelectedChannelMessage.bind(this);
         this.addMsgAllChannels = this.addMsgAllChannels.bind(this);
         this.updateRecentChannels = this.updateRecentChannels.bind(this);
-
         this.doesMessageExist = this.doesMessageExist.bind(this);
+
+        this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //removes the selected recent channel from the recent category in the chat menu
+
 
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
@@ -860,7 +862,7 @@ class Chat extends Component {
                     if ( this.allMessages[i].channelId === channelId ) { //found channel data
                         channelData.channelId = channelId;
                         channelData.displayName = this.allMessages[i].channelId;
-                        channelData.image = './images/default_channel_icon.png',
+                        channelData.image = './images/default_channel_icon.svg',
                         channelData.status = 'none';
 
                         recent.unshift( channelData );
@@ -1108,6 +1110,21 @@ class Chat extends Component {
         console.log('*LEAVING onChannelSelect()\n');
     }
 
+    //removes the selected recent channel from the recent category
+    onRemoveRecentChannel(selectedId) {
+        console.log('\n*ENTERING onRemoveRecentChannel() - chat.js');
+
+        console.log(`onRemoveRecentChannel() passed selected id: ${selectedId}`);
+        //removes selected recent channel from state
+        let recentChannels = this.state.recentChannels.filter( channel => channel.channelId !== selectedId );
+        console.log(`onRemoveRecentChannel() recentChannels filtered: ${JSON.stringify(recentChannels)}\n`);
+
+
+        this.setState({ recentChannels });
+
+        console.log('*LEAVING onRemoveRecentChannel()\n');
+    }
+
     //called when user img fails to load. Placeholder image used
     onImgLoadFail(source) {
         let placeholderImg = '/images/placeholder.svg';
@@ -1160,7 +1177,8 @@ class Chat extends Component {
         return (
             <DisplayChat accountVerified={this.state.accountVerified} userData={this.state.userData} users={this.state.activeUsers}
                          selectedChannel={this.state.selectedChannel} selectedMsgs={this.state.selectedMessages}
-                         onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail} recentChannels={this.state.recentChannels} />
+                         onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail}
+                         recentChannels={this.state.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
         );
     }
 }

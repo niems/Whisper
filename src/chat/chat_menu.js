@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import './style/chat_menu.css'
 
+const closeImg = './images/page_icons/close-cross.svg';
 
 //returns true if category is a selected category
 function displayselectedCategories( category, selectedCategories ) {
@@ -42,11 +43,11 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
     let channels = [
         {
             channel: '#random',
-            image: './images/default_channel_icon.png',
+            image: './images/default_channel_icon.svg',
         },
         {
             channel: '#general',
-            image: './images/default_channel_icon.png',
+            image: './images/default_channel_icon.svg',
         }
     ];
     let allChannels = channels;
@@ -80,21 +81,35 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
     return null;
 }
 
-function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels }) {
+function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels, onRemoveRecentChannel }) {
     try {
+        console.log('\n*ENTERING DisplayRecentCategory()');
+
         let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
+        /**
+                <li className='menu-list-item' key={channel.displayName} id={channel.displayName} onClick={onChannelSelect}>         * 
+         */
 
         if( filteredChannels.length > 0 ) {
                 filteredChannels = filteredChannels.map( channel => (
-                <li className='menu-list-item' key={channel.displayName} id={channel.displayName} onClick={onChannelSelect}>
-                    <div className='display-category-menu'>
+                <li className='menu-list-item' key={channel.displayName} >
+
+                    <div className='display-category-menu' id={channel.displayName} onClick={onChannelSelect}>
                         <DisplayUserStatusOrb id='user' status={channel.status} />
                         <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
                         <b className='display-username'>{channel.displayName}</b>
                     </div>
+
+                    <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>
+                        <svg className='remove-svg-container' >
+                            <circle className='remove-svg-icon'  />
+                        </svg>
+                    </div>
+
                 </li>         
             ));
             
+            console.log('*LEAVING DisplayRecentCategory()\n');
             return (
                 <div className='category-container-layout selected' id='recent-category-container'>
                     <div className='category-header-layout' id='recent-category-header'>
@@ -108,6 +123,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
             );
         }
 
+        console.log('*LEAVING DisplayRecentCategory()\n');        
         return null;
     }
     catch(err) {
@@ -115,7 +131,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
     }
 }
 
-function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) {
+function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) { 
     try {
         let categoryText = `online (${users.length})`;
         console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
@@ -168,8 +184,8 @@ class ChatMenu extends Component {
         this.onCategorySelect = this.onCategorySelect.bind(this);
         this.onFilterChange = this.onFilterChange.bind(this);
         this.onChannelSelect = this.onChannelSelect.bind(this); //sends selected channel/user info back to chat
-
-
+        this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //sends selected channel/user info back to chat for removal from state
+        
         this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
 
@@ -246,9 +262,19 @@ class ChatMenu extends Component {
 
     //determines the channel view - clicking a user changes the channel view to a PM w/that user
     onChannelSelect(e) {
+        e.preventDefault();
+
         let id = e.currentTarget.id; 
         console.log(`Chat Menu onChannelSelect: ${id}`);
         this.props.onSelect( id );
+    }
+
+    onRemoveRecentChannel(e) {
+        e.preventDefault();
+        console.log('\n*ENTERING onRemoveRecentChannel() - chat_menu.js');
+        console.log(`onRemoveRecentChannel(): attempting to remove ${e.currentTarget.id}`);
+
+        this.props.onRemoveRecentChannel(e.currentTarget.id);
     }
 
     onImgError(e) {
@@ -274,7 +300,7 @@ class ChatMenu extends Component {
                 <div id='all-menu-categories'>
                     <DisplayRecentCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
-                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} recentChannels={this.props.recentChannels} />
+                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} recentChannels={this.props.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
                                            
                     <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategories={this.state.selectedCategories}
                                              onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} />

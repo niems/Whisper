@@ -170,10 +170,13 @@ b[id='chat-menu-username'] {
 .category-header {
     font-size: 1.1em;
     transition: all 0.5s;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .category-header:hover {
-    color: var(--ten);
+    color: var(--nine);
 }
 
 .category-filter-container.selected {
@@ -219,12 +222,6 @@ b[id='chat-menu-username'] {
 
 }
 
-.category-header {
-    font-variant: small-caps;
-    font-weight: bold;
-    font-style: italic;
-}
-
 @keyframes menu-grow-in {
     from {
         transform: scale(1, 0.2);
@@ -262,8 +259,13 @@ b[id='chat-menu-username'] {
 
 
 .menu-list-item {
-    width: 100%;
     margin: 10px auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 auto;
 
     text-align: left;
     list-style-type: none;
@@ -274,16 +276,15 @@ b[id='chat-menu-username'] {
 }
 
 .display-category-menu {
-    width: 100%;
     box-sizing: border-box;
-    padding: 5px 0px 5px 10px;
+    padding: 5px 0px 5px 5px;
 
     
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 1 auto;
+    flex: 1 75%;
     
 
     color: var(--chat-menu-users-fg);
@@ -297,5 +298,70 @@ b[id='chat-menu-username'] {
     background: rgba(255, 255, 255, 0.85);
 }
 
+.remove-category-container {
+    box-sizing: border-box;
+    height: 35px;
+    padding: 5px 0px 5px 5px;    
 
-/**END LEFT PANE */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1 25%;
+
+    transition: all 0.3s;
+}
+
+.remove-category-container:hover {
+}
+
+.remove-svg-container {
+    /*
+    */
+    width: auto;
+    height: 35px;
+
+    object-position: right;
+}
+
+@keyframes remove-icon-anim {
+    from {
+        transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
+    }
+}
+.remove-svg-icon {
+    r: 4px;
+    cx: 25px;
+    cy: 18px;
+
+    fill: transparent;
+    stroke: var(--nine);
+    stroke-width: 4px;
+
+    transition: all 0.4s;
+}
+
+.remove-svg-icon:hover {
+    fill: red;
+    stroke: red;
+}
+
+/*
+object-position: center;
+    width: 80px;
+    r: 5;
+    cx: 10;
+    cy: 10;
+
+.remove-category-img {
+    height: 17px;
+    padding-right: 5px;
+
+    filter: invert(.5) sepia(1) saturate(100);   
+
+}
+*/
