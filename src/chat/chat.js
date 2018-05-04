@@ -559,7 +559,15 @@ class Chat extends Component {
             }
 
             if ( this.state.selectedChannel.channelId === newMsg.channelId ) {
+                let updateSelected = JSON.parse( JSON.stringify( this.state.selectedChannel ) );
+                
                 this.addMsgAllChannels( newMsg );
+
+                if ( !isChannel( newMsg.channelId ) ) {
+                    updateSelected = newMsg.socketId;
+
+                    this.setState({ selectedChannel: updateSelected });
+                }                
             }
 
             else {
@@ -1016,6 +1024,7 @@ class Chat extends Component {
             console.log(`\n*ENTERING getChannelInfo()`);
 
             //template (used if channel info isn't found in this.allMessages)
+            let userInfo = undefined;
             let _isChannel = isChannel( selectedId ); //boolean - true if selectedId is a group channel (not direct message)
             let channelInfo = {
                 channelId: channelId, //used as the unique id when searching for a particular channel. ex. '_admin - _root' for a direct message channelId
@@ -1029,7 +1038,7 @@ class Chat extends Component {
             }
     
             if ( !_isChannel ) { //channel not selected (direct message)
-                let userInfo = getUserInfo( selectedId, this.state.activeUsers ); //gets the info of the user we're messaging
+                userInfo = getUserInfo( selectedId, this.state.activeUsers ); //gets the info of the user we're messaging
     
                 if ( typeof(userInfo) !== 'undefined' ) { //user info found
                     channelInfo.path = userInfo.socketId; //selected path updated to user's socket id
@@ -1046,6 +1055,10 @@ class Chat extends Component {
                 if ( this.allMessages[i].channelId === channelId ) { //channel found
                     console.log('getChannelInfo(): channel found in this.allMessages');
                     channelInfo = JSON.parse( JSON.stringify( this.allMessages[i] ) ); 
+
+                    if ( typeof( userInfo ) !== 'undefined' ) {
+                        channelInfo.path = userInfo.socketId;
+                    }
 
                     return {channel: channelInfo, status: STATUS.SELECTED_CHANNEL_FOUND};
                 }
