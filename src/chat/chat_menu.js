@@ -32,7 +32,6 @@ function DisplayUserStatusOrb({ id, status }) {
 function DisplayMenuUserInfo({ user, onImgError }) {
     return (
         <div id='chat-menu-user-info'>
-            <DisplayUserStatusOrb id='current-user' status={user.status} />
             <img className='chat-menu-current-user-img' id='chat-menu-current-user-profile-pic' src={user.image} alt='/images/placeholder.svg' data-user='current user' onError={onImgError} /> 
             <b id='chat-menu-username'>{user.username}</b>
         </div>

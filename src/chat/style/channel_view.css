@@ -1,6 +1,5 @@
 div[id='channel-view-container'] {
     height: 100%;
-    min-width: 765px;
 
     display: flex;
     flex-flow: column nowrap;

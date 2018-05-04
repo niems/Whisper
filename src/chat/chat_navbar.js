@@ -18,6 +18,7 @@ const ChatNavbar = ({ selectedChannel }) => {
                     <button className='navbar-button' id='navbar-pin-btn'></button><small>{pinCount}</small> |        
                     <small id='navbar-channel-info'>{selectedChannel.description}</small>
                 </div>
+
             </div>
         </div>
     );
