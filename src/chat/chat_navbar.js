@@ -19,8 +19,15 @@ const ChatNavbar = ({ selectedChannel }) => {
                     <small id='navbar-channel-info'>{selectedChannel.description}</small>
                 </div>
             </div>
+        </div>
+    );
+}
 
-            <div id='navbar-functions-container'>
+export default ChatNavbar;
+
+
+/**
+ * <div id='navbar-functions-container'>
                 <button className='navbar-function-button' id='navbar-info-function'></button>
                 <button className='navbar-function-button' id='navbar-settings-function'></button>    
 
@@ -29,8 +36,4 @@ const ChatNavbar = ({ selectedChannel }) => {
                 <button className='navbar-function-button' id='navbar-star-function'></button>                
                 <button className='navbar-function-button' id='navbar-show-items-function'></button>                                            
             </div>
-        </div>
-    );
-}
-
-export default ChatNavbar;
+ */

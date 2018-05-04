@@ -40,16 +40,6 @@ function DisplayMenuUserInfo({ user, onImgError }) {
 }
 
 function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, onSelect, onChannelSelect, joinedChannels, onRemoveCategory }) {
-    let channels = [
-        {
-            channel: '#random',
-            image: './images/default_channel_icon.svg',
-        },
-        {
-            channel: '#general',
-            image: './images/default_channel_icon.svg',
-        }
-    ];
     let allChannels = joinedChannels;
     
     if ( allChannels.length > 0 ) { //only displays the category if content exists

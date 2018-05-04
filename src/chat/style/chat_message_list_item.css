@@ -1,11 +1,36 @@
 @keyframes message-enter {
-    from {
-        margin-top: -100px;
+    0% {
         opacity: 0;
+        margin-left: -200px;   
+        transform: skewX(-30deg);         
     }
-    
-    to {
+
+    70% {
+        margin-left: 0px;
         opacity: 1;
+        transform: skewX(-30deg);                 
+    }
+
+    100% {
+        
+    }
+}
+
+@keyframes message-enter-current-user {
+    0% {
+        opacity: 0;
+        margin-left: 200px;   
+        transform: skewX(30deg);         
+    }
+
+    70% {
+        margin-left: 0px;
+        opacity: 1;
+        transform: skewX(30deg);                 
+    }
+
+    100% {
+        
     }
 }
 
@@ -20,7 +45,7 @@
     padding: 5px 10px;
     border-radius: 5px;
 
-    animation-duration: 0.75s;
+    animation-duration: 0.5s;
     animation-timing-function: ease;
     animation-name: message-enter;
 }
@@ -31,7 +56,11 @@
     align-self: flex-end;
     
     background-color: green; 
-    */    
+    */   
+   
+   animation-duration: 0.5s;
+   animation-timing-function: ease;
+   animation-name: message-enter-current-user;
 }
 
 .message-item {
@@ -83,10 +112,12 @@
     border-radius: 5px;
 
     background: var(--chat-msg-text-bg);
+    box-shadow: 2px 2px 5px white;
 }
 
 .user-msg-text.current-user {
     background: var(--nine);
+    box-shadow: -2px 2px 5px white;  
 }
 
 .item-timestamp {

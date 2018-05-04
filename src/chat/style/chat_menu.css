@@ -56,9 +56,11 @@ div[id='chat-menu-user-info'] {
 .chat-menu-user-status-img {
     object-position: center;
     width: 80px;
-    r: 5;
-    cx: 10;
+    r: 6;
+    cx: 8;
     cy: 10;
+
+    
 }
 
 @keyframes status-anim {
@@ -72,10 +74,18 @@ div[id='chat-menu-user-info'] {
 }
 .chat-menu-user-status-img.online {
     fill: var(--chat-menu-user-online);
+
+    stroke: black;
+    stroke-width: 3px;
+    stroke-opacity: 0.75;
 }
 
 .chat-menu-user-status-img.offline {
     fill: var(--chat-menu-user-offline);
+
+    stroke: black;
+    stroke-width: 3px;
+    stroke-opacity: 0.75;
 }
 
 .chat-menu-user-status-img.none {
@@ -313,13 +323,14 @@ b[id='chat-menu-username'] {
 }
 
 .remove-category-container:hover {
+
 }
 
 .remove-svg-container {
     /*
     */
-    width: auto;
-    height: 35px;
+    width: max-content;
+    height: 50px;
 
     object-position: right;
 }
@@ -334,20 +345,24 @@ b[id='chat-menu-username'] {
     }
 }
 .remove-svg-icon {
-    r: 4px;
+    r: 6px;
     cx: 25px;
-    cy: 18px;
+    cy: 25px;
 
-    fill: transparent;
+    fill: var(--nine);
     stroke: var(--nine);
-    stroke-width: 4px;
+    stroke-opacity: 0.4;
+    stroke-width: 2px;
 
     transition: all 0.4s;
 }
 
 .remove-svg-icon:hover {
-    fill: red;
+    r: 10px;
+
+    fill: transparent;
     stroke: red;
+    stroke-width: 10px;
 }
 
 /*
