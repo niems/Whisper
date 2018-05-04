@@ -38,7 +38,7 @@ function DisplayMenuUserInfo({ user, onImgError }) {
     );
 }
 
-function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, onSelect, onChannelSelect, joinedChannels, onRemoveCategory }) {
+function DisplayChannelsCategory({ onSelect, onChannelSelect, joinedChannels, onRemoveCategory }) {
     let allChannels = joinedChannels;
     
     if ( allChannels.length > 0 ) { //only displays the category if content exists
@@ -76,14 +76,11 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
     return null;
 }
 
-function DisplayRecentCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels, onRemoveRecentChannel }) {
+function DisplayRecentCategory({ onSelect, onChannelSelect, onImgError, recentChannels, onRemoveRecentChannel }) {
     try {
         console.log('\n*ENTERING DisplayRecentCategory()');
 
         let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
-        /**
-                <li className='menu-list-item' key={channel.displayName} id={channel.displayName} onClick={onChannelSelect}>         * 
-         */
 
         if( filteredChannels.length > 0 ) {
                 filteredChannels = filteredChannels.map( channel => (
@@ -126,7 +123,7 @@ function DisplayRecentCategory({ filter, onFilterChange, userData, users, select
     }
 }
 
-function DisplayOnlineCategory({ filter, onFilterChange, userData, users, selectedCategories, onSelect, onChannelSelect, onImgError }) { 
+function DisplayOnlineCategory({ userData, users, onSelect, onChannelSelect, onImgError }) { 
     try {
         let categoryText = `online (${users.length})`;
         console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
@@ -303,15 +300,13 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayRecentCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
-                                           users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
-                                           onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} recentChannels={this.props.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
+                    <DisplayRecentCategory onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError}
+                                           recentChannels={this.props.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
                                            
-                    <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategories={this.state.selectedCategories}
-                                             onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} joinedChannels={this.props.joinedChannels} onRemoveCategory={this.onRemoveCategory} />
+                    <DisplayChannelsCategory onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect}
+                                             joinedChannels={this.props.joinedChannels} onRemoveCategory={this.onRemoveCategory} />
 
-                    <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
-                                           users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}
+                    <DisplayOnlineCategory userData={this.props.userData} users={this.props.users} onSelect={this.onCategorySelect}
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
                 </div>
                 
