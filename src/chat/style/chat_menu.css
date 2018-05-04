@@ -2,8 +2,8 @@
 div[id='chat-menu-container'] {
     box-sizing: border-box;
     height: 100%;
-    width: 250px;
-    min-width: 203px;
+    min-width: 215px;
+    max-width: 215px;
     padding: 5px 0px 5px 5px;
 
     display: flex;

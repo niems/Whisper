@@ -1,3 +1,13 @@
+@keyframes channel-view-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+
+    }
+}
+
 div[id='channel-view-container'] {
     height: 100%;
 
@@ -8,4 +18,8 @@ div[id='channel-view-container'] {
     flex: 2 auto;
 
     background-color: var(--chat-messages-container-bg);
+
+    animation-name: channel-view-enter;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
 }

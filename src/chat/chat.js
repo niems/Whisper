@@ -311,13 +311,14 @@ class Chat extends Component {
 
         this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //removes the selected recent channel from the recent category in the chat menu
         this.onRemoveCategory = this.onRemoveCategory.bind(this); //removes the selected channel & leaves the channel room (will not receive another message for this channel)
+        this.resetSelectedChannel = this.resetSelectedChannel.bind(this); //restores the selected channel to the default settings
 
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
 
     componentDidMount() {
         console.log('***COMPONENT DID MOUNT');
-        this.onChannelSelect('#random'); //default channel selected
+        //this.onChannelSelect('#random'); //default channel selected
         this.onSocketSetup(); //socket event setup
     }
 
@@ -1133,8 +1134,17 @@ class Chat extends Component {
         let recentChannels = this.state.recentChannels.filter( channel => channel.channelId !== selectedChannel );
         //console.log(`onRemoveRecentChannel() recentChannels filtered: ${JSON.stringify(recentChannels)}\n`);
 
+        if ( selectedChannel === this.state.selectedChannel.channelId ) { //recent category is also the selected view
+            //updates selected channel view to default & recent channels to current
+            this.setState({
+                selectedChannel: this.resetSelectedChannel(),
+                recentChannels: recentChannels
+            });
+        }
 
-        this.setState({ recentChannels });
+        else {
+            this.setState({ recentChannels });
+        }
 
         console.log('*LEAVING onRemoveRecentChannel()\n');
     }
@@ -1143,16 +1153,43 @@ class Chat extends Component {
         console.log(`\n*ENTERING onRemoveCategory()`);
         console.log(`onRemoveCategory() selected channel: ${selectedId}`);
 
-        //move 'channels' array to chat.js state
+        //CHECK IF SELECTED CHANNEL IS ALSO THE SELECTED VIEW - if it is update the channel to undefined
 
         //filter out selected channel, removing from state
         let joinedChannels = this.state.joinedChannels.filter( channel => channel.channelId !== selectedId );
-        this.setState({ joinedChannels });
+
+        if ( selectedId === this.state.selectedChannel.channelId ) { //removed category is also the selected view
+            //updates selected channel view to default & joined channels to current
+            this.setState({
+                selectedChannel: this.resetSelectedChannel(),
+                joinedChannels: joinedChannels
+            });
+        }
+
+        else {
+            this.setState({ joinedChannels });
+        }
+
 
         //once removed from state, leave room on server side
 
         console.log('*LEAVING onRemoveCategory()\n')
     }
+
+    //returns the selected channel default state (state not updated here in case multiple updates need to be done)
+    resetSelectedChannel() {
+        return (
+            {
+                channelId: undefined,
+                channelDisplayName: undefined,
+                isUser: undefined,
+    
+                description: undefined,
+                path: undefined,
+            }
+        );
+    }
+
     //called when user img fails to load. Placeholder image used
     onImgLoadFail(source) {
         let placeholderImg = '/images/placeholder.svg';
