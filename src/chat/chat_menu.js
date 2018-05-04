@@ -39,7 +39,7 @@ function DisplayMenuUserInfo({ user, onImgError }) {
     );
 }
 
-function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, onSelect, onChannelSelect }) {
+function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, onSelect, onChannelSelect, joinedChannels, onRemoveCategory }) {
     let channels = [
         {
             channel: '#random',
@@ -50,15 +50,21 @@ function DisplayChannelsCategory({ filter, onFilterChange, selectedCategories, o
             image: './images/default_channel_icon.svg',
         }
     ];
-    let allChannels = channels;
+    let allChannels = joinedChannels;
     
     if ( allChannels.length > 0 ) { //only displays the category if content exists
 
         allChannels = allChannels.map( channel => (
-            <li className='menu-list-item' key={channel.channel} id={channel.channel} onClick={onChannelSelect}>
-                <div className='display-category-menu'>
+            <li className='menu-list-item' key={channel.channelId}>
+                <div className='display-category-menu' id={channel.channelId} onClick={onChannelSelect}>
                     <img className='chat-menu-user-img' src={channel.image} alt='failed to load channel default img' />             
-                    <b className='display-channel'>{channel.channel}</b>
+                    <b className='display-channel'>{channel.channelId}</b>
+                </div>
+
+                <div className='remove-category-container' id={channel.channelId} onClick={onRemoveCategory}>
+                    <svg className='remove-svg-container' >
+                        <circle className='remove-svg-icon'  />
+                    </svg>
                 </div>
             </li>
         ));
@@ -185,7 +191,8 @@ class ChatMenu extends Component {
         this.onFilterChange = this.onFilterChange.bind(this);
         this.onChannelSelect = this.onChannelSelect.bind(this); //sends selected channel/user info back to chat
         this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //sends selected channel/user info back to chat for removal from state
-        
+        this.onRemoveCategory = this.onRemoveCategory.bind(this); //sends the channel info back to chat for removal from state
+
         this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
 
@@ -277,6 +284,15 @@ class ChatMenu extends Component {
         this.props.onRemoveRecentChannel(e.currentTarget.id);
     }
 
+    onRemoveCategory(e) {
+        e.preventDefault();
+
+        console.log('\n*ENTERING onRemoveCategory()');
+        
+        this.props.onRemoveCategory( e.currentTarget.id );
+        console.log('*LEAVING onRemoveCategory()\n');
+    }
+
     onImgError(e) {
         let targetData = e.currentTarget.dataset;
 
@@ -303,7 +319,7 @@ class ChatMenu extends Component {
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} recentChannels={this.props.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
                                            
                     <DisplayChannelsCategory filter={this.state.filter} onFilterChange={this.onFilterChange} selectedCategories={this.state.selectedCategories}
-                                             onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} />
+                                             onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} joinedChannels={this.props.joinedChannels} onRemoveCategory={this.onRemoveCategory} />
 
                     <DisplayOnlineCategory filter={this.state.filter} onFilterChange={this.onFilterChange} userData={this.props.userData}
                                            users={this.props.users} selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect}

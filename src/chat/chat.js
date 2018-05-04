@@ -217,11 +217,12 @@ function displayChannelInfo( channelInfo ) {
     console.log();
 }
 
-function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel }) {
+function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel, joinedChannels, onRemoveCategory }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
-                <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onRemoveRecentChannel={onRemoveRecentChannel} onImgFail={onImgFail} />
+                <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onRemoveRecentChannel={onRemoveRecentChannel}
+                          joinedChannels={joinedChannels} onRemoveCategory={onRemoveCategory} onImgFail={onImgFail} />
                 <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} />
             </div>
         );
@@ -241,6 +242,16 @@ class Chat extends Component {
             accountVerified: false, //determines if the user has successfully connected to the server & logged in
             activeUsers: [],
             
+            joinedChannels: [
+                {
+                    channelId: '#random',
+                    image: './images/default_channel_icon.svg',
+                },
+                {
+                    channelId: '#general',
+                    image: './images/default_channel_icon.svg',
+                }
+            ],
             recentChannels: [
                 /*
                 {
@@ -267,8 +278,6 @@ class Chat extends Component {
         this.allMessages = [ //collection of all the current conversations
             /*
             {
-                channel: '#random',
-
                 channelId: '#random', //used as the unique id when searching for a particular channel. ex. '_admin - _root' for a direct message channelId
                 channelDisplayName: '#random', //used when displaying
                 isUser: false, 
@@ -279,7 +288,6 @@ class Chat extends Component {
             },
             */
         ];
-        //this.state.userData = this.props.userData; //ONLY MODIFY HERE FOR TESTING, THEN ADD THE APP.JS MOD
         
         this.onSocketSetup = this.onSocketSetup.bind(this); //connects to server and sets up socket events
         this.removeActiveUser = this.removeActiveUser.bind(this); //socket id passed, boolean returned - true if user is removed from active users pool 
@@ -302,7 +310,7 @@ class Chat extends Component {
         this.doesMessageExist = this.doesMessageExist.bind(this);
 
         this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //removes the selected recent channel from the recent category in the chat menu
-
+        this.onRemoveCategory = this.onRemoveCategory.bind(this); //removes the selected channel & leaves the channel room (will not receive another message for this channel)
 
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
@@ -1113,11 +1121,17 @@ class Chat extends Component {
     //removes the selected recent channel from the recent category
     onRemoveRecentChannel(selectedId) {
         console.log('\n*ENTERING onRemoveRecentChannel() - chat.js');
-
         console.log(`onRemoveRecentChannel() passed selected id: ${selectedId}`);
+
+        let selectedChannel = selectedId;
+
+        if ( !isChannel( selectedChannel ) ) { //if channel selected for removal is a direct message
+            selectedChannel = generateChannelId( this.state.userData.username, selectedId ); //pulls the direct message channel id to filter out
+        }
+
         //removes selected recent channel from state
-        let recentChannels = this.state.recentChannels.filter( channel => channel.channelId !== selectedId );
-        console.log(`onRemoveRecentChannel() recentChannels filtered: ${JSON.stringify(recentChannels)}\n`);
+        let recentChannels = this.state.recentChannels.filter( channel => channel.channelId !== selectedChannel );
+        //console.log(`onRemoveRecentChannel() recentChannels filtered: ${JSON.stringify(recentChannels)}\n`);
 
 
         this.setState({ recentChannels });
@@ -1125,6 +1139,20 @@ class Chat extends Component {
         console.log('*LEAVING onRemoveRecentChannel()\n');
     }
 
+    onRemoveCategory(selectedId) {
+        console.log(`\n*ENTERING onRemoveCategory()`);
+        console.log(`onRemoveCategory() selected channel: ${selectedId}`);
+
+        //move 'channels' array to chat.js state
+
+        //filter out selected channel, removing from state
+        let joinedChannels = this.state.joinedChannels.filter( channel => channel.channelId !== selectedId );
+        this.setState({ joinedChannels });
+
+        //once removed from state, leave room on server side
+
+        console.log('*LEAVING onRemoveCategory()\n')
+    }
     //called when user img fails to load. Placeholder image used
     onImgLoadFail(source) {
         let placeholderImg = '/images/placeholder.svg';
@@ -1178,7 +1206,8 @@ class Chat extends Component {
             <DisplayChat accountVerified={this.state.accountVerified} userData={this.state.userData} users={this.state.activeUsers}
                          selectedChannel={this.state.selectedChannel} selectedMsgs={this.state.selectedMessages}
                          onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail}
-                         recentChannels={this.state.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
+                         recentChannels={this.state.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} 
+                         joinedChannels={this.state.joinedChannels} onRemoveCategory={this.onRemoveCategory} />
         );
     }
 }
