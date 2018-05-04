@@ -22,7 +22,7 @@
     background-color: var(--nine);
 
     animation-name: no-selection-enter;
-    animation-duration: 1s;
+    animation-duration: 0.7s;
 }
 
 .no-selection-text {

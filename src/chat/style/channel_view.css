@@ -20,6 +20,6 @@ div[id='channel-view-container'] {
     background-color: var(--chat-messages-container-bg);
 
     animation-name: channel-view-enter;
-    animation-duration: 1s;
+    animation-duration: 0.75s;
     animation-timing-function: ease-out;
 }
