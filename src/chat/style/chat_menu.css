@@ -33,13 +33,14 @@ div[id='chat-menu-user-info'] {
 }
 
 b[id='chat-menu-username'] {
-    margin-top: 5px;
+    margin-top: 0px;
     margin-right: 10px;
-    font-size: 1.1em;
+    font-size: 1.3em;
     font-style: italic;
     text-align: center;
 
     color: var(--chat-menu-username-fg);
+    text-shadow: 5px 5px 5px black;
 }
 
 .chat-menu-current-user-img {

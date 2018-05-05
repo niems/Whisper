@@ -189,7 +189,7 @@ class ChatMenu extends Component {
             
             // selectedCategories: 'online', //determines which category list is displayed
             selectedCategories: [
-                '#random', '#general', 
+                'channels' 
             ],
             filter: '',   //filter - determines what is displayed from the selected category
         }; 

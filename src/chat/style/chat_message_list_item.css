@@ -41,13 +41,15 @@
     
     list-style-type: none;
     
-    margin: 0.5em;    
-    padding: 5px 10px;
+    margin: 1px;    
+    padding: 5px 0px;
     border-radius: 5px;
 
     animation-duration: 0.5s;
     animation-timing-function: ease;
     animation-name: message-enter;
+
+    background: inherit;
 }
 
 .message-items-current-user {
@@ -112,12 +114,12 @@
     border-radius: 5px;
 
     background: var(--chat-msg-text-bg);
-    box-shadow: 2px 2px 5px white;
+    box-shadow: 2px 2px 5px black;
 }
 
 .user-msg-text.current-user {
     background: var(--nine);
-    box-shadow: -2px 2px 5px #595959;
+    box-shadow: -2px 2px 5px black;
 }
 
 .item-timestamp {
