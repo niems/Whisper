@@ -79,6 +79,8 @@ div[id='sign-in-pane'] {
     border-width: 1px;
 
     font-size: 0.9em;
+    font-weight: bold;
+    font-style: italic;
     text-align: center;
 
     color: var(--landing-sign-in-input-fg);
@@ -103,6 +105,21 @@ input[id='sign-in-password'] {
     background-repeat: no-repeat;
 }
 
+@keyframes sign-in-focus {
+    from {
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+    } 
+
+    to {
+        width: 200%;
+        height: 200%;
+        
+        border-radius: 0px;
+    }
+}
+
 button[id='sign-in-connect'] {
     margin-top: 15px;
     padding: 6px 12px; 
@@ -124,6 +141,10 @@ button[id='sign-in-connect'] {
 }
 
 button[id='sign-in-connect']:focus  {
+    transform: scale(1.35, 1.35);
+    opacity: 0.5s;
+    border-radius: 10px;
+
     color: var(--landing-sign-in-button-focus-fg);
     background: var(--landing-sign-in-button-focus-bg);
 }
@@ -136,6 +157,8 @@ button[id='sign-in-connect']:hover {
 div[id='sign-up-pane'] {
     height: 100%;
     padding-top: 5%;
+    background: var(--landing-sign-up-bg);
+
 
     display: flex;
     flex-flow: column nowrap;
@@ -143,15 +166,15 @@ div[id='sign-up-pane'] {
     align-items: center;
     flex: 1 auto;
 
-    background: var(--landing-sign-up-bg);
     transition: all 0.7s ease;
 }
 
 div[id='sign-up-pane']:hover {
-    flex: 1.5 auto;
+    flex: 2 auto;
+    background-color: white;
 }
 
 img[id='sign-up-pane-img'] {
-    width: 60px;
+    width: 70px;
     filter: invert(1);
 }

@@ -12,6 +12,9 @@ div[id='chat-menu-container'] {
     align-items: center;
 
     background: var(--chat-menu-container-bg);
+    border-style: none solid none none;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 div[id='chat-menu-user-info'] {
@@ -183,7 +186,6 @@ b[id='chat-menu-username'] {
 
 .category-header:hover {
     color: var(--nine);
-    transform: scale(1.25, 1.25);
 }
 
 .category-filter-container.selected {
@@ -342,9 +344,15 @@ b[id='chat-menu-username'] {
     }
 }
 .remove-svg-icon {
-    r: 6px;
-    cx: 25px;
-    cy: 25px;
+    x: 22px;
+    y: 18px;
+
+    rx: 15px;
+    ry: 15px;
+
+    width: 13px;
+    height: 13px;
+    background-position: center;
 
     fill: var(--nine);
     stroke: var(--nine);
@@ -354,12 +362,36 @@ b[id='chat-menu-username'] {
     transition: all 0.4s;
 }
 
+@keyframes remove-svg-icon-anim {
+    from {
+        transform: skew(20deg, -5deg);
+    }
+
+    to {
+        transform: skew(-20deg, 5deg);
+    }
+}
+
 .remove-svg-icon:hover {
-    r: 10px;
+    x: 20px;
+    y: 15px;
+
+    width: 17px;
+    height: 17px;
+
+    rx: 0px;
+    ry: 0px;
 
     fill: transparent;
     stroke: red;
     stroke-width: 10px;
+
+    /*
+    animation-name: remove-svg-icon-anim;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    */
 }
 
 /*

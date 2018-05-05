@@ -38,45 +38,65 @@ function DisplayMenuUserInfo({ user, onImgError }) {
     );
 }
 
-function DisplayChannelsCategory({ onSelect, onChannelSelect, joinedChannels, onRemoveCategory }) {
+function DisplayRemoveOrb( props ) {
+    return (
+        <svg className='remove-svg-container' >
+            <rect className='remove-svg-icon'  />
+        </svg>
+    );
+}
+
+function DisplayChannelsCategory({ selectedCategories, onSelect, onChannelSelect, joinedChannels, onRemoveCategory }) {
     let allChannels = joinedChannels;
     
     if ( allChannels.length > 0 ) { //only displays the category if content exists
 
-        allChannels = allChannels.map( channel => (
-            <li className='menu-list-item' key={channel.channelId}>
-                <div className='display-category-menu' id={channel.channelId} onClick={onChannelSelect}>
-                    <img className='chat-menu-user-img' src={channel.image} alt='failed to load channel default img' />             
-                    <b className='display-channel'>{channel.channelId}</b>
+        if ( selectedCategories.includes( 'channels' ) ) {
+            allChannels = allChannels.map( channel => (
+                <li className='menu-list-item' key={channel.channelId}>
+                    <div className='display-category-menu' id={channel.channelId} onClick={onChannelSelect}>
+                        <img className='chat-menu-user-img' src={channel.image} alt='failed to load channel default img' />             
+                        <b className='display-channel'>{channel.channelId}</b>
+                    </div>
+    
+                    <div className='remove-category-container' id={channel.channelId} onClick={onRemoveCategory}>
+                        <DisplayRemoveOrb />
+                    </div>
+                </li>
+            ));
+    
+            return (
+                <div className='category-container-layout selected' id='channels-category-container'>
+    
+                    <div className='category-header-layout' id='channels-category-header'>
+                        <b className='category-header'>Channels</b>
+                    </div>
+    
+                    <ul id='category-menu-list' className='menu-list'>
+                        {allChannels}
+                    </ul>
+    
                 </div>
+            );
+        }
 
-                <div className='remove-category-container' id={channel.channelId} onClick={onRemoveCategory}>
-                    <svg className='remove-svg-container' >
-                        <circle className='remove-svg-icon'  />
-                    </svg>
+        else {
+            return (
+                <div className='category-container-layout selected' id='channels-category-container'>
+    
+                    <div className='category-header-layout' id='channels-category-header'>
+                        <b className='category-header'>Channels</b>
+                    </div>
+    
                 </div>
-            </li>
-        ));
-
-        return (
-            <div className='category-container-layout selected' id='channels-category-container'>
-
-                <div className='category-header-layout' id='channels-category-header'>
-                    <b className='category-header'>Channels</b>
-                </div>
-
-                <ul id='category-menu-list' className='menu-list'>
-                    {allChannels}
-                </ul>
-
-            </div>
-        );
+            );
+        }
     }
 
     return null;
 }
 
-function DisplayRecentCategory({ onSelect, onChannelSelect, onImgError, recentChannels, onRemoveRecentChannel }) {
+function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels, onRemoveRecentChannel }) {
     try {
         console.log('\n*ENTERING DisplayRecentCategory()');
 
@@ -93,9 +113,7 @@ function DisplayRecentCategory({ onSelect, onChannelSelect, onImgError, recentCh
                     </div>
 
                     <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>
-                        <svg className='remove-svg-container' >
-                            <circle className='remove-svg-icon'  />
-                        </svg>
+                        <DisplayRemoveOrb />
                     </div>
 
                 </li>         
@@ -123,7 +141,7 @@ function DisplayRecentCategory({ onSelect, onChannelSelect, onImgError, recentCh
     }
 }
 
-function DisplayOnlineCategory({ userData, users, onSelect, onChannelSelect, onImgError }) { 
+function DisplayOnlineCategory({ selectedCategories, userData, users, onSelect, onChannelSelect, onImgError }) { 
     try {
         let categoryText = `online (${users.length})`;
         console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
@@ -168,8 +186,11 @@ class ChatMenu extends Component {
         super(props);
 
         this.state = {
+            
             // selectedCategories: 'online', //determines which category list is displayed
-            selectedCategories: [],
+            selectedCategories: [
+                '#random', '#general', 
+            ],
             filter: '',   //filter - determines what is displayed from the selected category
         }; 
 
@@ -300,13 +321,13 @@ class ChatMenu extends Component {
                 <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} />
                 
                 <div id='all-menu-categories'>
-                    <DisplayRecentCategory onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError}
+                    <DisplayRecentCategory selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError}
                                            recentChannels={this.props.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} />
                                            
-                    <DisplayChannelsCategory onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect}
+                    <DisplayChannelsCategory selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect}
                                              joinedChannels={this.props.joinedChannels} onRemoveCategory={this.onRemoveCategory} />
 
-                    <DisplayOnlineCategory userData={this.props.userData} users={this.props.users} onSelect={this.onCategorySelect}
+                    <DisplayOnlineCategory selectedCategories={this.state.selectedCategories} userData={this.props.userData} users={this.props.users} onSelect={this.onCategorySelect}
                                            onChannelSelect={this.onChannelSelect} onImgError={this.onImgError} />
                 </div>
                 

@@ -71,6 +71,11 @@ div[id='_sign-up-pane'] {
     padding: 5px;
     outline: none;
 
+    font-size: 0.9em;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+
     text-align: center;
     border-style: none none solid none;
     border-width: 1px;

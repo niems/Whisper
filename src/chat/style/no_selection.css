@@ -19,14 +19,64 @@
     flex: 2 auto;
 
     background-color: #A9A9A9;
-    background-color: var(--nine);
+    background: rgba(130, 177, 255, 0.9);
+    background-color: var(--sixth);
 
     animation-name: no-selection-enter;
     animation-duration: 0.7s;
 }
 
+@keyframes no-selection-pane-anim {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#no-selection-pane {
+    width: 75%;
+    height: 20%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 25px;
+
+
+    background-color: inherit;
+
+    animation-name: no-selection-pane-anim;
+    animation-duration: 2s;
+
+}
+
+@keyframes no-selection-text-anim {
+    from {
+        margin-left: 100px;
+        transform: skew(0deg, -20deg);
+    }
+
+    to {
+        margin-right: 100px;
+        transform: skew(0deg, 20deg);
+    }
+}
+
 .no-selection-text {
-    font-size: 1.7em;
+    font-size: 1.6em;
     font-weight: bolder;
-    color: rgba(0, 0, 0, 0.3);
+    color: var(--nine);
+    font-variant: small-caps;
+    font-style: italic;
+
+    animation-name: no-selection-text-anim;
+    animation-duration: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+
 }
