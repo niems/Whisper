@@ -26,11 +26,11 @@ function DisplayColorThemes({ onColorSelect }) {
                 Click to apply any theme below
             </p>
 
-            <button className='settings-submenu-color-theme' id='color-theme-blue' onClick={onColorSelect}>
-                Dark/Blue theme
+            <button className='settings-submenu-color-theme' id='color-theme-cotton-candy' onClick={onColorSelect}>
+                Cotton Candy Theme
             </button>
-            <button className='settings-submenu-color-theme' id='color-theme-green' onClick={onColorSelect}>
-                Slate/Green theme
+            <button className='settings-submenu-color-theme' id='color-theme-dark' onClick={onColorSelect}>
+                Dark Theme
             </button>            
         </div>
     );
@@ -43,7 +43,8 @@ class Settings extends Component {
             displaySubmenu: {
                 component: undefined,   //if !null, the menu for the clicked menu item will be displayed 
                 str: ''                 //component string value for comparisons
-            }
+            },
+
         }; 
 
         this.onColorTheme = this.onColorTheme.bind(this); //toggles color theme settings
@@ -73,23 +74,27 @@ class Settings extends Component {
     }
 
     onColorThemeSelection(e) {
-        let selectedTheme = e.currentTarget.value;
+        console.log('\n*ENTERING onColorThemeSelection()');
+        let selectedTheme = e.currentTarget.id;
         let currentTheme = document.getElementById('color-theme-stylesheet');
 
+
         //alert(currentTheme.href);
-        if ( selectedTheme === 'color-theme-blue' ) {
-            alert(currentTheme.getAttribute('href'));
-            currentTheme.href = 'blue_theme.css';
-            currentTheme.setAttribute('href', 'blue_theme.css');
-            alert(currentTheme.getAttribute('href'));
+        if ( selectedTheme === 'color-theme-cotton-candy' ) {
+            //alert(currentTheme.getAttribute('href'));
+            
+            currentTheme.setAttribute('href', 'cotton_candy_theme.css');
+            //alert(currentTheme.getAttribute('href'));
         }
 
-        else if ( selectedTheme === 'color-theme-green' ) {
-            alert(currentTheme.getAttribute('href'));
+        else if ( selectedTheme === 'color-theme-dark' ) {
+            //alert(currentTheme.getAttribute('href'));
             currentTheme.href = 'dark_theme.css';
             currentTheme.setAttribute('href', 'dark_theme.css');
-            alert(currentTheme.getAttribute('href'));
+            //alert(currentTheme.getAttribute('href'));
         }        
+
+        console.log('*LEAVING onColorThemeSelection()\n');
     }
 
     onTypingNotification(e) {

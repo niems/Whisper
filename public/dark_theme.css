@@ -104,6 +104,7 @@
 
     --chat-messages-list-pane-bg: var(--sixth);
     
+    --chat-messages-input-container-bg: var(--sixth);    
     --chat-message-input-container: inherit;
     --message-input-fg: var(--chat-msg-text-fg);
     --message-input-bg: var(--slate-gradient);

@@ -14,30 +14,39 @@ div[id='chat-messages-input-container'] {
     padding: 5px 10px;
     overflow: hidden;
 
-    background-color: var(--messages-input-container-bg);
+    border-style: solid none none none;
+    border-width: 1px;
+    border-color: black;
+
+    background-color: var(--chat-messages-input-container-bg);
 }
 
 form[id='message-input-form'] {
     width: 100%;
+    border-radius: 5px;
+
+    background: var(--message-input-bg);          
+    box-shadow: 2px 2px 3px #63686A;
 }
 
 .message-input {
     width: 100%;
+    border-radius: 4px;
     box-sizing: border-box;
     padding: 0px 20px;
 
     outline: none;
-    border-radius: 0px;
-    border-width: 0px;
     border-style: none;
 
-    color: var(--message-input-fg);
+    color: var(--message-input-fg);    
+    background-color: inherit;
 }
 
 #chat-message-inputfield {
-    border-width: 1px;
+    /*border-width: 1px;*/
     padding: 5px 20px;
-    border-style: none none solid none;
+    /*border-style: none none solid none;*/
+    border-style: none;
         
     background-color: var(--message-input-bg);
     border-color: var(--message-input-border);
@@ -57,7 +66,7 @@ button[id='message-input-add-button'] {
     background-image: url('/images/page_icons/add.svg');
     background-position: center;
     background-repeat: no-repeat;
-    filter: invert(0.5);
+    filter: invert(0.25);
 
     color: var(--message-input-button-fg);
     background-color: var(--message-input-button-bg);
@@ -81,7 +90,7 @@ button[id='message-input-add-button']:hover {
 
     font-size: 1em;
     font-weight: bold;
-    filter: invert(0.5);
+    filter: invert(0.25);
     
     background-repeat: no-repeat;
     background-position: center;

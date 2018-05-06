@@ -10,15 +10,17 @@
 
 div[id='channel-view-container'] {
     height: 100%;
+    max-width: 100%;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
     align-items: flex-start;
-    flex: 2 auto;
+    flex: 1 auto;
 
     background-color: var(--chat-messages-container-bg);
-
+    background: red;
+    
     animation-name: channel-view-enter;
     animation-duration: 0.75s;
     animation-timing-function: ease-out;

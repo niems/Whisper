@@ -16,6 +16,7 @@ div[id='chat-messages-list-pane'] {
 
 ul[id='chat-messages-list'] {
     width: inherit;
+    max-width: 100%;
 
     overflow-x: hidden;
     overflow-y: auto;

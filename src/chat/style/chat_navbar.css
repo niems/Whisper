@@ -37,7 +37,7 @@ div[id='navbar-msg-info-container'] {
     width: 100%;
     font-weight: bold;
     font-size: 1.1em;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--chat-messages-navbar-fg);
 }
 
 div[id='navbar-msg-channel-info'] {
@@ -73,12 +73,14 @@ button[id='navbar-star-btn'] {
     background-image: url('/images/page_icons/star-outline.svg');
     background-position: center;
     background-repeat: no-repeat;
+    filter: invert(0.8);
 }
 
 button[id='navbar-user-count-btn'] {    
     background-size: contain;
     background-image: url('/images/page_icons/user.svg');
     background-position: center;
+    filter: invert(0.8);
     background-repeat: no-repeat;
 }
 
@@ -86,6 +88,7 @@ button[id='navbar-pin-btn'] {
     background-size: contain;
     background-image: url('/images/page_icons/pin.svg');
     background-position: center;
+    filter: invert(0.8);
     background-repeat: no-repeat;
 }
 

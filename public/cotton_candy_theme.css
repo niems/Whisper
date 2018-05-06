@@ -13,19 +13,18 @@
     --eigth: #717274;
     --nine: #9F69E7;
     --ten: #2C2D30;
+    --eleven: red;
 
     /**react colors */
     
-    --sixth: #363A40;
-    --seventh:#2C3037;
-    --nine: #58D9FA;
+    --sixth: #262626;
+    --seventh:#2E2E2E;
+    --nine: #8C6EBF;
     --ten: #DDDDDD;
+    --eleven: #3C3C3E;
+    --twelve: #82B1FF;
     
-    --sixth: #3B3F42;
-    --seventh: rgb(51, 54, 56);
-    --nine: #69F0AE; 
-    --ten: #DDDDDD;
-
+    --sixth-transparent: rgba(0, 0, 0, 0.7);
     /**new */
     /*
     --sixth: #F4F7F6;
@@ -33,6 +32,17 @@
     --nine: #009AE0;
     --ten: #555555;
     */
+
+    /*SCROLLBAR SETUP*/
+    --scrollbar-track-bg: inherit;
+    --scrollbar-thumb-bg: var(--seventh);
+    /*END SCROLLBAR SETUP*/
+
+    /**VERIFY LOGIN.JS */
+    --verify-login-bg: var(--sixth);
+    --verify-login-fg: var(--nine);
+    /**END VERIFY LOGIN.JS */
+    
 
     --react-gradient: linear-gradient(45deg, var(--sixth), var(--seventh));
     --slate-gradient-transparent: rgba(59, 63, 66, 0.7);
@@ -69,23 +79,36 @@
 
 
     --chat-container-bg: var(--main);
-    --chat-timestamp-fg: var(--eigth);
+    --chat-timestamp-fg: var(--sixth);
+    --chat-timestamp-current-user-fg: var(--sixth);
     --chat-username-fg: var(--nine);
     --chat-msg-text-fg: var(--ten);
+    --chat-msg-text-bg: var(--second);
 
     --chat-menu-container-bg: var(--seventh);
-
-    --chat-messages-container-bg: var(--sixth);
-
-    --chat-messages-navbar-fg: var(--eigth);
-    --chat-messages-navbar-bg: var(--sixth);
-    --chat-messages-navbar-border: var(--fourth);
-
-    --chat-messages-list-pane-bg: var(--sixth);
+    --category-menu-list-bg: var(--main);
+    --chat-menu-list-bg: var(--sixth);
     
-    --chat-message-input-container: inherit;
-    --message-input-fg: var(--second);
-    --message-input-bg: inherit;
+    --chat-menu-category-bg: inherit;
+    --chat-menu-category-fg: var(--fourth);
+    --chat-menu-category-selected-fg: var(--ten);
+    --chat-menu-username-fg: var(--ten);
+    --chat-menu-users-fg: var(--ten);
+    --chat-menu-user-online: var(--accent);
+    --chat-menu-user-offline: var(--fourth);
+
+
+    --chat-messages-container-bg: var(--sixth );
+
+    --chat-messages-navbar-fg: var(--third);
+    --chat-messages-navbar-bg: var(--twelve);
+    --chat-messages-navbar-border: var(--third);
+
+    --chat-messages-list-pane-bg: var(--twelve);
+    
+    --chat-messages-input-container-bg: var(--twelve);
+    --message-input-fg: var(--chat-msg-text-fg);
+    --message-input-bg: var(--third);
     --message-input-border: var(--eigth);
     --message-input-focus-border: var(--eigth);
     
@@ -129,15 +152,12 @@
         --info-gradient-light: #3B3F42;
     
     
-        /*SCROLLBAR SETUP*/
-        --scrollbar-track-bg: inherit;
-        --scrollbar-thumb-bg: var(--main);
-        /*END SCROLLBAR SETUP*/
+        
         
         /*SETTINGS.JS SETUP*/
-        --settings-bg: var(--darkest-transparent);
+        --settings-bg: var(--sixth-transparent);
     
-        --settings-menu-container-bg: var(--accent);
+        --settings-menu-container-bg: var(--nine);
     
         --settings-submenu-bg: var(--main-dark-transparent);
         --settings-submenu-fg: var(--white-transparent);
@@ -155,9 +175,6 @@
         /*TITLEBAR SETUP*/
         --titlebar-bg: var(--slate-gradient-transparent);
         --titlebar-border: var(--main-transparent);
-    
-        --titlebar-appname-bg: inherit;
-        --titlebar-appname-fg: var(--main-light-transparent);
     
         --titlebar-icon-bg: inherit;
         --titlebar-icon-fg: var(--main-light-transparent);
