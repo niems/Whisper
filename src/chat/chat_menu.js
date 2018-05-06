@@ -64,11 +64,11 @@ function DisplayChannelsCategory({ selectedCategories, onSelect, onChannelSelect
                     </div>
                 </li>
             ));
-    
+
             return (
                 <div className='category-container-layout selected' id='channels-category-container'>
     
-                    <div className='category-header-layout' id='channels-category-header'>
+                    <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                         <b className='category-header'>Channels</b>
                     </div>
     
@@ -84,8 +84,8 @@ function DisplayChannelsCategory({ selectedCategories, onSelect, onChannelSelect
             return (
                 <div className='category-container-layout selected' id='channels-category-container'>
     
-                    <div className='category-header-layout' id='channels-category-header'>
-                        <b className='category-header'>Channels</b>
+                    <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
+                        <b className='category-header'>Channels<small>{`\t (${joinedChannels.length})`}</small></b>
                     </div>
     
                 </div>
@@ -102,35 +102,49 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
 
         let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
 
-        if( filteredChannels.length > 0 ) {
+        if( filteredChannels.length > 0 ) { //if there are channels to be displayed
+
+            if ( selectedCategories.includes('recent') ) { //if the recent channel should be displayed (toggled on/off)
+
                 filteredChannels = filteredChannels.map( channel => (
-                <li className='menu-list-item' key={channel.displayName} >
+                    <li className='menu-list-item' key={channel.displayName} >
 
-                    <div className='display-category-menu' id={channel.displayName} onClick={onChannelSelect}>
-                        <DisplayUserStatusOrb id='user' status={channel.status} />
-                        <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
-                        <b className='display-username'>{channel.displayName}</b>
-                    </div>
+                        <div className='display-category-menu' id={channel.displayName} onClick={onChannelSelect}>
+                            <DisplayUserStatusOrb id='user' status={channel.status} />
+                            <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
+                            <b className='display-username'>{channel.displayName}</b>
+                        </div>
 
-                    <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>
-                        <DisplayRemoveOrb />
-                    </div>
+                        <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>
+                            <DisplayRemoveOrb />
+                        </div>
 
-                </li>         
-            ));
-            
-            console.log('*LEAVING DisplayRecentCategory()\n');
-            return (
-                <div className='category-container-layout selected' id='recent-category-container'>
-                    <div className='category-header-layout' id='recent-category-header'>
-                        <b className='category-header'>recent</b>
-                    </div>
+                    </li>         
+                ));
+                
+                console.log('*LEAVING DisplayRecentCategory()\n');
+                return (
+                    <div className='category-container-layout selected' id='recent-category-container'>
+                        <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
+                            <b className='category-header'>recent</b>
+                        </div>
 
-                    <ul id='recent-menu-list' className='menu-list'>
-                        {filteredChannels}
-                    </ul>
-                </div>        
-            );
+                        <ul id='recent-menu-list' className='menu-list'>
+                            {filteredChannels}
+                        </ul>
+                    </div>        
+                );
+            }
+
+            else { //category title displayed but no particular channels (toggled off)
+                return (
+                    <div className='category-container-layout selected' id='recent-category-container'>
+                        <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
+                            <b className='category-header'>recent<small>{`\t (${recentChannels.length})`}</small></b>
+                        </div>
+                    </div>        
+                );
+            }
         }
 
         console.log('*LEAVING DisplayRecentCategory()\n');        
@@ -151,25 +165,36 @@ function DisplayOnlineCategory({ selectedCategories, userData, users, onSelect, 
         );
 
         if ( filteredUsers.length > 0 ) { //only displays the online category if there's content
-            let aUsers = filteredUsers.map( user => (
-                <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
-                    <div className='display-category-menu'>
-                        <DisplayUserStatusOrb id='user' status={user.status} />
-                        <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
-                        <b className='display-username'>{user.username}</b>
-                    </div>
-                </li>         
-            ));
-                
+
+            if ( selectedCategories.includes('online') ) { //online category is toggled on
+                let aUsers = filteredUsers.map( user => (
+                    <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
+                        <div className='display-category-menu'>
+                            <DisplayUserStatusOrb id='user' status={user.status} />
+                            <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
+                            <b className='display-username'>{user.username}</b>
+                        </div>
+                    </li>         
+                ));
+                    
+                return (
+                    <div className='category-container-layout selected' id='online-category-container'>
+                        <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
+                            <b className='category-header'>online</b>
+                        </div>
+        
+                        <ul id='online-menu-list' className='menu-list'>
+                            {aUsers}
+                        </ul>
+                    </div>        
+                );
+            }
+
             return (
                 <div className='category-container-layout selected' id='online-category-container'>
-                    <div className='category-header-layout' id='online-category-header'>
+                    <div className='category-header-layout' id='online-category-header' onClick={onSelect}>
                         <b className='category-header'>online<small>{` (${users.length - 1})`}</small></b>
                     </div>
-
-                    <ul id='online-menu-list' className='menu-list'>
-                        {aUsers}
-                    </ul>
                 </div>        
             );
         }
@@ -189,7 +214,7 @@ class ChatMenu extends Component {
             
             // selectedCategories: 'online', //determines which category list is displayed
             selectedCategories: [
-                'channels' 
+                'channels',
             ],
             filter: '',   //filter - determines what is displayed from the selected category
         }; 
