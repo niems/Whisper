@@ -38,7 +38,7 @@ form[id='message-input-form'] {
     outline: none;
     border-style: none;
 
-    color: var(--message-input-fg);    
+    color: var(--message-input-fg);   
     background-color: inherit;
 }
 
@@ -50,6 +50,10 @@ form[id='message-input-form'] {
         
     background-color: var(--message-input-bg);
     border-color: var(--message-input-border);
+}
+
+#chat-message-inputfield::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.2);
 }
 
 button[id='message-input-add-button'] {

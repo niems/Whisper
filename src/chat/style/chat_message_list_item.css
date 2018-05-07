@@ -35,12 +35,16 @@
 }
 
 .message-items {
-    display: block;
     width: 100%;
     max-width: 100%;
     height: inherit;
     
     list-style-type: none;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
     
     margin: 1px;    
     padding: 5px 0px;
@@ -51,24 +55,26 @@
     animation-name: message-enter;
 
     background: inherit; 
+    background: green;
 }
 
 .message-items-current-user {
     /*
-    float: right;
     align-self: flex-end;
     
     background-color: green; 
+    float: right;
     */   
-   
+   align-self: flex-end;
    animation-duration: 0.5s;
    animation-timing-function: ease;
    animation-name: message-enter-current-user;
 }
 
 .message-item {
+    box-sizing: border-box;
     width: max-content;
-    max-width: 65%;
+    max-width: 55%;
     height: max-content;
 
     display: flex;
@@ -76,11 +82,12 @@
     justify-content: flex-start;
     align-items: flex-start;
 
-    margin: 5px;
     padding: 5px 10px;
     border-radius: 15px;    
 
     opacity: 0.8; 
+
+    background: red;
 }    
 
 .message-item-current-user {
@@ -112,7 +119,6 @@
     flex-flow: column wrap;
     justify-content: center;
     align-items: flex-start;
-    flex: 1 auto;
 
     padding: 10px 15px;
     border-radius: 5px; 

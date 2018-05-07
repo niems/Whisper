@@ -6,7 +6,7 @@ div[id='chat-container'] {
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 10 auto;
+    flex: 1 auto;
 
     overflow: hidden;
 
