@@ -329,6 +329,7 @@ b[id='chat-menu-username'] {
     stroke-width: 2px;
 
     transform-origin: center;
+    -webkit-transform-origin: center;
 
     transition: all 0.4s;
 }
