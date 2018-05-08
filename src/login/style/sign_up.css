@@ -85,6 +85,10 @@ div[id='_sign-up-pane'] {
     border-color: black;
 }
 
+.sign-up-input::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.35);
+}
+
 input[id='sign-up-email'] {
     background-image: url('/images/page_icons/email-white.svg');
     background-position-x: left;

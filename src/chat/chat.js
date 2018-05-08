@@ -297,7 +297,9 @@ class Chat extends Component {
         this.onNewUserConnection = this.onNewUserConnection.bind(this); //new user connected to server - updates current user info
         this.onUserDisconnect = this.onUserDisconnect.bind(this); //user disconnected - removes from active users' list & adds disconnect msg
         this.onReceiveMessage = this.onReceiveMessage.bind(this); //user received new message
+
         this.onSocketChannelUpdate = this.onSocketChannelUpdate.bind(this); //user clicked new channel - socket joins/leaves room
+        this.onRemoveSocketChannel = this.onRemoveSocketChannel.bind(this); //removes user from selected room
         //this.activeUserUpdate = this.activeUserUpdate.bind(this); //updates active user info when reconnecting (previously dc'd)
 
         this.onChannelSelect = this.onChannelSelect.bind(this); // user/channel selected - determines channel view display
@@ -686,6 +688,20 @@ class Chat extends Component {
         }
         catch(err) {
             console.log(`Chat onSocketChannelUpdate(): ${err.message}`);
+        }
+    }
+
+    onRemoveSocketChannel(channel) {
+        try {
+            console.log('\n*ENTERING onRemoveSocketChannel()');
+
+            this.socket.emit('LEAVE ROOM', JSON.stringify( channel ) );
+
+            console.log('*LEAVING onRemoveSocketChannel()\n');
+            
+        }
+        catch(err) {
+            console.log(`ERR Chat onRemoveSocketChannel(): ${err.message}`);
         }
     }
 
@@ -1166,8 +1182,6 @@ class Chat extends Component {
         console.log(`\n*ENTERING onRemoveCategory()`);
         console.log(`onRemoveCategory() selected channel: ${selectedId}`);
 
-        //CHECK IF SELECTED CHANNEL IS ALSO THE SELECTED VIEW - if it is update the channel to undefined
-
         //filter out selected channel, removing from state
         let joinedChannels = this.state.joinedChannels.filter( channel => channel.channelId !== selectedId );
 
@@ -1185,6 +1199,7 @@ class Chat extends Component {
 
 
         //once removed from state, leave room on server side
+        this.onRemoveSocketChannel( selectedId );
 
         console.log('*LEAVING onRemoveCategory()\n')
     }

@@ -59,11 +59,11 @@
     animation-name: message-enter;
 
     background: inherit; 
-    background: green;
+    /*background: green;*/
 }
 
 .message-items-current-user {
-    background: orange;
+    /*background: orange;*/
 
     animation-duration: 0.5s;
     animation-timing-function: ease;
@@ -85,7 +85,7 @@
 
     opacity: 0.8; 
 
-    background: red;
+    /*background: red;*/
 }    
 
 .message-item-current-user {
@@ -100,7 +100,7 @@
 }
 
 .item-username-img {
-    height: 65px;
+    height: 50px;
     margin: 2px 10px 2px 10px;
     
     border-radius: 10px;
@@ -120,7 +120,7 @@
 
     padding: 10px 15px;
     border-radius: 5px; 
-    word-break: break-all;
+    word-break: keep-all;
 
     background: var(--chat-msg-text-bg);
     box-shadow: -2px 2px 1px #606060;

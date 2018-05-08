@@ -70,6 +70,7 @@ function DisplayChannelsCategory({ selectedCategories, onSelect, onChannelSelect
     
                     <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                         <b className='category-header'>Channels</b>
+                        <img id='add_category' src='/images/page_icons/add.svg' alt='failed to load add.svg' />
                     </div>
     
                     <ul id='category-menu-list' className='menu-list'>
@@ -86,6 +87,7 @@ function DisplayChannelsCategory({ selectedCategories, onSelect, onChannelSelect
     
                     <div className='category-header-layout' id='channels-category-header' onClick={onSelect}>
                         <b className='category-header'>Channels<small>{`\t (${joinedChannels.length})`}</small></b>
+                        <img id='add_category' src='/images/page_icons/add.svg' alt='failed to load add.svg' />                        
                     </div>
     
                 </div>
@@ -212,7 +214,7 @@ class ChatMenu extends Component {
 
         this.state = {
             
-            // selectedCategories: 'online', //determines which category list is displayed
+            addChannelDisplay: false, //determines if the add channel modal window is displayed
             selectedCategories: [
                 'channels',
             ],
@@ -224,6 +226,8 @@ class ChatMenu extends Component {
         this.onChannelSelect = this.onChannelSelect.bind(this); //sends selected channel/user info back to chat
         this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //sends selected channel/user info back to chat for removal from state
         this.onRemoveCategory = this.onRemoveCategory.bind(this); //sends the channel info back to chat for removal from state
+
+        this.onAddChannel = this.onAddChannel.bind(this); //add channel button clicked - used to add a channel or search for existing channels
 
         this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
@@ -323,6 +327,15 @@ class ChatMenu extends Component {
         
         this.props.onRemoveCategory( e.currentTarget.id );
         console.log('*LEAVING onRemoveCategory()\n');
+    }
+
+    onAddChannel(e) {
+        //modal window display in state
+
+        //toggles add channel modal window
+        this.setState({
+            addChannelDisplay: !this.state.addChannelDisplay
+        });
     }
 
     onImgError(e) {

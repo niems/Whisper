@@ -183,53 +183,24 @@ b[id='chat-menu-username'] {
     font-variant: small-caps;
     font-weight: bold;
     font-style: italic;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .category-header:hover {
     color: var(--nine);
 }
 
-.category-filter-container.selected {
-    width: 100%;
-    height: min-content;
-    margin: 5px 0px;
-    box-sizing: border-box;
+#add_category {
+    width: 30px;
+    filter: invert(0.5);
 
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    flex: 1 auto;
-
-    background-color: inherit;
+    transition: all 0.4s;
 }
 
-.category-filter-input {
-    width: 95%;
-    padding: 5px 10px 5px 25px;
-    box-sizing: border-box;
-
-    outline: none;
-    /*
-    border-style: none outset outset none;
-    border-color: var(--sixth);
-    border-width: 2px;
-    border-radius: 7px 7px 5px 5px;
-    */
-
-    border-style: none none double none;
-    border-width: 1px;
-    border-color: #757575;
-    text-align: center;
-
-    color: var(--ten);
-    background-color: inherit;
-
-    background-image: url('/images/page_icons/search-black.svg');
-    background-position-x: left;
-    background-position-y: center;
-    background-repeat: no-repeat;
-
+#add_category:hover {
+    filter: invert(1);
 }
 
 @keyframes menu-grow-in {
@@ -302,7 +273,7 @@ b[id='chat-menu-username'] {
 
 .chat-menu-user-img {
     box-sizing: border-box;
-    height: 35px;
+    height: 40px;
     border-radius: 5px;
     margin-right: 5px;
     background: rgba(255, 255, 255, 0.85);
@@ -310,14 +281,11 @@ b[id='chat-menu-username'] {
 
 .remove-category-container {
     box-sizing: border-box;
-    height: 35px;
-    padding: 5px 0px 5px 5px;    
+    height: 40px;
+    width: 40px;
+    padding: 5px 0px 5px 0px;    
 
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    flex: 1 25%;
+    
 
     transition: all 0.3s;
 }
@@ -329,8 +297,8 @@ b[id='chat-menu-username'] {
 .remove-svg-container {
     /*
     */
-    width: max-content;
-    height: 50px;
+    width: min-content;
+    height: inherit;
 
     object-position: right;
 }
@@ -345,14 +313,14 @@ b[id='chat-menu-username'] {
     }
 }
 .remove-svg-icon {
-    x: 22px;
-    y: 18px;
+    x: 14px;
+    y: 7px;
 
     rx: 15px;
     ry: 15px;
 
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
     background-position: center;
 
     fill: var(--nine);
@@ -360,39 +328,39 @@ b[id='chat-menu-username'] {
     stroke-opacity: 0.4;
     stroke-width: 2px;
 
+    transform-origin: center;
+
     transition: all 0.4s;
 }
 
 @keyframes remove-svg-icon-anim {
     from {
-        transform: skew(20deg, -5deg);
+        transform: rotate(0deg);
     }
 
     to {
-        transform: skew(-20deg, 5deg);
+        transform: rotate(720deg);
     }
 }
 
 .remove-svg-icon:hover {
-    x: 20px;
-    y: 15px;
+    x: 14px;
+    y: 7px;
 
-    width: 17px;
-    height: 17px;
+    
 
     rx: 0px;
     ry: 0px;
 
     fill: transparent;
     stroke: red;
-    stroke-width: 10px;
+    stroke-width: 8px;
 
-    /*
     animation-name: remove-svg-icon-anim;
-    animation-duration: 2s;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-out;
     animation-iteration-count: infinite;
     animation-direction: alternate-reverse;
-    */
 }
 
 /*
