@@ -37,6 +37,7 @@ div[id='settings-wrapper'] {
     justify-content: flex-start;
     align-content: center;
     flex: 1 auto;
+    
     overflow: hidden;
 
     background: var(--settings-bg);
@@ -46,7 +47,7 @@ div[id='settings-wrapper'] {
 }
 
 div[id='settings-menu-container'] {
-    height: inherit;
+    height: 100%;
     width: 15%;
     max-width: 80px;
 
@@ -60,6 +61,7 @@ div[id='settings-menu-container'] {
 
 .settings-menu-item {
     margin: 50% auto;
+    transition: all 0.4s;
 }
 
 .settings-menu-item:hover {
@@ -68,8 +70,7 @@ div[id='settings-menu-container'] {
 
 .settings-submenu {
     height: inherit;
-    width: inherit;
-    max-width: 90%;
+    width: auto;
 
     background: var(--settings-submenu-bg);
 
@@ -88,7 +89,6 @@ div[id='settings-menu-container'] {
 
 .settings-submenu-description {
     text-align: center;
-    padding: 2em;
     color: var(--settings-submenu-fg);
 }
 
@@ -99,29 +99,23 @@ div[id='settings-menu-container'] {
     justify-content: flex-start;
     align-items: center;
     flex: 1 auto;
+    
+    overflow-y: auto;
 }
 
 .settings-submenu-color-theme {
-    margin: 2.5% auto;
+    width: 45%;
+    max-width: 400px;
+    
+    margin: 10px;
     padding: 0.75em;
     
     border-style: outset;
+    border-color: rgba(0, 0, 0, 0.25);
     border-width: 2px;
     
     text-align: center;
     border-radius: 10px;
-}
-
-button[id='color-theme-blue'] {
-    color: var(--settings-blue-color-theme-fg);
-    background: var(--settings-blue-color-theme-bg);
-    border-color: var(--settings-blue-color-theme-border);
-}
-
-button[id='color-theme-blue']:hover {
-    color: var(--settings-blue-color-theme-fg);
-    background: var(--settings-blue-color-theme-bg);
-    border-color: var(--settings-blue-color-theme-border);
 }
 
 /*END COLOR THEME SUBMENU SETUP*/

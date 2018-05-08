@@ -25,16 +25,23 @@ function DisplayColorThemes({ onColorSelect }) {
             <p className='settings-submenu-description'>
                 Click to apply any theme below
             </p>
+            <img className='settings-submenu-color-theme' id='color-theme-cotton-candy'
+                 src='images/settings_icons/cotton_candy_theme.jpg' alt='failed to load cotton candy theme' onClick={onColorSelect} /> 
 
+            <img className='settings-submenu-color-theme' id='color-theme-dark'
+                 src='images/settings_icons/dark_theme.jpg' alt='failed to load dark theme' onClick={onColorSelect} />
+        </div>
+    );
+}
+
+/*
             <button className='settings-submenu-color-theme' id='color-theme-cotton-candy' onClick={onColorSelect}>
                 Cotton Candy Theme
             </button>
             <button className='settings-submenu-color-theme' id='color-theme-dark' onClick={onColorSelect}>
                 Dark Theme
-            </button>            
-        </div>
-    );
-}
+            </button>   
+            */  
 
 class Settings extends Component {
     constructor(props) {
