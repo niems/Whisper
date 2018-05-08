@@ -13,8 +13,8 @@ const ChatMessageListItem = ({ userData, msg }) => {
 
    //   console.log(`classes: ${msgClass}`);
       return (
-          <li className={msgClass}>
-                  <div className={itemClass}>
+          <li className='message-items message-items-current-user'>
+                  <div className='message-item message-item-current-user'>
                       <div className='user-msg-text current-user'>
                           <span className='item-timestamp'><small className='item-timestamp-current current-user'>{msg.receivedTimestamp}</small></span>
                           <span className='item-msg current-user'>{msg.msg}</span>
@@ -31,8 +31,8 @@ const ChatMessageListItem = ({ userData, msg }) => {
  // console.log(`classes: ${msgClass}`);
 
   return (
-      <li className={msgClass}>
-              <div className={itemClass}>
+      <li className='message-items'>
+              <div className='message-item'>
 
                   <div className='user-img-container'>
                       <img className='item-username-img' src={msg.image} alt='failed to load user img' />
