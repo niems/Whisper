@@ -34,15 +34,6 @@ function DisplayColorThemes({ onColorSelect }) {
     );
 }
 
-/*
-            <button className='settings-submenu-color-theme' id='color-theme-cotton-candy' onClick={onColorSelect}>
-                Cotton Candy Theme
-            </button>
-            <button className='settings-submenu-color-theme' id='color-theme-dark' onClick={onColorSelect}>
-                Dark Theme
-            </button>   
-            */  
-
 class Settings extends Component {
     constructor(props) {
         super(props);
