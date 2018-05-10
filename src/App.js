@@ -43,10 +43,10 @@ function parseCookie() {
   return username;
 }
 
-function DisplayAppView({ userData, isLoggedIn, loginAttempt, loginFailed, loginSuccess }) {
+function DisplayAppView({ userData, isLoggedIn, loginAttempt, logout, loginSuccess }) {
   if (isLoggedIn) { //if the user successfully logged in
     return (
-      <Chat userData={userData} loginFailed={loginFailed} loginSuccess={loginSuccess} />
+      <Chat userData={userData} logout={logout} loginSuccess={loginSuccess} />
     );
   }
 
@@ -67,7 +67,7 @@ class App extends Component {
     this.userData = undefined; //data provided from user when initially logging in  {newUser, email(if new user), username, pass}
 
     this.loginAttempt = this.loginAttempt.bind(this);
-    this.loginFailed = this.loginFailed.bind(this); //callback for chat.js - if user's login attempt fails
+    this.logout = this.logout.bind(this); //callback for chat.js - if user's login attempt fails
     this.loginSuccess = this.loginSuccess.bind(this); //callback from chat.js when the user successfully logs in/creates account
     this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
   }
@@ -94,7 +94,7 @@ class App extends Component {
     }    
   }
 
-   loginFailed(msg) {
+   logout(msg = '') {
      //alert(msg);
      //deletes username cookie
      document.cookie = 'username=; expires-Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
@@ -161,7 +161,7 @@ class App extends Component {
         {titlebar}
         {settingsMenu}
         <DisplayAppView userData={this.userData} isLoggedIn={this.state.isLoggedIn}
-                        loginAttempt={this.loginAttempt} loginFailed={this.loginFailed} loginSuccess={this.loginSuccess} />
+                        loginAttempt={this.loginAttempt} logout={this.logout} loginSuccess={this.loginSuccess} />
       </div>
     );
   }    

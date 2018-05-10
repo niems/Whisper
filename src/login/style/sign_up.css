@@ -142,8 +142,12 @@ button[id='sign-up-connect'] {
 }
 
 button[id='sign-up-connect']:focus {
-    color: var(--landing-sign-in-button-focus-fg);
-    background: var(--landing-sign-in-button-focus-bg);
+    transform: scale(1.35, 1.35);
+    opacity: 0.5s;
+    border-radius: 10px;
+
+    color: var(--landing-sign-in-button-focus-bg);
+    background-color: var(--landing-sign-in-button-focus-fg);
     border-color: var(--nine);
 }
 

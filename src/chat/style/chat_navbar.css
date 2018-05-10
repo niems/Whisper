@@ -39,6 +39,7 @@ div[id='navbar-msg-info-container'] {
     color: var(--chat-messages-navbar-fg);
 }
 
+
 div[id='navbar-msg-channel-info'] {
     box-sizing: border-box;
 
@@ -98,4 +99,28 @@ small[id='navbar-channel-info'] {
     text-align: left;
     word-wrap: none;
     overflow: hidden;
+}
+
+div[id='navbar-logout-container'] {
+   display: flex;
+   flex-flow: column nowrap;
+   justify-content: center;
+   align-items: center;
+   
+   padding-right: 5px;
+}
+
+img[id='navbar-logout'] {
+    height: 35px;
+    margin-left: auto;
+    filter: invert(1);
+}
+
+img[id='navbar-logout']:hover {
+    filter: invert(0.5) sepia(1) saturate(500) hue-rotate(30deg);         
+}
+
+small[id='navbar-logout-text'] {
+    color: white;
+    font-size: 0.65em;
 }

@@ -217,13 +217,13 @@ function displayChannelInfo( channelInfo ) {
     console.log();
 }
 
-function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel, joinedChannels, onRemoveCategory }) {
+function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel, joinedChannels, onRemoveCategory, allMessages, logout }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
                 <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onRemoveRecentChannel={onRemoveRecentChannel}
                           joinedChannels={joinedChannels} onRemoveCategory={onRemoveCategory} onImgFail={onImgFail} />
-                <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} />
+                <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} allMessages={allMessages} logout={logout} />
             </div>
         );
     }
@@ -315,6 +315,8 @@ class Chat extends Component {
         this.onRemoveCategory = this.onRemoveCategory.bind(this); //removes the selected channel & leaves the channel room (will not receive another message for this channel)
         this.resetSelectedChannel = this.resetSelectedChannel.bind(this); //restores the selected channel to the default settings
 
+        this.onLogout = this.onLogout.bind(this); //used to emit socket event telling the server the user is logging out, also rerouting user back to landing page
+
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
 
@@ -326,7 +328,7 @@ class Chat extends Component {
 
     componentWillUnmount() {
         if ( this.state.accountVerified ) {
-            alert('closing w/account verified');
+            console.log('User being logged out');
         }
     }
 
@@ -358,7 +360,7 @@ class Chat extends Component {
 
             this.socket.on('CONNECTION FAILED', (msg) => {
                 this.socket.close(); //manually disconnects socket
-                this.props.loginFailed( msg ); //redirects user back to landing page - could not verify login
+                this.props.logout( msg ); //redirects user back to landing page - could not verify login
             });
         }
         catch(err) {
@@ -630,7 +632,7 @@ class Chat extends Component {
             }
         
             else {
-                alert(`Failed to remove disconnected user: ${user.username}`);
+                console.log(`Failed to remove disconnected user: ${user.username}`);
             }
 
             console.log('*LEAVING onUserDisconnect()\n');            
@@ -1218,6 +1220,11 @@ class Chat extends Component {
         );
     }
 
+    onLogout() {
+        this.socket.emit('logout'); //used to inform the server the user is logging out
+        this.props.logout(); //returns user back to landing page
+    }
+
     //called when user img fails to load. Placeholder image used
     onImgLoadFail(source) {
         let placeholderImg = '/images/placeholder.svg';
@@ -1272,7 +1279,7 @@ class Chat extends Component {
                          selectedChannel={this.state.selectedChannel} selectedMsgs={this.state.selectedMessages}
                          onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail}
                          recentChannels={this.state.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} 
-                         joinedChannels={this.state.joinedChannels} onRemoveCategory={this.onRemoveCategory} />
+                         joinedChannels={this.state.joinedChannels} onRemoveCategory={this.onRemoveCategory} allMessages={this.allMessages} logout={this.onLogout} />
         );
     }
 }
