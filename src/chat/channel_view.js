@@ -16,6 +16,7 @@ const ChannelView = ({ userData, selectedChannel, selectedMsgs, onSendMsg, allMe
         );
     }
 
+    /*
     let allChannelMsgs = allMessages.filter( channel => channel.messages.length > 0 );
     console.log(`channel view messages: ${JSON.stringify(allChannelMsgs)}`);
 
@@ -31,6 +32,11 @@ const ChannelView = ({ userData, selectedChannel, selectedMsgs, onSendMsg, allMe
                 {allChannelMsgs}
             </ul>
         </div>
+    );
+    */
+
+    return (
+        <NoSelection />
     );
 }
 

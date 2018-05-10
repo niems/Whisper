@@ -29,9 +29,9 @@ function DisplayUserStatusOrb({ id, status }) {
     );
 }
 
-function DisplayMenuUserInfo({ user, onImgError }) {
+function DisplayMenuUserInfo({ user, onImgError, enableUserPanel }) {
     return (
-        <div id='chat-menu-user-info'>
+        <div id='chat-menu-user-info' onMouseEnter={ e => enableUserPanel(e)}>
             <img className='chat-menu-current-user-img' id='chat-menu-current-user-profile-pic' src={user.image} alt='/images/placeholder.svg' data-user='current user' onError={onImgError} /> 
             <b id='chat-menu-username'>{user.username}</b>
         </div>
@@ -229,6 +229,9 @@ class ChatMenu extends Component {
 
         this.onAddChannel = this.onAddChannel.bind(this); //add channel button clicked - used to add a channel or search for existing channels
 
+        this.enableUserPanel = this.enableUserPanel.bind(this); //panel appears onMouseEnter 
+        //this.disableUserPanel = this.disableUserPanel.bind(this); //`
+
         this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
 
@@ -338,6 +341,11 @@ class ChatMenu extends Component {
         });
     }
 
+    enableUserPanel(e) {
+        console.log('user panel enabled');
+        console.log(`Target: ${e.relatedTarget.id}`);
+    }
+
     onImgError(e) {
         let targetData = e.currentTarget.dataset;
 
@@ -356,7 +364,7 @@ class ChatMenu extends Component {
         /**need to pass updated DisplayMenuUserInfo() data in order to display the image, currently undefined */
         return (
             <div id='chat-menu-container'>
-                <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} />
+                <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} enableUserPanel={this.enableUserPanel} />
                 
                 <div id='all-menu-categories'>
                     <DisplayRecentCategory selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError}

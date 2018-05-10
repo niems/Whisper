@@ -829,7 +829,7 @@ class Chat extends Component {
                 
                 let tempSelectedMsgs = JSON.parse( JSON.stringify( this.state.selectedMessages ) );
                 tempSelectedMsgs.unshift( createNewMsg( msg ) );
-                //tempSelectedMsgs.unshift( JSON.parse( JSON.stringify( msg ) ) );
+                //tempSelectedMsgs.push( createNewMsg( msg ) );
                 
                 for(let i = 0; i < this.allMessages.length; i++) {
                     if ( this.allMessages[i].channelId === msg.channelId ) { //found channel to add message
