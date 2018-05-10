@@ -91,7 +91,7 @@ div[id='sign-in-pane'] {
 }
 
 .sign-in-input::-webkit-input-placeholder {
-    color: rgba(0, 0, 0, 0.35);
+    color: var(--sign-in-placeholder);
 }
 
 input[id='sign-in-username'] {
@@ -175,7 +175,6 @@ div[id='sign-up-pane'] {
 
 div[id='sign-up-pane']:hover {
     flex: 2 auto;
-    background-color: white;
 }
 
 img[id='sign-up-pane-img'] {

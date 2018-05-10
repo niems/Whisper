@@ -17,10 +17,15 @@
 
     /**react colors */
     
-    --sixth: #363A40;
-    --seventh:#2C3037;
+    --sixth: #262626;
+    --seventh:#2E2E2E;
     --nine: #58D9FA;
     --ten: #DDDDDD;
+    --eleven: #3C3C3E;
+    --twelve: #82B1FF;
+    --thirteen: #25282E;
+    /*#25282E
+    */
     
     --sixth-transparent: rgba(0, 0, 0, 0.7);
     /**new */
@@ -61,8 +66,11 @@
     --landing-sign-in-button-focus-fg: var(--nine);
     --landing-sign-in-button-focus-border: var(--seventh);
 
-    --landing-sign-up-bg: var(--slate-gradient);
-    --landing-sign-up-fg: white;
+    --sign-up-placeholder: white;
+    --sign-in-placeholder: var(--slate-gradient);
+
+    --landing-sign-up-bg: var(--thirteen);
+    --landing-sign-up-fg: var(--ten);
 
     --landing-sign-up-button-bg: inherit;
     --landing-sign-up-button-fg: white;
@@ -77,9 +85,11 @@
 
 
     --chat-container-bg: var(--main);
-    --chat-timestamp-fg: var(--eigth);
+    --chat-timestamp-fg: var(--sixth);
+    --chat-timestamp-current-user-fg: var(--sixth);
     --chat-username-fg: var(--nine);
     --chat-msg-text-fg: var(--ten);
+    --chat-msg-text-bg: var(--second);
 
     --chat-menu-container-bg: var(--seventh);
     --category-menu-list-bg: var(--main);
@@ -94,17 +104,17 @@
     --chat-menu-user-offline: var(--fourth);
 
 
-    --chat-messages-container-bg: var(--sixth);
+    --chat-messages-container-bg: var(--sixth );
 
-    --chat-messages-navbar-fg: var(--eigth);
-    --chat-messages-navbar-bg: var(--sixth);
-    --chat-messages-navbar-border: var(--fourth);
+    --chat-messages-navbar-fg: var(--third);
+    --chat-messages-navbar-bg: var(--thirteen);
+    --chat-messages-navbar-border: var(--third);
 
-    --chat-messages-list-pane-bg: var(--sixth);
+    --chat-messages-list-pane-bg: var(--thirteen);
     
-    --chat-message-input-container: inherit;
+    --chat-messages-input-container-bg: var(--thirteen);
     --message-input-fg: var(--chat-msg-text-fg);
-    --message-input-bg: var(--slate-gradient);
+    --message-input-bg: var(--third);
     --message-input-border: var(--eigth);
     --message-input-focus-border: var(--eigth);
     

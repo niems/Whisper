@@ -222,8 +222,8 @@ function DisplayChat({ accountVerified, userData, users, selectedChannel, select
         return (
             <div id='chat-container'>
                 <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onRemoveRecentChannel={onRemoveRecentChannel}
-                          joinedChannels={joinedChannels} onRemoveCategory={onRemoveCategory} onImgFail={onImgFail} />
-                <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} allMessages={allMessages} logout={logout} />
+                          joinedChannels={joinedChannels} onRemoveCategory={onRemoveCategory} onImgFail={onImgFail} logout={logout} />
+                <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} allMessages={allMessages} />
             </div>
         );
     }

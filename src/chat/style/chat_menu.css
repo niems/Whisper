@@ -51,6 +51,64 @@ b[id='chat-menu-username'] {
     box-shadow: 2px 2px 8px black;
 }
 
+@keyframes user-options-entry {
+    from {
+        opacity: 0;
+    }
+     
+    to {
+
+    }
+}
+
+#display-user-options-container {
+    position: fixed;
+    z-index: 5;
+
+    height: 60px;
+    width: 50px;
+
+    top: 50px;
+    left: 160px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding: 10px 5px;
+
+    background: var(--menu-user-settings-modal-bg);
+    color: var(--menu-user-settings-modal-fg);
+    
+    animation-name: user-options-entry;
+    animation-duration: 1s;
+}
+
+div[id='navbar-logout-container'] {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    
+    padding-right: 5px;
+ }
+ 
+ img[id='navbar-logout'] {
+     height: 30px;
+     margin-left: auto;
+     filter: invert(1);
+ }
+ 
+ img[id='navbar-logout']:hover {
+     filter: invert(0.5) sepia(1) saturate(500) hue-rotate(30deg);         
+ }
+ 
+ small[id='navbar-logout-text'] {
+     color: white;
+     font-size: 0.65em;
+ }
+
 .chat-menu-current-user-status-img {
     width: min-content;
     r: 6;
@@ -347,8 +405,6 @@ b[id='chat-menu-username'] {
 .remove-svg-icon:hover {
     x: 14px;
     y: 7px;
-
-    
 
     rx: 0px;
     ry: 0px;

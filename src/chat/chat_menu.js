@@ -29,9 +29,10 @@ function DisplayUserStatusOrb({ id, status }) {
     );
 }
 
-function DisplayMenuUserInfo({ user, onImgError, enableUserPanel }) {
+function DisplayMenuUserInfo({ user, onImgError, isDisplayed, enableUserPanel, disableUserPanel, logout }) {
     return (
-        <div id='chat-menu-user-info' onMouseEnter={ e => enableUserPanel(e)}>
+        <div id='chat-menu-user-info' onMouseEnter={ e => enableUserPanel(e) } onMouseLeave={ e => disableUserPanel(e) }>
+            <DisplayUserOptions isDisplayed={isDisplayed} logout={logout} />
             <img className='chat-menu-current-user-img' id='chat-menu-current-user-profile-pic' src={user.image} alt='/images/placeholder.svg' data-user='current user' onError={onImgError} /> 
             <b id='chat-menu-username'>{user.username}</b>
         </div>
@@ -208,13 +209,28 @@ function DisplayOnlineCategory({ selectedCategories, userData, users, onSelect, 
     }
 }
 
+function DisplayUserOptions({ isDisplayed, logout }) {
+    if ( !isDisplayed ) { //if the user options modal window is not to be displayed
+        return null;
+    }
+
+    return (
+        <div id='display-user-options-container'>
+            <div id='navbar-logout-container' onClick={ e => logout(e) }>
+                <img id='navbar-logout' src='/images/titlebar_icons/logout.png' alt='failed to load logout img' />
+                <small id='navbar-logout-text'>Logout</small>
+            </div>
+        </div>
+    );
+}
+
 class ChatMenu extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            
-            addChannelDisplay: false, //determines if the add channel modal window is displayed
+            displayUserOptionsModal: false, //determines if the user options modal window is displayed
+
             selectedCategories: [
                 'channels',
             ],
@@ -227,10 +243,8 @@ class ChatMenu extends Component {
         this.onRemoveRecentChannel = this.onRemoveRecentChannel.bind(this); //sends selected channel/user info back to chat for removal from state
         this.onRemoveCategory = this.onRemoveCategory.bind(this); //sends the channel info back to chat for removal from state
 
-        this.onAddChannel = this.onAddChannel.bind(this); //add channel button clicked - used to add a channel or search for existing channels
-
         this.enableUserPanel = this.enableUserPanel.bind(this); //panel appears onMouseEnter 
-        //this.disableUserPanel = this.disableUserPanel.bind(this); //`
+        this.disableUserPanel = this.disableUserPanel.bind(this); //panel disabled onMouseLeave
 
         this.onImgError = this.onImgError.bind(this); //loads the placeholder img if the profile img fails
     }
@@ -332,18 +346,22 @@ class ChatMenu extends Component {
         console.log('*LEAVING onRemoveCategory()\n');
     }
 
-    onAddChannel(e) {
-        //modal window display in state
-
-        //toggles add channel modal window
-        this.setState({
-            addChannelDisplay: !this.state.addChannelDisplay
-        });
-    }
-
     enableUserPanel(e) {
+        e.preventDefault();
+
         console.log('user panel enabled');
         console.log(`Target: ${e.relatedTarget.id}`);
+
+        this.setState({ displayUserOptionsModal: true });
+    }
+
+    disableUserPanel(e) {
+        e.preventDefault();
+
+        console.log('user panel disabled');
+        console.log(`Target: ${e.relatedTarget.id}`);
+
+        this.setState({ displayUserOptionsModal: false });
     }
 
     onImgError(e) {
@@ -364,7 +382,8 @@ class ChatMenu extends Component {
         /**need to pass updated DisplayMenuUserInfo() data in order to display the image, currently undefined */
         return (
             <div id='chat-menu-container'>
-                <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} enableUserPanel={this.enableUserPanel} />
+                <DisplayMenuUserInfo user={this.props.userData} onImgError={this.onImgError} isDisplayed={this.state.displayUserOptionsModal}
+                                     enableUserPanel={this.enableUserPanel} disableUserPanel={this.disableUserPanel} logout={this.props.logout} />
                 
                 <div id='all-menu-categories'>
                     <DisplayRecentCategory selectedCategories={this.state.selectedCategories} onSelect={this.onCategorySelect} onChannelSelect={this.onChannelSelect} onImgError={this.onImgError}

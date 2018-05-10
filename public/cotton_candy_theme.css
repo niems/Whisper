@@ -63,6 +63,9 @@
     --landing-sign-in-button-focus-fg: var(--nine);
     --landing-sign-in-button-focus-border: var(--seventh);
 
+    --landing-sign-up-placeholder: white;
+    --landing-sign-in-placeholder: var(--slate-gradient);
+
     --landing-sign-up-bg: var(--slate-gradient);
     --landing-sign-up-fg: white;
 

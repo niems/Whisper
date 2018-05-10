@@ -1,7 +1,7 @@
 import React from 'react'
 import './style/chat_navbar.css'
 
-const ChatNavbar = ({ selectedChannel, logout }) => {
+const ChatNavbar = ({ selectedChannel }) => {
     let userCount = '1';
     let pinCount = '0';
 
@@ -19,12 +19,6 @@ const ChatNavbar = ({ selectedChannel, logout }) => {
                     <small id='navbar-channel-info'>{selectedChannel.description}</small>
                 </div> 
 
-
-            </div>
-
-            <div id='navbar-logout-container' onClick={ e => logout(e) }>
-                <img id='navbar-logout' src='/images/titlebar_icons/logout.png' alt='failed to load logout img' />
-                <small id='navbar-logout-text'>Logout</small>
             </div>
         </div>
     );

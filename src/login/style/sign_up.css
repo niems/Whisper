@@ -86,7 +86,7 @@ div[id='_sign-up-pane'] {
 }
 
 .sign-up-input::-webkit-input-placeholder {
-    color: rgba(0, 0, 0, 0.35);
+    color: var(--sign-up-placeholder);
 }
 
 input[id='sign-up-email'] {
