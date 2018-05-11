@@ -25,6 +25,10 @@ function DisplayColorThemes({ onColorSelect }) {
             <p className='settings-submenu-description'>
                 Click to apply any theme below
             </p>
+
+            <img className='settings-submenu-color-theme' id='color-theme-react'
+                src='images/settings_icons/react_theme.jpg' alt='failed to load react theme' onClick={onColorSelect} />
+
             <img className='settings-submenu-color-theme' id='color-theme-cotton-candy'
                  src='images/settings_icons/cotton_candy_theme.jpg' alt='failed to load cotton candy theme' onClick={onColorSelect} /> 
 
@@ -77,20 +81,19 @@ class Settings extends Component {
         let currentTheme = document.getElementById('color-theme-stylesheet');
 
 
-        //alert(currentTheme.href);
-        if ( selectedTheme === 'color-theme-cotton-candy' ) {
-            //alert(currentTheme.getAttribute('href'));
+        switch( selectedTheme ) {
+            case 'color-theme-cotton-candy':
+                currentTheme.setAttribute('href', 'cotton_candy_theme.css');
+                break;
             
-            currentTheme.setAttribute('href', 'cotton_candy_theme.css');
-            //alert(currentTheme.getAttribute('href'));
+            case 'color-theme-dark':
+                currentTheme.setAttribute('href', 'dark_theme.css');
+                break;
+            
+            case 'color-theme-react':
+                currentTheme.setAttribute('href', 'react_theme.css');
+                break;
         }
-
-        else if ( selectedTheme === 'color-theme-dark' ) {
-            //alert(currentTheme.getAttribute('href'));
-            currentTheme.href = 'dark_theme.css';
-            currentTheme.setAttribute('href', 'dark_theme.css');
-            //alert(currentTheme.getAttribute('href'));
-        }        
 
         console.log('*LEAVING onColorThemeSelection()\n');
     }

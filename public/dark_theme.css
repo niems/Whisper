@@ -82,6 +82,7 @@
 
     --chat-container-bg: var(--main);
     --chat-timestamp-fg: var(--eigth);
+    --chat-timestamp-current-user-fg: var(--sixth);
     --chat-username-fg: var(--nine);
     --chat-msg-text-fg: var(--ten);
     --chat-msg-text-bg: var(--eleven);
@@ -103,6 +104,13 @@
 
 
     --chat-messages-container-bg: var(--sixth);
+    --chat-current-username-fg: var(--nine);
+
+    --chat-current-msg-text-bg: var(--nine);
+    --chat-current-msg-text-fg: var(--sixth);
+
+    --chat-msg-text-bg: var(--seventh);
+    --chat-msg-text-fg: var(--ten);
 
     --chat-messages-navbar-fg: var(--eigth);
     --chat-messages-navbar-bg: var(--sixth);

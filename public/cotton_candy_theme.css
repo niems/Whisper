@@ -105,6 +105,9 @@
 
 
     --chat-messages-container-bg: var(--sixth );
+    --chat-current-username-fg: var(--nine);
+    --chat-current-msg-text-bg: var(--nine);
+    
 
     --chat-messages-navbar-fg: var(--third);
     --chat-messages-navbar-bg: var(--twelve);

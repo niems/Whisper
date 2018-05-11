@@ -18,9 +18,7 @@
     align-items: center;
     flex: 2 auto;
 
-    background-color: #A9A9A9;
-    background: rgba(130, 177, 255, 0.9);
-    background-color: var(--sixth);
+    background-color: var(--fifteen);
 
     animation-name: no-selection-enter;
     animation-duration: 0.7s;

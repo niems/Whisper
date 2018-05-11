@@ -90,11 +90,11 @@
     --chat-timestamp-fg: var(--ten);
     --chat-timestamp-current-user-fg: var(--sixth);
 
-    --chat-username-fg: var(--thirteen);
+    --chat-username-fg: var(--ten);
     --chat-msg-text-fg: var(--ten);
     --chat-msg-text-bg: var(--thirteen);
 
-    --chat-current-username-fg: var(--thirteen);
+    --chat-current-username-fg: var(--ten);
     --chat-current-msg-text-fg: var(--thirteen);
     --chat-current-msg-text-bg: var(--nine);
 

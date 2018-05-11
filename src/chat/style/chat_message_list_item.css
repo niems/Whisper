@@ -123,7 +123,7 @@
     word-break: keep-all;
 
     background: var(--chat-msg-text-bg);
-    box-shadow: -2px 2px 1px #606060;
+    box-shadow: -2px 2px 5px black;
 }
 
 .user-msg-text.current-user {

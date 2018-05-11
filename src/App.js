@@ -72,12 +72,6 @@ class App extends Component {
     this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
   }
 
-  componentDidMount() {
-    if ( isElectronRunning ) {
-     // window.require('electron').remote.BrowserWindow.getAllWindows()[0].get
-    }
-  }
-
   //checks login data against server
   loginAttempt(data) {
     try {
@@ -146,14 +140,10 @@ class App extends Component {
 
   render() {
     let settingsMenu = null;
-    let titlebar = null;
+    let titlebar = ( <Titlebar isElectron={isElectronRunning} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} /> );
 
     if ( this.state.displaySettings ) {
       settingsMenu = <Settings />;
-    }
-    
-    if ( isElectronRunning ) {
-      titlebar = ( <Titlebar onOpenSettings={this.onOpenSettings} onClose={this.closeApp} /> );
     }
 
     return (
