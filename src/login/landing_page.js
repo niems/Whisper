@@ -3,11 +3,11 @@ import SignIn from './sign_in'
 import SignUp from './sign_up'
 import './style/landing_page.css'
 
-function DisplayLandingPane({ onSignIn, onSignUp }) {
+function DisplayLandingPane({ onSignIn, onSignUp, onKeyPress }) {
     return (
         <div id='landing-page-container'>
 
-            <div className='landing-page-section-container' id='landing-page-sign-in-container' onClick={onSignIn}>
+            <div className='landing-page-section-container' id='landing-page-sign-in-container' onClick={onSignIn} onKeyDown={onKeyPress}>
                 <small className='login-keybind'>{'(i)'}</small>
                 <img className='landing-page-user-img' id='landing-page-sign-in-img' src='/images/page_icons/user-48.svg' alt='/images/placeholder.svg'  />
                 <h4 className='landing-page-selection-header'>Sign In</h4>
@@ -30,8 +30,10 @@ class LandingPage extends Component {
         this.onSignUp = this.onSignUp.bind(this);
         this.onNavBack = this.onNavBack.bind(this);
 
+        this.onKeyPress = this.onKeyPress.bind(this); //used to determine if a landing pane is selected based on keypress
+
         this.state = {
-            display: <DisplayLandingPane onSignIn={this.onSignIn} onSignUp={this.onSignUp} />
+            display: <DisplayLandingPane onSignIn={this.onSignIn} onSignUp={this.onSignUp} onKeyPress={this.onKeyPress} />
         };
     }
 
@@ -82,6 +84,12 @@ class LandingPage extends Component {
         catch(err) {
             console.log(`ERR LandingPage - onNavBack(): ${err.message}`);
         }
+    }
+
+    onKeyPress(e) {
+        e.preventDefault();
+
+        console.log(`pressed: ${e.keyCode}`);
     }
 
     render() {

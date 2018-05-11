@@ -24,6 +24,8 @@
     --eleven: #3C3C3E;
     --twelve: #82B1FF;
     --thirteen: #25282E;
+    --fourteen: #6787FB;
+    --fifteen: #626874;
     /*#25282E
     */
     
@@ -85,13 +87,18 @@
 
 
     --chat-container-bg: var(--main);
-    --chat-timestamp-fg: var(--sixth);
+    --chat-timestamp-fg: var(--ten);
     --chat-timestamp-current-user-fg: var(--sixth);
-    --chat-username-fg: var(--nine);
-    --chat-msg-text-fg: var(--ten);
-    --chat-msg-text-bg: var(--second);
 
-    --chat-menu-container-bg: var(--seventh);
+    --chat-username-fg: var(--thirteen);
+    --chat-msg-text-fg: var(--ten);
+    --chat-msg-text-bg: var(--thirteen);
+
+    --chat-current-username-fg: var(--thirteen);
+    --chat-current-msg-text-fg: var(--thirteen);
+    --chat-current-msg-text-bg: var(--nine);
+
+    --chat-menu-container-bg: var(--thirteen);
     --category-menu-list-bg: var(--main);
     --chat-menu-list-bg: var(--sixth);
     
@@ -103,18 +110,21 @@
     --chat-menu-user-online: var(--accent);
     --chat-menu-user-offline: var(--fourth);
 
+    --menu-user-settings-modal-bg: rgba(0, 0, 0, 0.45);
+    --menu-user-settings-modal-fg: var(--ten);
+
 
     --chat-messages-container-bg: var(--sixth );
 
     --chat-messages-navbar-fg: var(--third);
-    --chat-messages-navbar-bg: var(--thirteen);
+    --chat-messages-navbar-bg: var(--fifteen);
     --chat-messages-navbar-border: var(--third);
 
-    --chat-messages-list-pane-bg: var(--thirteen);
+    --chat-messages-list-pane-bg: var(--fifteen);
     
-    --chat-messages-input-container-bg: var(--thirteen);
+    --chat-messages-input-container-bg: var(--fifteen);
     --message-input-fg: var(--chat-msg-text-fg);
-    --message-input-bg: var(--third);
+    --message-input-bg: var(--thirteen);
     --message-input-border: var(--eigth);
     --message-input-focus-border: var(--eigth);
     

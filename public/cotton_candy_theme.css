@@ -88,6 +88,9 @@
     --chat-msg-text-fg: var(--ten);
     --chat-msg-text-bg: var(--second);
 
+    --menu-user-settings-modal-bg: rgba(0, 0, 0, 0.45);
+    --menu-user-settings-modal-fg: var(--ten);
+
     --chat-menu-container-bg: var(--seventh);
     --category-menu-list-bg: var(--main);
     --chat-menu-list-bg: var(--sixth);

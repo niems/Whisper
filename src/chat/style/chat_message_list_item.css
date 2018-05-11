@@ -127,7 +127,7 @@
 }
 
 .user-msg-text.current-user {
-    background: var(--nine);
+    background: var(--chat-current-msg-text-bg);
     box-shadow: 2px 2px 5px black;
 }
 
@@ -142,11 +142,10 @@
     font-size: 0.85em;
     font-style: italic;
     /*color: var(--ten);*/
-    color: var(--chat-timestamp-current-user-fg);    
 }
 
 .item-timestamp-current.current-user {
-    color: rgba(15, 15, 15, 0.65);
+    color: var(--chat-timestamp-current-user-fg);
 }
 
 .item-username {
@@ -156,7 +155,7 @@
     padding: 1px 5px;
     border-radius: 5px;
     
-    color: var(--chat-username-fg);
+    color: var(--chat-current-username-fg);
     text-shadow: 1px 1px 0px black;
 }
 
@@ -168,6 +167,6 @@
 }
 
 .item-msg.current-user {
-    color: rgba(10, 10, 10, 0.75);
+    color: var(--chat-current-msg-text-fg);
 }
 
