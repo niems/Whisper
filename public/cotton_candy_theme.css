@@ -94,6 +94,14 @@
     --chat-menu-container-bg: var(--seventh);
     --category-menu-list-bg: var(--main);
     --chat-menu-list-bg: var(--sixth);
+    --chat-menu-list-item-hover: var(--sixth);
+
+    /**
+     * --chat-menu-container-bg: var(--thirteen);
+    --category-menu-list-bg: var(--main);
+    --chat-menu-list-bg: var(--sixth);
+    --chat-menu-list-item-hover: var(--fifteen);
+     */
     
     --chat-menu-category-bg: inherit;
     --chat-menu-category-fg: var(--fourth);

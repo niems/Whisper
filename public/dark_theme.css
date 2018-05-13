@@ -93,6 +93,14 @@
     --chat-menu-container-bg: var(--seventh);
     --category-menu-list-bg: var(--main);
     --chat-menu-list-bg: var(--sixth);
+    --chat-menu-list-item-hover: var(--sixth);
+
+    /**
+     * --chat-menu-container-bg: var(--thirteen);
+    --category-menu-list-bg: var(--main);
+    --chat-menu-list-bg: var(--sixth);
+    --chat-menu-list-item-hover: var(--fifteen);
+     */
     
     --chat-menu-category-bg: inherit;
     --chat-menu-category-fg: var(--fourth);
@@ -170,7 +178,7 @@
         /*SETTINGS.JS SETUP*/
         --settings-bg: var(--sixth-transparent);
     
-        --settings-menu-container-bg: var(--nine);
+        --settings-menu-container-bg: var(--thirteen);
     
         --settings-submenu-bg: var(--main-dark-transparent);
         --settings-submenu-fg: var(--white-transparent);

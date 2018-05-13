@@ -19,47 +19,85 @@ function DisplayTypingNotification(props) {
     )
 }
 
-function DisplayColorThemes({ onColorSelect }) {
+function DisplayColorThemes({ onColorThemeSelection, onColorCycle }) {
+
     return (
         <div className='settings-submenu color-theme-submenu' id='color-theme-submenu'>
             <p className='settings-submenu-description'>
-                Click to apply any theme below
+                Click to apply theme
             </p>
 
-            <img className='settings-submenu-color-theme' id='color-theme-react'
-                src='images/settings_icons/react_theme.jpg' alt='failed to load react theme' onClick={onColorSelect} />
+            <div className='settings-theme-navigation'>
+                <div className='settings-navigation-arrows-container'>
+                    <img className='settings-navigation-arrows' id='settings-navigation-arrow-left' src='/images/settings_icons/arrow-left.svg'
+                         alt='arrow left img missing' onClick={onColorCycle} />
+                </div>
 
-            <img className='settings-submenu-color-theme' id='color-theme-cotton-candy'
-                 src='images/settings_icons/cotton_candy_theme.jpg' alt='failed to load cotton candy theme' onClick={onColorSelect} /> 
+                <img id='settings-theme-view' src='/images/settings_icons/react_theme.jpg' alt='settings display unable to load' onClick={onColorThemeSelection} />                
+                
+                <div className='settings-navigation-arrows-container'>
+                    <img className='settings-navigation-arrows' id='settings-navigation-arrow-right' src='/images/settings_icons/arrow-right.svg'
+                         alt='arrow right img missing' onClick={onColorCycle} />                
+                </div>
 
-            <img className='settings-submenu-color-theme' id='color-theme-dark'
-                 src='images/settings_icons/dark_theme.jpg' alt='failed to load dark theme' onClick={onColorSelect} />
+            </div>
+            
         </div>
     );
 }
+/**
+ * <img className='settings-submenu-color-theme' id='color-theme-react'
+                src='images/settings_icons/react_theme.jpg' alt='failed to load react theme' onClick={onColorCycle} />
 
+            <img className='settings-submenu-color-theme' id='color-theme-cotton-candy'
+                 src='images/settings_icons/cotton_candy_theme.jpg' alt='failed to load cotton candy theme' onClick={onColorCycle} /> 
+
+            <img className='settings-submenu-color-theme' id='color-theme-dark'
+                 src='images/settings_icons/dark_theme.jpg' alt='failed to load dark theme' onClick={onColorCycle} />
+ */
 class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
             displaySubmenu: {
-                component: undefined,   //if !null, the menu for the clicked menu item will be displayed 
-                str: ''                 //component string value for comparisons
+                component: <DisplayColorThemes onColorThemeSelection={this.onColorThemeSelection} onColorCycle={this.onCycleColorTheme} />, //if !null, the menu for the clicked menu item will be displayed 
+                str: 'DisplayColorThemes'                                               //component string value for comparisons
             },
 
-        }; 
+            currentTheme: undefined, //initially undefined - once component mounts, the currentTheme is set based on the stylesheet
+        };  
 
         this.onColorTheme = this.onColorTheme.bind(this); //toggles color theme settings
         this.onColorThemeSelection = this.onColorThemeSelection.bind(this); //color theme to apply
+        this.onCycleColorTheme = this.onCycleColorTheme.bind(this); //allows the user to cycle through the current color theme
 
         this.onTypingNotification = this.onTypingNotification.bind(this); //toggles typing notification settings
     }
 
-    onColorTheme(e) {
+    componentDidMount() {
+        this.currentThemeLink = document.getElementById('color-theme-stylesheet');
+
+        console.log('\n\n****************COMPONENT MOUNTED');
+        console.log(`Current theme: ${this.currentThemeLink.getAttribute('href')}`);
+
+        this.stylesheets = [
+            'color-theme-cotton-candy',
+            'color-theme-dark',
+            'color-theme-react'
+        ];
+
+        this.setState({
+            currentTheme: this.currentThemeLink.getAttribute('href')
+        });
+        
+    }
+
+    onColorTheme(e = undefined) {
         if ( this.state.displaySubmenu.str !== 'DisplayColorThemes' ) {
             this.setState({
                 displaySubmenu: {
-                    component: <DisplayColorThemes onColorSelect={this.onColorThemeSelection}/>,
+                    //component: <DisplayColorThemes onColorSelect={this.onColorThemeSelection}/>,
+                    component: <DisplayColorThemes onColorThemeSelection={this.onColorThemeSelection} onColorCycle={this.onCycleColorTheme} />,
                     str: 'DisplayColorThemes'
                 }
             });
@@ -76,26 +114,24 @@ class Settings extends Component {
     }
 
     onColorThemeSelection(e) {
+        e.preventDefault();
         console.log('\n*ENTERING onColorThemeSelection()');
-        let selectedTheme = e.currentTarget.id;
-        let currentTheme = document.getElementById('color-theme-stylesheet');
 
-
-        switch( selectedTheme ) {
-            case 'color-theme-cotton-candy':
-                currentTheme.setAttribute('href', 'cotton_candy_theme.css');
-                break;
-            
-            case 'color-theme-dark':
-                currentTheme.setAttribute('href', 'dark_theme.css');
-                break;
-            
-            case 'color-theme-react':
-                currentTheme.setAttribute('href', 'react_theme.css');
-                break;
-        }
+        
 
         console.log('*LEAVING onColorThemeSelection()\n');
+    }
+
+    onCycleColorTheme(e) {
+        e.preventDefault();
+
+        console.log('\n*ENTERING onCycleColorTheme()');
+
+        
+
+        //updates state & displayed stylesheet
+        //this.currentThemeLink.setAttribute('href', this.stylesheets[ currentThemeIndex ]);
+        //this.setState({ currentThemeIndex });
     }
 
     onTypingNotification(e) {

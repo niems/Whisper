@@ -289,6 +289,7 @@ div[id='navbar-logout-container'] {
     height: max-content;
     width: 95%;
     padding: 5px 0px;
+    margin: 0px;
     
     background: inherit;
 
@@ -298,7 +299,8 @@ div[id='navbar-logout-container'] {
 
 
 .menu-list-item {
-    margin: 10px auto;
+    margin: 20px auto;
+    padding: 5px;
 
     display: flex;
     flex-flow: row nowrap;
@@ -310,10 +312,14 @@ div[id='navbar-logout-container'] {
     list-style-type: none;
 
     transition: all 0.3s;
+
+    
 }
 
 .menu-list-item:hover {
     background-color: var(--chat-menu-list-item-hover);
+    border-radius: 7px;
+    box-shadow: -2px -2px 4px black;
 }
 
 .display-category-menu {
@@ -360,7 +366,7 @@ div[id='navbar-logout-container'] {
     width: min-content;
     height: inherit;
 
-    object-position: right;
+    object-position: center;
 }
 
 @keyframes remove-icon-anim {
@@ -391,16 +397,16 @@ div[id='navbar-logout-container'] {
     transform-origin: center;
     -webkit-transform-origin: center;
 
-    transition: all 0.4s;
+    transition: all 0.5s;
 }
 
 @keyframes remove-svg-icon-anim {
-    from {
+    0% {
         transform: rotate(0deg);
     }
 
-    to {
-        transform: rotate(720deg);
+    100% {
+        transform: rotate(720deg);        
     }
 }
 
@@ -412,8 +418,9 @@ div[id='navbar-logout-container'] {
     ry: 0px;
 
     fill: transparent;
-    stroke: red;
+    stroke: var(--nine);
     stroke-width: 8px;
+
 
     animation-name: remove-svg-icon-anim;
     animation-duration: 2.5s;
@@ -421,19 +428,3 @@ div[id='navbar-logout-container'] {
     animation-iteration-count: infinite;
     animation-direction: alternate-reverse;
 }
-
-/*
-object-position: center;
-    width: 80px;
-    r: 5;
-    cx: 10;
-    cy: 10;
-
-.remove-category-img {
-    height: 17px;
-    padding-right: 5px;
-
-    filter: invert(.5) sepia(1) saturate(100);   
-
-}
-*/
