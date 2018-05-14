@@ -45,18 +45,7 @@ function DisplayColorThemes({ currentTheme, onColorThemeSelection, onColorCycle 
         </div>
     );
 }
-/**
-<img id='settings-theme-view' src='/images/settings_icons/react_theme.jpg' alt='settings display unable to load' onClick={onColorThemeSelection} />                
 
- * <img className='settings-submenu-color-theme' id='color-theme-react'
-                src='images/settings_icons/react_theme.jpg' alt='failed to load react theme' onClick={onColorCycle} />
-
-            <img className='settings-submenu-color-theme' id='color-theme-cotton-candy'
-                 src='images/settings_icons/cotton_candy_theme.jpg' alt='failed to load cotton candy theme' onClick={onColorCycle} /> 
-
-            <img className='settings-submenu-color-theme' id='color-theme-dark'
-                 src='images/settings_icons/dark_theme.jpg' alt='failed to load dark theme' onClick={onColorCycle} />
- */
 class Settings extends Component {
     constructor(props) {
         super(props);

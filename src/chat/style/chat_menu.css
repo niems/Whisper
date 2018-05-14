@@ -62,19 +62,21 @@ b[id='chat-menu-username'] {
 }
 
 #display-user-options-container {
-    position: fixed;
+    display: fixed;
+    float: right;
     z-index: 5;
 
     height: 60px;
     width: 50px;
-
     top: 50px;
     left: 160px;
-
+    /*
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
+    */
+
 
     padding: 10px 5px;
 
@@ -85,7 +87,7 @@ b[id='chat-menu-username'] {
     animation-duration: 1s;
 }
 
-div[id='navbar-logout-container'] {
+#navbar-logout-container {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -98,6 +100,7 @@ div[id='navbar-logout-container'] {
      height: 30px;
      margin-left: auto;
      filter: invert(1);
+     background-color: green;
  }
  
  img[id='navbar-logout']:hover {
@@ -132,8 +135,6 @@ div[id='navbar-logout-container'] {
     r: 6;
     cx: 8;
     cy: 10;
-
-    
 }
 
 @keyframes status-anim {
@@ -145,6 +146,7 @@ div[id='navbar-logout-container'] {
         fill: var(--accent-two);
     }
 }
+
 .chat-menu-user-status-img.online {
     fill: var(--chat-menu-user-online);
 
