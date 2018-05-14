@@ -69,7 +69,7 @@ class App extends Component {
     this.loginAttempt = this.loginAttempt.bind(this);
     this.logout = this.logout.bind(this); //callback for chat.js - if user's login attempt fails
     this.loginSuccess = this.loginSuccess.bind(this); //callback from chat.js when the user successfully logs in/creates account
-    this.onOpenSettings = this.onOpenSettings.bind(this); //opens the settings modal window
+    this.onToggleSettings = this.onToggleSettings.bind(this); //opens the settings modal window
   }
 
   //checks login data against server
@@ -125,25 +125,27 @@ class App extends Component {
     }
   }
 
-  onOpenSettings(e) {
+  onToggleSettings(e = undefined) {
     try {
-      e.preventDefault();
+      if ( typeof(e) !== 'undefined' ) {
+        e.preventDefault();
+      }
 
       this.setState({
         displaySettings: !this.state.displaySettings
       });
     }
     catch(e) {
-      console.log(`ERR onOpenSettings(): ${e.message}`);
+      console.log(`ERR onToggleSettings(): ${e.message}`);
     }
   }
 
   render() {
     let settingsMenu = null;
-    let titlebar = ( <Titlebar isElectron={isElectronRunning} onOpenSettings={this.onOpenSettings} onClose={this.closeApp} /> );
+    let titlebar = ( <Titlebar isElectron={isElectronRunning} onToggleSettings={this.onToggleSettings} onClose={this.closeApp} /> );
 
     if ( this.state.displaySettings ) {
-      settingsMenu = <Settings />;
+      settingsMenu = <Settings onToggleSettings={this.onToggleSettings} />;
     }
 
     return (

@@ -133,6 +133,7 @@ class Settings extends Component {
                     selectedTheme: this.stylesheets[i].css
                 });
 
+                this.props.onToggleSettings();
                 break;
             }
         }
