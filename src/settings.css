@@ -163,6 +163,13 @@ div[id='settings-menu-container'] {
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.85);
 
+    opacity: 0.6;
+
+    transition: all 0.5s;
+}
+
+#settings-theme-view:hover {
+    opacity: 1;
 }
 
 /*COLOR THEME SUBMENU SETUP*/

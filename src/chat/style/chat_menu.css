@@ -62,27 +62,19 @@ b[id='chat-menu-username'] {
 }
 
 #display-user-options-container {
-    display: fixed;
-    float: right;
-    z-index: 5;
-
     height: 60px;
     width: 50px;
-    top: 50px;
-    left: 160px;
-    /*
+    
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    */
-
 
     padding: 10px 5px;
 
     background: var(--menu-user-settings-modal-bg);
     color: var(--menu-user-settings-modal-fg);
-    
+
     animation-name: user-options-entry;
     animation-duration: 1s;
 }
@@ -98,7 +90,6 @@ b[id='chat-menu-username'] {
  
  img[id='navbar-logout'] {
      height: 30px;
-     margin-left: auto;
      filter: invert(1);
      background-color: green;
  }
@@ -301,7 +292,7 @@ b[id='chat-menu-username'] {
 
 
 .menu-list-item {
-    margin: 20px auto;
+    margin: 10px auto;
     padding: 5px;
 
     display: flex;
