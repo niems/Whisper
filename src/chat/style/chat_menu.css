@@ -12,18 +12,16 @@ div[id='chat-menu-container'] {
     align-items: center;
 
     background: var(--chat-menu-container-bg);
-    border-style: none solid none none;
-    border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.05);
 }
 
 div[id='chat-menu-user-info'] {
-    width: 100%;
+    width: max-content;
     height: 100px;
-    min-height: min-content;
     box-sizing: border-box;
-    margin: 5px 0px 5px 0px;
-    padding: 5px;
+    min-height: min-content;
+    margin: 5px 0px;
+
+    position: relative; /*REMOVE IF NECESSARY*/
 
     display: flex;
     flex-flow: column nowrap;
@@ -44,9 +42,10 @@ b[id='chat-menu-username'] {
 }
 
 .chat-menu-current-user-img {
-    height: 100px;
-    max-width: 95%;
+    max-width: 165px;
+    max-height: 155px;
     border-radius: 5px;
+    
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 2px 2px 8px black;
 }
@@ -62,15 +61,20 @@ b[id='chat-menu-username'] {
 }
 
 #display-user-options-container {
-    height: 60px;
-    width: 50px;
+    box-sizing: border-box;
+    height: auto;
+    width: min-content;
+    max-width: 60px;
+
+    position: absolute;
+    left: 100%;
+    top: 0%;
+    z-index: 5;
     
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-
-    padding: 10px 5px;
 
     background: var(--menu-user-settings-modal-bg);
     color: var(--menu-user-settings-modal-fg);
@@ -79,26 +83,29 @@ b[id='chat-menu-username'] {
     animation-duration: 1s;
 }
 
-#navbar-logout-container {
+.user-options-container {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    
-    padding-right: 5px;
+
+    margin: 5px 10px;
  }
  
- img[id='navbar-logout'] {
-     height: 30px;
-     filter: invert(1);
-     background-color: green;
- }
+.user-option-img {
+    height: 35px;
+    max-height: 35px;
+    filter: invert(0.5);
+
+    transition: transform 0.35s;
+}
+
+.user-option-img:hover {
+    filter: invert(1);
+    transform: scale(1.2, 1.2);
+}
  
- img[id='navbar-logout']:hover {
-     filter: invert(0.5) sepia(1) saturate(500) hue-rotate(30deg);         
- }
- 
- small[id='navbar-logout-text'] {
+.user-option-text {
      color: white;
      font-size: 0.65em;
  }
@@ -117,7 +124,6 @@ b[id='chat-menu-username'] {
     width: 30px;
 
     object-position: center;
-
 }
 
 .chat-menu-user-status-img {
@@ -359,6 +365,10 @@ b[id='chat-menu-username'] {
     width: min-content;
     height: inherit;
 
+    transform-origin: center;
+    -webkit-transform-origin: center;
+
+    object-fit: contain;
     object-position: center;
 }
 
@@ -389,6 +399,8 @@ b[id='chat-menu-username'] {
 
     transform-origin: center;
     -webkit-transform-origin: center;
+    object-fit: contain;
+    object-position: center;
 
     transition: all 0.5s;
 }

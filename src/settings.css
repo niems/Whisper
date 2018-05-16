@@ -74,7 +74,10 @@ div[id='settings-menu-container'] {
 }
 
 .settings-menu-item {
+    box-sizing: border-box;
+    width: 50%;
     margin: 50% auto;
+
     transition: all 0.4s;
 }
 
@@ -128,8 +131,6 @@ div[id='settings-menu-container'] {
         css link needs to be in state since it's
         modifying the whole theme!
     */
-
-
 }
 
 .settings-navigation-arrows-container {

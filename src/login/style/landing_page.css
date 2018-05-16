@@ -10,8 +10,6 @@ div[id='landing-page-container'] {
     flex: 1 auto;
 
     overflow: hidden;
-
-    background-color: red;
 }
 
 .landing-page-section-container {

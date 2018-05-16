@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Database from './database'
 import VerifyLogin from './verify_login'
 import ChatMenu from './chat_menu'
 import ChannelView from './channel_view'
@@ -217,6 +218,22 @@ function displayChannelInfo( channelInfo ) {
     console.log();
 }
 
+//returns the channel info, given the channel id and the channels to search through
+//returns undefined if channel is not found
+function getChannelInfo( channelId, allChannels ) {
+    console.log('\n*ENTERING getChannelInfo()');
+
+    for(let i = 0; i < allChannels.length; i++) {
+        if ( allChannels[i].channelId === channelId ) { //channel found
+            console.log(`getChannelInfo(): found channel "${channelId}"`);
+            return allChannels[i];
+        }
+    }
+
+    console.log('getChannelInfo(): failed to find channel D:');
+    return undefined;
+}
+
 function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel, joinedChannels, onRemoveCategory, allMessages, logout }) {
     if ( accountVerified ) {
         return (
@@ -322,6 +339,11 @@ class Chat extends Component {
 
     componentDidMount() {
         console.log('***COMPONENT DID MOUNT');
+        let dbName = 'chat';
+        let osName = 'messages';
+
+        this.db = new Database( dbName, osName );
+
         //this.onChannelSelect('#random'); //default channel selected
         this.onSocketSetup(); //socket event setup
     }
@@ -422,7 +444,19 @@ class Chat extends Component {
                 console.log('onSendMessage(): successfully added message to both channels');     
                 console.log('onSendMessage(): *EMITTING chat message event to server');           
                 this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added
-                this.updateRecentChannels( this.state.selectedChannel.channelId, message );                
+                this.updateRecentChannels( this.state.selectedChannel.channelId, message );       
+                
+                
+                let tempChannelInfo = getChannelInfo( message.channelId, this.allMessages );
+
+                if ( typeof( tempChannelInfo ) !== 'undefined' ) { //channel info found
+                    console.log('onSendMessage(): channel info found - attempting to update database...');
+                    this.db.addData( tempChannelInfo );
+                }
+
+                else {
+                    console.log('onSendMessage(): channel info not found - NOT updated in database D:');
+                }
             }
 
             else {

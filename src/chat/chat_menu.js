@@ -5,17 +5,16 @@ const closeImg = './images/page_icons/close-cross.svg';
 
 //returns true if category is a selected category
 function displayselectedCategories( category, selectedCategories ) {
-    console.log(`displayselectedCategories(): ${JSON.stringify(selectedCategories)}`);
+    //console.log(`displayselectedCategories(): ${JSON.stringify(selectedCategories)}`);
 
     if ( selectedCategories.includes( category ) ) { //category is a selected category
-        console.log(`displayselectedCategories(): ${category} is a selected category`);
+        //console.log(`displayselectedCategories(): ${category} is a selected category`);
         return true;
     }
 
-    console.log(`displayselectedCategories(): ${category} is NOT a selected category`);    
+    //console.log(`displayselectedCategories(): ${category} is NOT a selected category`);    
     return false; //category is not selected
 }
-
 
 function DisplayUserStatusOrb({ id, status }) {
 
@@ -101,7 +100,7 @@ function DisplayChannelsCategory({ selectedCategories, onSelect, onChannelSelect
 
 function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, onImgError, recentChannels, onRemoveRecentChannel }) {
     try {
-        console.log('\n*ENTERING DisplayRecentCategory()');
+        //console.log('\n*ENTERING DisplayRecentCategory()');
 
         let filteredChannels = JSON.parse( JSON.stringify( recentChannels ) );
 
@@ -125,7 +124,7 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
                     </li>         
                 ));
                 
-                console.log('*LEAVING DisplayRecentCategory()\n');
+                //console.log('*LEAVING DisplayRecentCategory()\n');
                 return (
                     <div className='category-container-layout selected' id='recent-category-container'>
                         <div className='category-header-layout' id='recent-category-header' onClick={onSelect}>
@@ -150,7 +149,7 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
             }
         }
 
-        console.log('*LEAVING DisplayRecentCategory()\n');        
+        //console.log('*LEAVING DisplayRecentCategory()\n');        
         return null;
     }
     catch(err) {
@@ -216,9 +215,14 @@ function DisplayUserOptions({ isDisplayed, logout }) {
 
     return (
         <div id='display-user-options-container'>
-            <div id='navbar-logout-container' onClick={ e => logout(e) }>
-                <img id='navbar-logout' src='/images/titlebar_icons/logout.png' alt='failed to load logout img' />
-                <small id='navbar-logout-text'>Logout</small>
+            <div className='user-options-container' id='user-logout-container' onClick={ e => logout(e) }>
+                <img className='user-option-img' id='user-logout' src='/images/titlebar_icons/exit.svg' alt='failed to load logout img' />
+                <small className='user-option-text' id='user-logout-text'>Logout</small>
+            </div>
+
+            <div className='user-options-container' onClick={e => alert('Not implemented D:') } >
+                <img className='user-option-img' id='user-edit-profile-pic' src='/images/titlebar_icons/edit-profile.svg' alt='failed to load edit profile img' />
+                <small className='user-option-text'>Edit pic</small>
             </div>
         </div>
     );
