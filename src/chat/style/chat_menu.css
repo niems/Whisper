@@ -21,7 +21,7 @@ div[id='chat-menu-user-info'] {
     min-height: min-content;
     margin: 5px 0px;
 
-    position: relative; /*REMOVE IF NECESSARY*/
+    position: relative; 
 
     display: flex;
     flex-flow: column nowrap;
@@ -110,20 +110,28 @@ b[id='chat-menu-username'] {
      font-size: 0.65em;
  }
 
-.chat-menu-current-user-status-img {
-    width: min-content;
-    r: 6;
-    cx: 12;
-    cy: 12;
+ .chat-menu-user-img-container {
+     height: max-content;
+     width: max-content;
+     max-width: 90px;
 
-    fill: var(--accent);
-}
+     position: relative;
+
+     display: flex;
+     flex-flow: column nowrap;
+     justify-content: center;
+     align-items: center;
+ }
 
 .chat-menu-user-status {
     height: 20px;
-    width: 30px;
+    width: 18px;
 
-    object-position: center;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+
+    transform: translate(5px, 8px);
 }
 
 .chat-menu-user-status-img {
@@ -298,6 +306,8 @@ b[id='chat-menu-username'] {
 
 
 .menu-list-item {
+    box-sizing: border-box;
+
     margin: 10px auto;
     padding: 5px;
 
@@ -330,17 +340,20 @@ b[id='chat-menu-username'] {
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 1 75%;
-    
+
+    margin-right: auto;
 
     color: var(--chat-menu-users-fg);
 }
 
 .chat-menu-user-img {
     box-sizing: border-box;
-    height: 40px;
-    border-radius: 5px;
+    max-height: 45px;
+    max-width: 45px;
+
     margin-right: 5px;
+    border-radius: 5px;
+
     background: rgba(255, 255, 255, 0.85);
 }
 
@@ -353,10 +366,6 @@ b[id='chat-menu-username'] {
     
 
     transition: all 0.3s;
-}
-
-.remove-category-container:hover {
-
 }
 
 .remove-svg-container {

@@ -112,9 +112,11 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
                     <li className='menu-list-item' key={channel.displayName} >
 
                         <div className='display-category-menu' id={channel.displayName} onClick={onChannelSelect}>
-                            <DisplayUserStatusOrb id='user' status={channel.status} />
-                            <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
-                            <b className='display-username'>{channel.displayName}</b>
+                            <div className='chat-menu-user-img-container'>
+                                <DisplayUserStatusOrb id='user' status={channel.status} />
+                                <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
+                            </div>
+                                <b className='display-username'>{channel.displayName}</b>
                         </div>
 
                         <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>
@@ -165,16 +167,26 @@ function DisplayOnlineCategory({ selectedCategories, userData, users, onSelect, 
         let filteredUsers = users.filter(
             user => user.username !== userData.username //removes current user from online users display
         );
-
+        
+        /**
+         * <div className='chat-menu-user-img-container'>
+                                <DisplayUserStatusOrb id='user' status={channel.status} />
+                                <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
+                            </div>
+         */
         if ( filteredUsers.length > 0 ) { //only displays the online category if there's content
 
             if ( selectedCategories.includes('online') ) { //online category is toggled on
                 let aUsers = filteredUsers.map( user => (
                     <li className='menu-list-item' key={user.username} id={user.username} onClick={onChannelSelect}>
                         <div className='display-category-menu'>
-                            <DisplayUserStatusOrb id='user' status={user.status} />
-                            <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
+                            
+                            <div className='chat-menu-user-img-container'>
+                                <DisplayUserStatusOrb id='user' status={user.status} />
+                                <img className='chat-menu-user-img' src={user.image} alt='failed to load user img' data-user='other user' data-socketid={user.socketId} onError={onImgError} /> 
+                            </div>
                             <b className='display-username'>{user.username}</b>
+
                         </div>
                     </li>         
                 ));
