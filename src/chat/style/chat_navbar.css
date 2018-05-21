@@ -1,6 +1,7 @@
 /**NAVBAR */
 div[id='chat-messages-navbar'] {
     width: 100%;
+    max-width: 100%;
     min-height: 60px;
     max-height: 60px;
     

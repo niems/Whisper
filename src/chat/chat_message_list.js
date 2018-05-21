@@ -4,9 +4,6 @@ import './style/chat_message_list.css'
 
 
 const ChatMessageList = ({ userData, selectedMsgs }) => {
-
-    //console.log( JSON.stringify(selectedMsgs) );
-
     const items = selectedMsgs.map( msg => (
         <ChatMessageListItem userData={userData} msg={msg} key={msg.msgId} id={msg.msgId} />
     ));

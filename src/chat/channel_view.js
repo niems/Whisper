@@ -16,30 +16,9 @@ const ChannelView = ({ userData, selectedChannel, selectedMsgs, onSendMsg, allMe
         );
     }
 
-    /*
-    let allChannelMsgs = allMessages.filter( channel => channel.messages.length > 0 );
-    console.log(`channel view messages: ${JSON.stringify(allChannelMsgs)}`);
-
-    allChannelMsgs = allChannelMsgs.map( channel => (
-        <li key={channel.channelId} id={channel.channelId}>
-            {channel.messages[0].msg}
-        </li>
-    ));
-
-    return (
-        <div id='all-channel-messages'>
-            <ul id='all-channel-messages-list'>
-                {allChannelMsgs}
-            </ul>
-        </div>
-    );
-    */
-
     return (
         <NoSelection />
     );
 }
 
 export default ChannelView;
-
-/*<NoSelection /> //no channel selected */

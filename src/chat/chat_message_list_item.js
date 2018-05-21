@@ -12,6 +12,7 @@ const ChatMessageListItem = ({ userData, msg }) => {
       itemClass = 'message-item message-item-current-user';
 
    //   console.log(`classes: ${msgClass}`);
+   /*
       return (
           <li className='message-items message-items-current-user'>
                   <div className='message-item message-item-current-user'>
@@ -27,9 +28,55 @@ const ChatMessageListItem = ({ userData, msg }) => {
                   </div>
           </li>
       );
-  }
- // console.log(`classes: ${msgClass}`);
+                <div className='new-user-msg-text new-current-user'>
+                    <span className='new-item-timestamp'><small className='new-item-timestamp-current new-current-user'>{msg.receivedTimestamp}</small></span>
+                    <span className='new-item-msg new-current-user'>{msg.msg}</span>
+                </div>
 
+                <div className='new-user-img-container'>
+                    <img className='new-item-username-img' src={msg.image} alt='failed to load user img' />
+                    <span className='new-item-username'>{msg.username}</span>
+                </div>
+    */
+
+    return (
+        <li className='new-message-items new-current-user'>
+           <div className='new-message-item new-current-user'> 
+
+                <div className='new-user-msg-text new-current-user'>
+                    <span className='new-item-timestamp new-current-user'><small className='new-item-timestamp-current new-current-user'>{msg.receivedTimestamp}</small></span>
+                    <span className='new-item-msg new-current-user'>{msg.msg}</span>
+                </div>
+
+                <div className='new-user-img-container new-current-user'>
+                    <img className='new-item-username-img' src={msg.image} alt='failed to load user img' />
+                    <span className='new-item-username'>{msg.username}</span>
+                </div>
+   
+           </div>
+        </li>
+    );
+  }
+
+  return (
+    <li className='new-message-items'>
+       <div className='new-message-item'> 
+
+            <div className='new-user-msg-text'>
+                <span className='new-item-timestamp'><small className='new-item-timestamp-current'>{msg.receivedTimestamp}</small></span>
+                <span className='new-item-msg'>{msg.msg}</span>
+            </div>
+
+            <div className='new-user-img-container'>
+                <img className='new-item-username-img' src={msg.image} alt='failed to load user img' />
+                <span className='new-item-username'>{msg.username}</span>
+            </div>
+
+       </div>
+    </li>
+);
+ // console.log(`classes: ${msgClass}`);
+  /*
   return (
       <li className='message-items'>
               <div className='message-item'>
@@ -47,6 +94,7 @@ const ChatMessageListItem = ({ userData, msg }) => {
               </div>
       </li>
   );
+  */
 
 };
 

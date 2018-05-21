@@ -162,18 +162,12 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
 function DisplayOnlineCategory({ selectedCategories, userData, users, onSelect, onChannelSelect, onImgError }) { 
     try {
         let categoryText = `online (${users.length})`;
-        console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
+        //console.log(`\nDisplayOnlineCategory() input data: ${JSON.stringify(users)}`);
 
         let filteredUsers = users.filter(
             user => user.username !== userData.username //removes current user from online users display
         );
         
-        /**
-         * <div className='chat-menu-user-img-container'>
-                                <DisplayUserStatusOrb id='user' status={channel.status} />
-                                <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
-                            </div>
-         */
         if ( filteredUsers.length > 0 ) { //only displays the online category if there's content
 
             if ( selectedCategories.includes('online') ) { //online category is toggled on
@@ -303,18 +297,19 @@ class ChatMenu extends Component {
                 };
             }
 
+            /*
             console.log('onCategorySelect() selection info:');
             console.log(`-index: ${selection.index}`);
             console.log(`-channel: ${selection.channel}`);
-
+            */
             if ( selection.index >= 0 ) { //if the channel already exists
-                console.log(`Chat menu onCategorySelect(): ${selection.channel} already exists, removing channel`); 
+                //console.log(`Chat menu onCategorySelect(): ${selection.channel} already exists, removing channel`); 
                 newSelections.splice( selection.index, 1 ); //removes channel from selected channels
                 this.setState({ selectedCategories: newSelections });
             }
 
             else if( selection.channel !== 'N/A' ) { //channel doesn't exist yet 
-                console.log(`Chat menu onCategorySelect(): ${selection.channel} doesn't exist, adding channel`);             
+                //console.log(`Chat menu onCategorySelect(): ${selection.channel} doesn't exist, adding channel`);             
                 newSelections.unshift( selection.channel ) //adds channel to selected channels
                 this.setState({ selectedCategories: newSelections });                
             }
@@ -341,42 +336,30 @@ class ChatMenu extends Component {
         e.preventDefault();
 
         let id = e.currentTarget.id; 
-        console.log(`Chat Menu onChannelSelect: ${id}`);
+        //console.log(`Chat Menu onChannelSelect: ${id}`);
         this.props.onSelect( id );
     }
 
     onRemoveRecentChannel(e) {
         e.preventDefault();
-        console.log('\n*ENTERING onRemoveRecentChannel() - chat_menu.js');
-        console.log(`onRemoveRecentChannel(): attempting to remove ${e.currentTarget.id}`);
+        //console.log('\n*ENTERING onRemoveRecentChannel() - chat_menu.js');
+        //console.log(`onRemoveRecentChannel(): attempting to remove ${e.currentTarget.id}`);
 
         this.props.onRemoveRecentChannel(e.currentTarget.id);
     }
 
     onRemoveCategory(e) {
-        e.preventDefault();
-
-        console.log('\n*ENTERING onRemoveCategory()');
-        
+        e.preventDefault();        
         this.props.onRemoveCategory( e.currentTarget.id );
-        console.log('*LEAVING onRemoveCategory()\n');
     }
 
     enableUserPanel(e) {
         e.preventDefault();
-
-        console.log('user panel enabled');
-        console.log(`Target: ${e.relatedTarget.id}`);
-
         this.setState({ displayUserOptionsModal: true });
     }
 
     disableUserPanel(e) {
         e.preventDefault();
-
-        console.log('user panel disabled');
-        console.log(`Target: ${e.relatedTarget.id}`);
-
         this.setState({ displayUserOptionsModal: false });
     }
 
@@ -384,12 +367,12 @@ class ChatMenu extends Component {
         let targetData = e.currentTarget.dataset;
 
         if ( targetData.user === 'current user' ) {
-            console.log('image fail current user');
+            //console.log('image fail current user');
             this.props.onImgFail('current user'); //specifies the current user's img failed to load
         }
 
         else {
-            console.log('image fail other user');
+            //console.log('image fail other user');
             this.props.onImgFail( targetData.socketid ); 
         }
     }
