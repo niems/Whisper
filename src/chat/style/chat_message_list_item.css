@@ -81,9 +81,9 @@
     min-height: max-content;
 
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-end;
     
     padding: 5px;
     border-radius: 10px 10px 10px 2px;
@@ -92,7 +92,7 @@
     box-shadow: -2px 2px 5px black;
 }
     .new-user-msg-text.new-current-user {
-        justify-content: flex-end;
+        align-items: flex-start;
         margin-right: 55px;
         border-radius: 10px 10px 2px 10px;
 
@@ -100,10 +100,8 @@
         box-shadow: 2px 2px 5px black;
     }
 
-.new-item-timestamp-current {
-    width: 100%;
-    font-weight: bold;
-    
+.new-item-timestamp-current {    
+    font-weight: bold;    
     color: var(--chat-timestamp-fg);        
 }
     .new-item-timestamp-current.new-current-user {
@@ -135,7 +133,8 @@
 .new-item-username-img {
     max-width: 50px;
     max-height: 50px;
-    border-radius: 16px;   
+    border-radius: 10px;   
+    background: rgba(255, 255, 255, 0.9);        
     box-shadow: 0px 1px 6px black; 
 }
 
@@ -146,92 +145,7 @@
 }
 
 /*
-.new-message-items {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 15px 0px;
-
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 1 auto;
-
-    background: red;
-}
-    .new-message-items.new-current-user {
-        justify-content: flex-end;
-    }   
-
-.new-message-item {
-    box-sizing: border-box;
-    max-width: 65%;
-
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 0 1 auto;
-
-    padding: 0px 5px;
-
-    background: green;
-}
-    .new-message-item.new-current-user {
-        align-items: flex-end;
-    }
-
-.new-user-msg-text {
-    box-sizing: border-box;
-    margin-left: 45px;
-
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: flex-start;
-    align-items: center;
-    
-    padding: 5px;
-    
-    background: white;
-}
-    .new-user-msg-text.new-current-user {
-        justify-content: flex-end;
-        margin-right: 45px;
-    }
-
-
-.new-user-img-container {
-    box-sizing: border-box;
-    max-width: 55px;
-    max-height: 55px;
-
-
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-end;
-    align-items: center;
-}
-    .new-user-img-container.new-current-user {
-
-    }
-
-.new-item-username-img {
-    max-width: 50px;
-    max-height: 50px;
-    border-radius: 16px;    
-}
-
-.new-item-username {
-
-}
-*/
-
 .message-items {
-    /**
-     display: block;
-     width: max-content;
-     height: max-content;
-     * */
     
     box-sizing: border-box;
     width: 100%; 
@@ -258,35 +172,11 @@
 }
 
 .message-items-current-user {
-    /*background: orange;*/
 
     animation-duration: 0.5s;
     animation-timing-function: ease;
     animation-name: message-enter-current-user;
 }
-
-/* previous version
-.message-item {
-    box-sizing: border-box;
-    width: max-content;
-    max-width:  55%;
-    height: max-content;
-
-    
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    
-
-    padding: 5px 10px;
-    border-radius: 15px;    
-
-    opacity: 0.8; 
-
-    background: red;
-} 
-*/
 
 .message-item {
     box-sizing: border-box;
@@ -368,7 +258,6 @@
 .item-timestamp-current {
     font-size: 0.85em;
     font-style: italic;
-    /*color: var(--ten);*/
 }
 
 .item-timestamp-current.current-user {
@@ -396,4 +285,4 @@
 .item-msg.current-user {
     color: var(--chat-current-msg-text-fg);
 }
-
+*/
