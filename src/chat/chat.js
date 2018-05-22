@@ -746,7 +746,7 @@ class Chat extends Component {
             }
     
             //duplicate msg not found
-            selectedMsgs.unshift( msg );
+            selectedMsgs.push( msg );
             this.setState({ selectedMessages: selectedMsgs });
             
             //console.log('*Leaving addSelectedChannelMessage()');        
@@ -784,7 +784,7 @@ class Chat extends Component {
                 }
                 //console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);
                 
-                this.allMessages[i].messages.unshift( msg ); //adds message
+                this.allMessages[i].messages.push( msg ); //adds message
                 //console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);            
                 //console.log(`Successfully added ${msg.msg} to ${channelName} (this.allMessages[])`);
                 //console.log(`*LEAVING addMessageToChannel():\n`);
@@ -850,7 +850,7 @@ class Chat extends Component {
                 //console.log(`**Selected Msg status: ${JSON.stringify(this.state.selectedMessages)}`);            
                 
                 let tempSelectedMsgs = JSON.parse( JSON.stringify( this.state.selectedMessages ) );
-                tempSelectedMsgs.unshift( createNewMsg( msg ) );
+                tempSelectedMsgs.push( createNewMsg( msg ) );
                 //tempSelectedMsgs.push( createNewMsg( msg ) );
                 
                 for(let i = 0; i < this.allMessages.length; i++) {
@@ -858,7 +858,7 @@ class Chat extends Component {
                         //console.log('**ASSUMPTION: message did not exist in selected messages, so storing there & this.allMessages (assumption)');
                         //console.log('**Adding msg to BOTH channels now');
 
-                        this.allMessages[i].messages.unshift( createNewMsg( msg ) ); //adding message to channel
+                        this.allMessages[i].messages.push( createNewMsg( msg ) ); //adding message to channel
                         //console.log(`**Selected Msg status (ONLY added to this.allMessages): ${JSON.stringify(this.state.selectedMessages)}`);
                         
                         this.setState({
@@ -992,7 +992,7 @@ class Chat extends Component {
             //creating channel for new user/group message
             if ( typeof(channelInfo) !== 'undefined' ) {
                 //console.log('addNewChannel(): creating channel for selected user/group msg');
-                this.allMessages.unshift( JSON.parse( JSON.stringify(channelInfo) ) );
+                this.allMessages.push( JSON.parse( JSON.stringify(channelInfo) ) );
                 
                 //displayChannelInfo( channelInfo );
                 return {channel: JSON.parse( JSON.stringify(channelInfo) ), status: STATUS.CHANNEL_CREATED};
@@ -1018,7 +1018,7 @@ class Chat extends Component {
                     newChannel.path = msg.socketId; 
                 }
 
-                this.allMessages.unshift( JSON.parse( JSON.stringify(newChannel) ) );
+                this.allMessages.push( JSON.parse( JSON.stringify(newChannel) ) );
                 //displayChannelInfo( newChannel );
                 return {channel: newChannel, status: STATUS.CHANNEL_CREATED};
                 //return STATUS.CHANNEL_CREATED;
