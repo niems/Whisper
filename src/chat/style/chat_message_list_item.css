@@ -120,8 +120,7 @@
 
     }
 
-.new-item-timestamp-current {    
-    font-weight: bold;
+.new-item-timestamp-current {  
     font-style: italic;  
     font-size: 0.7em;  
     color: var(--chat-timestamp-fg);        
