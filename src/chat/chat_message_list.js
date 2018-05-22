@@ -17,6 +17,4 @@ const ChatMessageList = ({ userData, selectedMsgs }) => {
     );
 }
 
-
-
 export default ChatMessageList;
