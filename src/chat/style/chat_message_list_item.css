@@ -130,6 +130,8 @@
     }
 
 .new-item-msg {
+    word-break: break-all;
+
     color: var(--chat-msg-text-fg);
 }
     .new-item-msg.new-current-user {

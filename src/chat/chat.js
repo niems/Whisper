@@ -252,7 +252,8 @@ class Chat extends Component {
     constructor(props) {
         super(props);
 
-        this._adminId = undefined; //testing only - used to send message to only the admin
+        this.dbName = 'chat'; //name of the database to store messages under
+        this.osKeyPath = 'msgId'; //default object store key path for storing messages
 
         this.state = {
             userData: this.props.userData, //current user info (initialized w/login info from landing page, updated on server connect)
@@ -342,7 +343,8 @@ class Chat extends Component {
         let dbName = 'chat';
         let osName = 'messages';
 
-        this.db = new Database( dbName, osName );
+        this.db = new Database();
+        console.log(`*DB init val: ${JSON.stringify(this.db)}\n`);
 
         //this.onChannelSelect('#random'); //default channel selected
         this.onSocketSetup(); //socket event setup
@@ -451,7 +453,11 @@ class Chat extends Component {
 
                 if ( typeof( tempChannelInfo ) !== 'undefined' ) { //channel info found
                     //console.log('onSendMessage(): channel info found - attempting to update database...');
-                    this.db.addData( tempChannelInfo );
+                    
+                    //passing allMessages as the database version - depending if the length is greater than
+                    //the database version, it would mean a new channel has been added and needs to be created
+                    //in the database
+                    this.db.createOS( this.dbName, (this.allMessages.length + 1), tempChannelInfo.channelId, this.osKeyPath );
                 }
 
                 else {
