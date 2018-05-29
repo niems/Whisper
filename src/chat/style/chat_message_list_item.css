@@ -130,7 +130,7 @@
     }
 
 .new-item-msg {
-    word-break: break-all;
+    word-break: break-word;
 
     color: var(--chat-msg-text-fg);
 }
