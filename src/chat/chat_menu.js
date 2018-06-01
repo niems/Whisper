@@ -116,7 +116,7 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
                                 <DisplayUserStatusOrb id='user' status={channel.status} />
                                 <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
                             </div>
-                                <b className='display-username'>{channel.displayName}</b>
+                                <b className='display-username'>{channel.displayName + ': ' + channel.unreadMessages}</b>
                         </div>
 
                         <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>

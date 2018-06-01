@@ -276,7 +276,8 @@ class Chat extends Component {
                     channelId: '#random',
                     displayName: '#random',
                     image: './images/default_channel_icon.png',
-                    status: 'none' //default for group channels
+                    status: 'none' //default for group channels,
+                    unreadMessages: 0 //number of messages received since its been selected
                 }
                 */
             ],
@@ -442,11 +443,9 @@ class Chat extends Component {
 
             currentStatus = this.addMsgAllChannels( message );
 
-            if ( currentStatus === STATUS.MESSAGE_ADDED ) {
-                //console.log('onSendMessage(): successfully added message to both channels');     
-                //console.log('onSendMessage(): *EMITTING chat message event to server');           
+            if ( currentStatus === STATUS.MESSAGE_ADDED ) {      
                 this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added
-                this.updateRecentChannels( this.state.selectedChannel.channelId, message );       
+                this.updateRecentChannels(true, this.state.selectedChannel.channelId, message );  //updating recent channel - channel is selected   
                 
                 
                 let tempChannelInfo = getChannelInfo( message.channelId, this.allMessages );
@@ -493,9 +492,7 @@ class Chat extends Component {
                 currentStatus = this.addMsgAllChannels( msg );
 
                 if ( currentStatus === STATUS.MESSAGE_ADDED ) { //new msg added to both channels
-                    //console.log('onReceiveMessage(): successfully added new message to both channels');
-                    //this.updateRecentChannels( this.state.selectedChannel.channelId, msg );
-                    this.updateRecentChannels( msg.channelId, msg );
+                    this.updateRecentChannels(true, msg.channelId, msg ); //updating recent channel - channel is selected
                 }
 
                 else if ( currentStatus === STATUS.error.CHANNEL_NOT_FOUND ) {
@@ -511,10 +508,8 @@ class Chat extends Component {
                 //console.log('onReceiveMessage(): msg NOT from selected channel');
                 currentStatus = this.addMessageToChannel( msg.channelId, msg );
 
-                if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added to channel
-                    //console.log('onReceiveMessage(): successfully added message to channel');
-                    //this.updateRecentChannels( this.state.selectedChannel.channelId, msg );                    
-                    this.updateRecentChannels( msg.channelId, msg );
+                if ( currentStatus === STATUS.MESSAGE_ADDED ) { //successfully added to channel            
+                    this.updateRecentChannels( false, msg.channelId, msg ); //updating recent channel - channel is not selected
                 }
 
                 else if ( currentStatus === STATUS.error.CHANNEL_NOT_FOUND ) {
@@ -524,7 +519,7 @@ class Chat extends Component {
 
                     //update recent channel here also!
                     if ( currentStatus === STATUS.CHANNEL_CREATED ) {
-                        this.updateRecentChannels( msg.channelId, msg );
+                        this.updateRecentChannels(false, msg.channelId, msg ); //updating recent channel - channel is not selected
                     }
 
                     else {
@@ -893,64 +888,66 @@ class Chat extends Component {
     }
 
     //given the channel id and message(sent or received), this either adds a new recent channel or doesn't because it already exists
-    updateRecentChannels(channelId, msg) {
-        /*
-        channelId: '#random',
-                    displayName: '#random',
-                    image: './images/default_channel_icon.png',
-                    status: 'none' //default for group channels
-        */
-           
-        //console.log('\n*ENTERING updateRecentChannels()');
+    updateRecentChannels(isChannelSelected, channelId, msg) {
 
         let channelData = {
             channelId: undefined,
             displayName: undefined,
             image: undefined,
             status: undefined,
+            unreadMessages: undefined,
         };
 
         let recent = [...this.state.recentChannels];
         //console.log(`updateRecentChannels() spread operator: ${recent}`);
 
-        let doesChannelExist = ( recent.filter( channel => channel.channelId === channelId ) ).length; //if > 0 it is already a recent channel
+        //let doesChannelExist = ( recent.filter( channel => channel.channelId === channelId ) ).length; //if > 0 it is already a recent channel
+        let recentChannelData = ( recent.filter( channel => channel.channelId === channelId ) ); //if > 0 it is already a recent channel
+        console.log('\n\n**updateRecentChannels(): check if data below can be used from recent channel if it previously existed');
+        console.log(`*updateRecentChannels(): recent channel data pulled BEFORE modification: ${JSON.stringify(recentChannelData)}\n`);
 
-        if ( !doesChannelExist ) { //recent channel doesn't currently exist
-            //console.log(`updateRecentChannels(): "${channelId}" currently doesn't exist`);
+        if ( !recentChannelData.length ) { //recent channel doesn't currently exist
+            console.log(`updateRecentChannels(): "${channelId}" currently doesn't exist`);
 
             if( isChannel( channelId ) ) { //updating channel 
-                //console.log('updateRecentChannels(): searching this.allMessages for this channel');
+                console.log('updateRecentChannels(): CHANNEL MESSAGE - searching this.allMessages for this channel');
 
                 for(let i = 0; i < this.allMessages.length; i++) { //goes through all messages checking for channel data
                     if ( this.allMessages[i].channelId === channelId ) { //found channel data
+                        console.log(`updateRecentChannels() channel "${channelId}" found :D`);
+
                         channelData.channelId = channelId;
                         channelData.displayName = this.allMessages[i].channelId;
                         channelData.image = './images/default_channel_icon.svg',
                         channelData.status = 'none';
+                        channelData.unreadMessages = isChannelSelected ? 0 : 1; //since the channel didn't exist this is the first unread msg
 
                         recent.unshift( channelData );
                         this.setState({ recentChannels: recent });
 
+                        console.log(`**updateRecentChannels(): channel "${channelId} found. recent to-be state AFTER mod: ${JSON.stringify(recent)}\n`);                                                                   
                         break;
                     }
                 }
             }
 
             else { //updating direct message - still pulled from allMessages instead of going through active users
-                //console.log('updateRecentChannels(): searching this.allMessages for this direct message channel');
-
+                console.log('updateRecentChannels(): DIRECT MESSAGE - searching this.allMessages for previous conversation');
+                
                 for(let i = 0; i < this.allMessages.length; i++) {
                     if ( this.allMessages[i].channelId === channelId ) {
+                        console.log('updateRecentChannels(): DIRECT MESSAGE - channel found :D');
+
                         channelData.channelId = channelId;
                         channelData.displayName = this.allMessages[i].channelDisplayName;
-                        //channelData.image = msg.image;
                         channelData.status = 'online';
-                        let aUsers = [...this.state.activeUsers];
+                        channelData.unreadMessages = isChannelSelected ? 0 : 1; //since the channel didn't exist this is the first unread msg
 
+                        let aUsers = [...this.state.activeUsers];
                         
                         for(let k = 0; k < aUsers.length; k++) {
                             if ( aUsers[k].username === channelData.displayName ) {
-                                //console.log('updateRecentChannels(): user image found for recent channel');
+                                console.log('updateRecentChannels(): user image found for recent channel');
 
                                 channelData.image = aUsers[k].image; //updates image 
                                 break;
@@ -958,26 +955,35 @@ class Chat extends Component {
                         }
 
                         if ( typeof( channelData.image ) !== 'undefined' ) {
-                            //console.log('updateRecentChannels(): updating state now');
+                            console.log('updateRecentChannels(): updating state now');
 
                             recent.unshift( channelData );
                             this.setState({ recentChannels: recent });
                         }
-
-
+                        
+                        console.log(`**updateRecentChannels(): channel "${channelId} found. recent to-be state AFTER mod: ${JSON.stringify(recent)}\n`);
                         break;
                     }
                 }
-
             }
         }
 
-        else { //recent channel already exists
-            //console.log('updateRecentChannels(): recent channel already exists - no action taken')
+        else { //recent channel already exists            
+            //UPDATE recent channel unread messages here
+            //use recentchanneldata to get previous unread messages
+            console.log('updateRecentChannels(): recent channel already exists...searching for channel data');
+            for(let i = 0; i < recent.length; i++) {
+                if ( recent[i].channelId === channelId ) {
+                   recent[i].unreadMessages = isChannelSelected ? 0 : recent[i].unreadMessages + 1;
+
+                    this.setState({ recentChannels: recent });
+                    console.log(`**updateRecentChannels(): channel "${channelId} found. recent to-be state AFTER mod: ${JSON.stringify(recent)}\n`);
+                    break;
+                }
+            }            
         }
-
-
-        //console.log('*LEAVING updateRecentChannels()\n');
+        
+        console.log('*LEAVING updateRecentChannels()\n');
     }
     
     addNewChannel(channelInfo = undefined, msg = undefined) {
@@ -1128,11 +1134,30 @@ class Chat extends Component {
         console.log(`-current channel: ${this.state.selectedChannel.channelId}\n`);
         */
 
+        console.log('\n*ENTERING onChannelSelect(): ');
+
         let channelInfo = undefined; //returns info from the DB about the selected channel
         let channelId = generateChannelId( this.state.userData.username, selected );
 
         if ( channelId !== this.state.selectedChannel.channelId ) { //new channel selected
+            console.log('onChannelSelect(): new channel selected - should be resetting "recent" unread msg count');
+
             channelInfo = this.getChannelInfo( selected, channelId );
+            let recent = [...this.state.recentChannels];
+
+            console.log(`onChannelSelect(): all recent channel data pulled: ${JSON.stringify(recent)}\n`);
+
+            for(let i = 0; i < recent.length; i++) { //looks for recent channel - need to reset unread message counter
+                if ( recent[i].channelId === channelId ) {
+                    console.log('onChannelSelect(): recent channel found :D resetting msg counter');
+
+                    recent[i].unreadMessages = 0; //channel is selected so resetting unread messages counter
+                    this.setState({ recentChannels: recent });
+
+                    console.log(`**onChannelSelect(): recent channel ${channelId} found :D. Recent data AFTER state mod: ${JSON.stringify(recent)}\n`);
+                    break;
+                }
+            }
 
             if ( channelInfo.status === STATUS.SELECTED_CHANNEL_FOUND ) { //selected channel found  
                 //console.log('onChannelSelect(): selected channel found - not creating');
