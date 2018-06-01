@@ -96,6 +96,9 @@
     --chat-menu-list-bg: var(--sixth);
     --chat-menu-list-item-hover: var(--sixth);
 
+    --chat-menu-unread-msg-bg: var(--main);
+    --chat-menu-unread-msg-fg: var(--nine);
+
     /**
      * --chat-menu-container-bg: var(--thirteen);
     --category-menu-list-bg: var(--main);

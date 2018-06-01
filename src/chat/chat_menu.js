@@ -28,6 +28,18 @@ function DisplayUserStatusOrb({ id, status }) {
     );
 }
 
+function DisplayUnreadMessageNotification({ unreadMsgCount }) {
+    if ( unreadMsgCount > 0 ) { //only displays notification if there are unread messages
+        return (
+            <span className='chat-menu-unread-message-container'>
+                <small id='chat-menu-unread-messages'>{unreadMsgCount}</small>
+            </span>
+        );
+    }
+
+    return null;
+}
+
 function DisplayMenuUserInfo({ user, onImgError, isDisplayed, enableUserPanel, disableUserPanel, logout }) {
     return (
         <div id='chat-menu-user-info' onMouseEnter={ e => enableUserPanel(e) } onMouseLeave={ e => disableUserPanel(e) }>
@@ -114,9 +126,10 @@ function DisplayRecentCategory({ selectedCategories, onSelect, onChannelSelect, 
                         <div className='display-category-menu' id={channel.displayName} onClick={onChannelSelect}>
                             <div className='chat-menu-user-img-container'>
                                 <DisplayUserStatusOrb id='user' status={channel.status} />
+                                <DisplayUnreadMessageNotification unreadMsgCount={channel.unreadMessages} />
                                 <img className='chat-menu-user-img' src={channel.image} alt='failed to load user img' data-user='other user' data-socketid={channel.path} onError={onImgError} /> 
                             </div>
-                                <b className='display-username'>{channel.displayName + ': ' + channel.unreadMessages}</b>
+                                <b className='display-username'>{channel.displayName}</b>
                         </div>
 
                         <div className='remove-category-container' id={channel.displayName} onClick={onRemoveRecentChannel}>

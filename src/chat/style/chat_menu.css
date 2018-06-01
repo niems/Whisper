@@ -142,6 +142,38 @@ b[id='chat-menu-username'] {
     cy: 10;
 }
 
+
+/**unread message notification setup */
+.chat-menu-unread-message-container {
+    align-self: flex-end;
+
+    height: max-content;
+    width: max-content;
+    padding: 2px 5px;
+    
+    position: relative;
+    border-radius: 5px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    transform: translate(8px, 0px);
+
+    color: var(--chat-menu-unread-msg-fg);
+    background-color: var(--chat-menu-unread-msg-bg);
+}
+
+.chat-menu-unread-messages {
+    position: absolute;
+
+    top: 0%;
+    right: 0%;
+
+    font-size: 1em;
+}
+
 @keyframes status-anim {
     from {
         fill: var(--chat-menu-user-online);

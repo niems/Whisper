@@ -102,6 +102,9 @@
     --category-menu-list-bg: var(--main);
     --chat-menu-list-bg: var(--sixth);
     --chat-menu-list-item-hover: var(--fifteen);
+
+    --chat-menu-unread-msg-bg: var(--fifteen);
+    --chat-menu-unread-msg-fg: var(--nine);
     
     --chat-menu-category-bg: inherit;
     --chat-menu-category-fg: var(--fourth);
