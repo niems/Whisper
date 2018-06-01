@@ -142,16 +142,17 @@ b[id='chat-menu-username'] {
     cy: 10;
 }
 
-
-/**unread message notification setup */
 .chat-menu-unread-message-container {
-    align-self: flex-end;
+    
+    position: absolute;
+
+    top: 0%;
+    right: 0%;
 
     height: max-content;
     width: max-content;
+
     padding: 2px 5px;
-    
-    position: relative;
     border-radius: 5px;
 
     display: flex;
@@ -159,19 +160,14 @@ b[id='chat-menu-username'] {
     justify-content: center;
     align-items: center;
 
-    transform: translate(8px, 0px);
+    transform: translate(15px, -22px);
 
     color: var(--chat-menu-unread-msg-fg);
     background-color: var(--chat-menu-unread-msg-bg);
 }
 
 .chat-menu-unread-messages {
-    position: absolute;
 
-    top: 0%;
-    right: 0%;
-
-    font-size: 1em;
 }
 
 @keyframes status-anim {
@@ -340,7 +336,7 @@ b[id='chat-menu-username'] {
 .menu-list-item {
     box-sizing: border-box;
 
-    margin: 10px auto;
+    margin: 20px auto;
     padding: 5px;
 
     display: flex;
