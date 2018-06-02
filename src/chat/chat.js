@@ -899,9 +899,6 @@ class Chat extends Component {
         };
 
         let recent = [...this.state.recentChannels];
-        //console.log(`updateRecentChannels() spread operator: ${recent}`);
-
-        //let doesChannelExist = ( recent.filter( channel => channel.channelId === channelId ) ).length; //if > 0 it is already a recent channel
         let recentChannelData = ( recent.filter( channel => channel.channelId === channelId ) ); //if > 0 it is already a recent channel
         //console.log('\n\n**updateRecentChannels(): check if data below can be used from recent channel if it previously existed');
         //console.log(`*updateRecentChannels(): recent channel data pulled BEFORE modification: ${JSON.stringify(recentChannelData)}\n`);
