@@ -13,7 +13,7 @@ function createWindow() {
     // Create the browser window.
     //400x600 - login
     //750x500 - chat page
-    mainWindow = new BrowserWindow({width: 960, minWidth: 800, height: 600, minHeight: 300, resizable: true, alwaysOnTop: true, frame: false});
+    mainWindow = new BrowserWindow({width: 860, minWidth: 650, height: 500, minHeight: 300, resizable: true, alwaysOnTop: true, frame: false});
     //Menu.setApplicationMenu(null);
     // and load the index.html of the app.
     //mainWindow.setOpacity(0.99);
