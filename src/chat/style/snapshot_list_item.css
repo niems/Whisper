@@ -1,0 +1,8 @@
+.snapshot-item {
+    background: green;
+}
+
+.snapshot-item-container {
+    margin: 5px;
+    background: gray;
+}

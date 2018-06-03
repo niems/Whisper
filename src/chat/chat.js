@@ -259,6 +259,18 @@ class Chat extends Component {
             userData: this.props.userData, //current user info (initialized w/login info from landing page, updated on server connect)
             accountVerified: false, //determines if the user has successfully connected to the server & logged in
             activeUsers: [],
+
+            messagesSnapshot: [ //stores the newest message w/channel data from each channel
+                /*
+                {
+                    channelId: '#random',
+                    displayName: '#random',
+                    image: './image/image selected hereee',
+                    msg: 'new message text',
+                    timestamp: 'timestamp of newest message'
+                }
+                */
+            ],
             
             joinedChannels: [
                 {
@@ -307,6 +319,8 @@ class Chat extends Component {
             },
             */
         ];
+
+        this.updateSnapshotView = this.updateSnapshotView.bind(this); //updates the state of messagesSnapshot from the new messages received
         
         this.onSocketSetup = this.onSocketSetup.bind(this); //connects to server and sets up socket events
         this.removeActiveUser = this.removeActiveUser.bind(this); //socket id passed, boolean returned - true if user is removed from active users pool 
@@ -319,7 +333,6 @@ class Chat extends Component {
 
         this.onSocketChannelUpdate = this.onSocketChannelUpdate.bind(this); //user clicked new channel - socket joins/leaves room
         this.onRemoveSocketChannel = this.onRemoveSocketChannel.bind(this); //removes user from selected room
-        //this.activeUserUpdate = this.activeUserUpdate.bind(this); //updates active user info when reconnecting (previously dc'd)
 
         this.onChannelSelect = this.onChannelSelect.bind(this); // user/channel selected - determines channel view display
         this.getChannelInfo = this.getChannelInfo.bind(this);
@@ -339,13 +352,16 @@ class Chat extends Component {
         this.onImgLoadFail = this.onImgLoadFail.bind(this); //user img failed to load, placeholder img used
     }
 
+    componentWillMount() {
+        console.log(`\n*componentWillMount()`);
+        let dbName = 'chat';
+
+        this.db = new Database( dbName );
+        console.log(`*DB init val: ${JSON.stringify(this.db)}\n\n`);
+    }
+
     componentDidMount() {
         console.log('***COMPONENT DID MOUNT');
-        let dbName = 'chat';
-        let osName = 'messages';
-
-        this.db = new Database();
-        console.log(`*DB init val: ${JSON.stringify(this.db)}\n`);
 
         //this.onChannelSelect('#random'); //default channel selected
         this.onSocketSetup(); //socket event setup
@@ -355,6 +371,14 @@ class Chat extends Component {
         if ( this.state.accountVerified ) {
             console.log('User being logged out');
         }
+    }
+
+    updateSnapshotView() {
+        console.log('\n*ENTERING updateSnapshotView()');
+
+        
+
+        console.log('LEAVING updateSnapshotView()\n');
     }
 
     onSocketSetup() {

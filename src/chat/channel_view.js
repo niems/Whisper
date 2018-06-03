@@ -3,6 +3,7 @@ import ChatNavbar from './chat_navbar'
 import ChatMessageList from './chat_message_list'
 import ChatInput from './chat_input'
 import NoSelection from './no_selection'
+import SnapshotView from './snapshot_view';
 import './style/channel_view.css'
 
 const ChannelView = ({ userData, selectedChannel, selectedMsgs, onSendMsg, allMessages, logout }) => {
@@ -17,8 +18,13 @@ const ChannelView = ({ userData, selectedChannel, selectedMsgs, onSendMsg, allMe
     }
 
     return (
+        <SnapshotView />
+    );
+    /*
+    return (
         <NoSelection />
     );
+    */
 }
 
 export default ChannelView;

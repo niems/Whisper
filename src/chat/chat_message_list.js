@@ -31,11 +31,6 @@ class ChatMessageList extends Component {
 
     updateListScroll() {
         if ( this.listRef ) {
-            console.log('\nupdateListScroll(): scrolling now :D');
-            console.log('updateListScroll(): values to use: ');
-            console.log(`scrollTop: ${this.listRef.scrollTop}`);
-            console.log(`scrollHeight: ${this.listRef.scrollHeight}\n`);
-
             this.listRef.scrollTop = this.listRef.scrollHeight;
         }
 

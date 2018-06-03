@@ -1,8 +1,43 @@
 import idb from 'idb'; 
 import Events from 'events';
 
+/**
+ * database versioning:
+ * 1 -  database is created but no object stores exist
+ * 
+ * 2 -  database is created & this.allMessages have been previously stored
+ *     the stored object stores (channels) will all be pulled and updated
+ *     on the client side
+ */
+
 class Database {
-    constructor() {
+    //determines if the data passed is valid
+    static isValidType(data, dataName) {
+        if ( typeof(data) === 'undefined' ) {
+            console.log(`ERR isValidType(): "${dataName}" info not provided`);
+            return false;
+        }
+
+        console.log(`isValidType(): "${dataName}" info valid :D`);
+        return true;
+    }
+
+    //determines if indexedDB is supported
+    static isDBSupported() {
+        if ( !('indexedDB' in window) ) {
+            console.log('isDBSupported(): indexedDB is NOT supported by the browser :(');
+            return false; 
+        }
+
+        console.log('isDBSupported(): indexedDB is supported by the browser :D');
+        return true;
+    }
+
+
+    constructor(dbName) {
+        this.databaseName = dbName; //name used for current database - MUST be passed when creating an instance of the database
+        this.database = undefined; //once successfully opened, stores a reference to the database
+
         /*
         each requested database action is put into the queue, executing in the order received
         the exception would be storing data - if storing data, it could go through the queue
@@ -10,6 +45,8 @@ class Database {
         queue once complete
         */
         this.dataQueue = []; 
+
+        this.openDB = this.openDB.bind(this); //assumes you don't know the database version - should be called before createOS
 
         /*
         given the action (create/get/add/load), the function will
@@ -32,29 +69,51 @@ class Database {
        */
        this.createOS = this.createOS.bind(this);
 
-       Database.isDBSupported(); //returns if the database is supported
+       //this.openDB();
+        this.createOS();
+    }
+    
+    openDB(dbVersion = 1) {
+        return (
+            new Promise( (resolve, reject) => {
+                if ( !Database.isDBSupported() ) { //returns if the database is supported
+                    reject();
+                }        
+
+                let dbPromise = idb.open( this.databaseName, dbVersion, upgradeDB => {
+                    console.log(`openDB() upgrading - current upgradeDB val: ${JSON.stringify(upgradeDB)}\n\n`);
+
+                    this.databaseOldVersion = upgradeDB.oldVersion;
+                })
+                .then( db => {
+                    console.log('openDB(): database successfully opened & reference stored');
+                    console.log(`openDB() database val: ${JSON.stringify(db)}\n\n`);
+    
+                    this.database = db; //stores database reference
+                    resolve('successfully opened database');
+                })
+                .catch( err => {
+                    console.log(`ERR openDB(): ${err.message}`);   
+                    console.log(`ERR openDB() data: ${JSON.stringify(err)}`);             
+                    reject('failed to open database');
+                });
+            })
+        );
     }
 
-    //determines if the data passed is valid
-    static isValidType(data, dataName) {
-        if ( typeof(data) === 'undefined' ) {
-            console.log(`ERR isValidType(): "${dataName}" info not provided`);
-            return false;
-        }
-
-        console.log(`isValidType(): "${dataName}" info valid :D`);
-        return true;
-    }
-
-    //determines if indexedDB is supported
-    static isDBSupported() {
-        if ( !('indexedDB' in window) ) {
-            console.log('isDBSupported(): indexedDB is NOT supported by the browser :(');
-            return false; 
-        }
-
-        console.log('isDBSupported(): indexedDB is supported by the browser :D');
-        return true;
+    createOS() {
+        //check if creating an upgrade transaction without reopening the database is possible
+        console.log('\n*ENTERING createOS()');
+        let databaseVersion = 1;
+        let dbPromise = this.openDB( databaseVersion );
+        
+        dbPromise.then( result => {
+            console.log(`createOS() result: ${result}`);
+            console.log(`createOS() database version: ${JSON.stringify(this.database)}`);
+        })
+        .catch( err => {
+            console.log(`ERR createOS(): ${JSON.stringify(err)}`);
+        });
     }
 
     addToQueue(action = undefined, dbName = undefined, dbVersion = undefined, osName = undefined, osKeyPath = undefined, osData = undefined) {
@@ -93,6 +152,7 @@ class Database {
         }
     }
 
+    /*
     createOS(dbName = undefined, dbVersion = undefined, osName = undefined, osKeyPath = undefined, osData = undefined) {
         try {
             console.log('\n*ENTERING createOS()');
@@ -152,6 +212,7 @@ class Database {
             console.log(`ERR createOS(): ${err.message}`);
         }
     }
+    */
 }
 
 export default Database;
