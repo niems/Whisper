@@ -1,16 +1,6 @@
 import React from 'react';
-import './snapshot_list_item';
+import SnapshotListItem from './snapshot_list_item';
 import './style/snapshot_view.css';
-
-function SnapshotListItem({ channel }) {
-    return (
-        <li className='snapshot-item'>
-            <div className='snapshot-item-container'>
-
-            </div>
-        </li>
-    );
-}
 
 const SnapshotView = (props) => {
                 /* snapshot channel properties:
@@ -41,7 +31,7 @@ const SnapshotView = (props) => {
             channelId: '#general',
             displayName: '#general',
             image: './images/default_channel_icon.svg',
-            msg: 'general message received - more testing with more typing to see how the <li> wraps correctly. It should use ... instead of running off the side :)',
+            msg: 'general message received - more testing with more typing to see how the <li> wraps correctly. It should use ... instead of running off the side :) ing with more typing to see how the <li> wraps correctly. It should use ... instead of running off the side :)',
             timestamp: 'June 3rd @ 2:05PM'
         }
     ];
@@ -52,9 +42,9 @@ const SnapshotView = (props) => {
 
     return (
         <div id='snapshot-view-container'>
-            <ul id='snapshot-view-list'>
+            <div id='snapshot-view-list'>
                 {snapshotItems}
-            </ul>
+            </div>
         </div>
     );
 }

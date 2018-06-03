@@ -4,7 +4,7 @@ div[id='chat-menu-container'] {
     height: 100%;
     min-width: 215px;
     max-width: 215px;
-    padding: 5px 0px 5px 5px;
+    padding: 5px 0px;
 
     display: flex;
     flex-flow: column nowrap;

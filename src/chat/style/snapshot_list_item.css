@@ -1,8 +1,125 @@
-.snapshot-item {
+.snapshot-item-container {
+    box-sizing: border-box;  
+    width: 100%;
+    height: max-content;
+    max-height: 115px;
+
+    position: relative;
+    
+    margin: 5px;
+    padding: 0px 10px;
+    list-style-type: none;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
     background: green;
 }
 
-.snapshot-item-container {
-    margin: 5px;
+/**snapshot image data setup */
+.snapshot-user-data {
+    box-sizing: border-box;
+    max-height: max-content;
+    padding: 5px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    background: orange;
+}
+
+.snapshot-user-img {
+    max-height: 70px;
+    max-width: 70px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.9);            
+    box-shadow: -1px 1px 5px black;
+}
+
+.snapshot-username {
+    font-size: 0.85em;
+    font-weight: bold;
+    opacity: 0.85;
+}
+/**END snapshot image data setup */
+
+
+/**snapshot message setup */
+.snapshot-msg-data {
+    box-sizing: border-box;
+    width: 100%;
+    height: max-content;
+    max-height: 100%;
+
+    position: relative;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1 auto;
+
+    padding: 5px 2px;
+
+    background: white;
+}
+
+.snapshot-msg {
+    box-sizing: border-box;
+    width: inherit;
+    height: max-content;
+    max-height: 90%;
+    margin: 0px;
+
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 1 auto;
+    
+    font-size: 1em;
+
     background: gray;
 }
+
+.snapshot-timestamp {
+    width: max-content;
+    margin: 0px;    
+
+    font-style: italic;
+    font-size: 0.7em;
+    opacity: 0.9;
+
+    background: gray;
+}
+
+/**END snapshot message setup */
+
+.snapshot-expand-placeholder {
+    width: 25px;
+}
+
+.snapshot-expand-icon {
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
+    z-index: 5;
+
+    max-height: 25px;
+    max-width: 25px;
+
+    transition: all 0.5s;
+}
+
+.snapshot-expand-icon:hover {
+    filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);    
+
+    transform: scale(1.5, 1.35);
+}
+
