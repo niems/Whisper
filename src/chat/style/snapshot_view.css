@@ -15,8 +15,17 @@
 }
 
 #snapshot-title {
-    color: var(--ten);
+    width: 85%;
+
+    font-size: 1.25em;
     font-variant: small-caps;
+    text-align: center;
+
+    border-style: none none groove none;
+    border-width: 1px;
+    
+    color: var(--ten);
+    border-color: #292C2E; /**titlebar bg */
 }
 
 div[id='snapshot-view-list'] {
