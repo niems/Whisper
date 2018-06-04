@@ -10,7 +10,13 @@
     flex: 1 auto;
 
     overflow: hidden;
+    background: inherit;
 
+}
+
+#snapshot-title {
+    color: var(--ten);
+    font-variant: small-caps;
 }
 
 div[id='snapshot-view-list'] {
@@ -29,5 +35,4 @@ div[id='snapshot-view-list'] {
     overflow-x: hidden;
     overflow-y: auto;
 
-    background: rgba(25, 25, 25, 0.25);
 }

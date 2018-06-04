@@ -1,21 +1,22 @@
 .snapshot-item-container {
     box-sizing: border-box;  
     width: 100%;
-    height: max-content;
-    max-height: 115px;
+    min-height: 110px;
+    max-height: 110px;
 
-    position: relative;
-    
     margin: 5px;
-    padding: 0px 10px;
+    padding: 5px 10px;
     list-style-type: none;
+    overflow: hidden;
+
+    border-radius: 10px;
     
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
 
-    background: green;
+    background: #292C2E; /**titlebar bg */
 }
 
 /**snapshot image data setup */
@@ -28,13 +29,11 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-
-    background: orange;
 }
 
 .snapshot-user-img {
-    max-height: 70px;
     max-width: 70px;
+    max-height: 70px;
 
     border-radius: 10px;
 
@@ -46,6 +45,7 @@
     font-size: 0.85em;
     font-weight: bold;
     opacity: 0.85;
+    color: var(--ten);
 }
 /**END snapshot image data setup */
 
@@ -55,7 +55,7 @@
     box-sizing: border-box;
     width: 100%;
     height: max-content;
-    max-height: 100%;
+    max-height: inherit;
 
     position: relative;
 
@@ -63,49 +63,53 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: flex-start;
-    flex: 1 auto;
 
     padding: 5px 2px;
+    overflow: hidden;
 
-    background: white;
+    background: inherit;
 }
 
 .snapshot-msg {
+
     box-sizing: border-box;
-    width: inherit;
+    max-width: 100%;
     height: max-content;
-    max-height: 90%;
-    margin: 0px;
+    max-height: 100%;
 
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 1 auto;
-    
-    font-size: 1em;
+    padding: 5px;
+    border-radius: 5px;
+   
+    overflow: hidden;
+    background: #3B3F42;
+    color: var(--ten); 
+}
 
-    background: gray;
+.snapshot-msg-text {
+    font-size: 0.9em;
+    text-overflow: ellipsis;
 }
 
 .snapshot-timestamp {
     width: max-content;
-    margin: 0px;    
+    height: max-content;
+    margin: 5px 0px 0px 0px;
 
     font-style: italic;
     font-size: 0.7em;
+    font-weight: bold;
     opacity: 0.9;
 
-    background: gray;
+    background: inherit;
+    color: var(--ten);
 }
 
 /**END snapshot message setup */
 
-.snapshot-expand-placeholder {
-    width: 25px;
-}
-
 .snapshot-expand-icon {
+    box-sizing: border-box;
+    filter: invert(.5);
+
     position: absolute;
     right: 0%;
     bottom: 0%;
@@ -113,13 +117,13 @@
 
     max-height: 25px;
     max-width: 25px;
-
-    transition: all 0.5s;
+    padding: 2px;
+    transition: transform 0.35s;
 }
 
 .snapshot-expand-icon:hover {
     filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);    
 
-    transform: scale(1.5, 1.35);
+    transform: scale(1.7, 1.5);
 }
 

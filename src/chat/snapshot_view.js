@@ -21,6 +21,13 @@ const SnapshotView = (props) => {
             timestamp: 'June 3rd @ 2:25PM'
         },
         {
+            channelId: '_admin - _root',
+            displayName: '_root',
+            image: './images/user_images/rick.gif',
+            msg: "This isn't a f****** chocolate factory",
+            timestamp: 'June 3rd @ 2:21PM'
+        },
+        {
             channelId: '#random',
             displayName: '#random',
             image: './images/default_channel_icon.svg',
@@ -40,8 +47,10 @@ const SnapshotView = (props) => {
         <SnapshotListItem id={channel.channelId} key={channel.channelId} channel={channel} />
     ));
 
+    //if allMessages.length > 0: display snapshot, otherwise display no-message screen
     return (
         <div id='snapshot-view-container'>
+            <h5 id='snapshot-title'>all messages</h5>            
             <div id='snapshot-view-list'>
                 {snapshotItems}
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import './style/snapshot_list_item.css';
 
 const SnapshotListItem = ({ channel }) => {
+
     return (
         <div className='snapshot-item-container'>
             <div className='snapshot-user-data'>
@@ -11,13 +12,11 @@ const SnapshotListItem = ({ channel }) => {
 
             <div className='snapshot-msg-data'>
                 <div className='snapshot-msg'>
-                    {channel.msg}
+                    <span className='snapshot-msg-text'>{channel.msg}</span>
                 </div>
                 <small className='snapshot-timestamp'>{channel.timestamp}</small>
+                <img className='snapshot-expand-icon' src='./images/page_icons/arrow-right.svg' alt='failed to load resize img' />
             </div>
-            
-            <span className='snapshot-expand-placeholder'></span>
-            <img className='snapshot-expand-icon' src='./images/page_icons/arrow-right.svg' alt='failed to load resize img' />
         </div>
     );
 }
