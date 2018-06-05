@@ -449,7 +449,6 @@ b[id='chat-menu-username'] {
     stroke: var(--nine);
     stroke-width: 8px;
 
-
     animation-name: remove-svg-icon-anim;
     animation-duration: 2.5s;
     animation-timing-function: ease-out;

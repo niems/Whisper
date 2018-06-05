@@ -234,13 +234,13 @@ function getChannelInfo( channelId, allChannels ) {
     return undefined;
 }
 
-function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel, joinedChannels, onRemoveCategory, allMessages, logout }) {
+function DisplayChat({ accountVerified, userData, users, selectedChannel, selectedMsgs, onSendMsg, onSelect, onImgFail, recentChannels, onRemoveRecentChannel, joinedChannels, onRemoveCategory, allMessages, snapshot, logout }) {
     if ( accountVerified ) {
         return (
             <div id='chat-container'>
                 <ChatMenu userData={userData} users={users} onSelect={onSelect} recentChannels={recentChannels} onRemoveRecentChannel={onRemoveRecentChannel}
                           joinedChannels={joinedChannels} onRemoveCategory={onRemoveCategory} onImgFail={onImgFail} logout={logout} />
-                <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} allMessages={allMessages} />
+                <ChannelView userData={userData} selectedChannel={selectedChannel} selectedMsgs={selectedMsgs} onSendMsg={onSendMsg} allMessages={allMessages} snapshot={snapshot} />
             </div>
         );
     }
@@ -270,6 +270,34 @@ class Chat extends Component {
                     timestamp: 'timestamp of newest message'
                 }
                 */
+                {    
+                    channelId: '_kuhtah - _root',
+                    displayName: '_kuhtah',
+                    image: './images/user_images/cat-rain.gif',
+                    msg: 'BROOOOOOOOO, the rain is wet :o',
+                    timestamp: 'June 3rd @ 2:25PM'
+                },
+                {
+                    channelId: '_admin - _root',
+                    displayName: '_root',
+                    image: './images/user_images/rick.gif',
+                    msg: "This isn't a f****** chocolate factory",
+                    timestamp: 'June 3rd @ 2:21PM'
+                },
+                {
+                    channelId: '#random',
+                    displayName: '#random',
+                    image: './images/default_channel_icon.svg',
+                    msg: 'test message received from #random - will NOT actually specify channel this way',
+                    timestamp: 'June 3rd @ 2:15PM'
+                },
+                {
+                    channelId: '_thanos - _admin',
+                    displayName: '_thanos',
+                    image: './images/user_images/thanos.gif',
+                    msg: 'general message received - more testing with more typing to see how the <li> wraps correctly. It should use ... instead of running off the side :) ing with more typing to see how the <li> wraps correctly. It should use ... instead of running off the side :)',
+                    timestamp: 'June 3rd @ 2:05PM'
+                }
             ],
             
             joinedChannels: [
@@ -373,10 +401,56 @@ class Chat extends Component {
         }
     }
 
-    updateSnapshotView() {
+    updateSnapshotView(msg) {
+        /*msg arg properties:
+        message = {
+                channelId: this.state.selectedChannel.channelId, //determines who the message is being sent to
+                username: this.state.userData.username, //username who sent message
+                socketId: this.state.userData.socketId, //socket id of user who sent message
+                image: this.state.userData.image, //image path of user who sent message
+                msgId: id,
+                msg: msg,
+                timestamp: date.toLocaleTimeString()
+            };
+        */
+        /*snapshot object properties:
+            {
+                channelId: '#random',
+                displayName: '#random',
+                image: './image/image selected hereee',
+                msg: 'new message text',
+                timestamp: 'timestamp of newest message'
+            }
+        */
         console.log('\n*ENTERING updateSnapshotView()');
-
         
+        let snapshotAlreadyExists = false; //determines how the msg is appended
+        //returns the channel
+        //let tempSnapshot = this.state.messagesSnapshot.filter( item => item.channelId === msg.channelId );
+        let tempSnapshot = [...this.state.messagesSnapshot];
+
+        //checks if the channel already exists as a snapshot - splices if it exists
+        for(let i = 0; i < tempSnapshot.length; i++) {
+            if ( tempSnapshot[i].channelId === msg.channelId ) { //channel found - removing
+                console.log('updateSnapshotView(): channel found - removing');
+
+                tempSnapshot.splice(i, 1); //removes old channel snapshot
+                break;
+            }
+        }
+
+        //appends the new message to the front of the snapshot view
+        tempSnapshot.unshift({
+            channelId: msg.channelId,
+            displayName: msg.channelId, //find function that determines display name - if PM, it would remove current username
+            image: msg.image,
+            msg: msg.msg,
+            timestamp: msg.timestamp
+        });
+
+        this.setState({
+            messagesSnapshot: tempSnapshot
+        });
 
         console.log('LEAVING updateSnapshotView()\n');
     }
@@ -470,6 +544,7 @@ class Chat extends Component {
             if ( currentStatus === STATUS.MESSAGE_ADDED ) {      
                 this.socket.emit('chat message', JSON.stringify(packedMsg) ); //only sends to server if successfully added
                 this.updateRecentChannels(true, this.state.selectedChannel.channelId, message );  //updating recent channel - channel is selected   
+                this.updateSnapshotView(message);
                 
                 
                 let tempChannelInfo = getChannelInfo( message.channelId, this.allMessages );
@@ -517,6 +592,7 @@ class Chat extends Component {
 
                 if ( currentStatus === STATUS.MESSAGE_ADDED ) { //new msg added to both channels
                     this.updateRecentChannels(true, msg.channelId, msg ); //updating recent channel - channel is selected
+                    this.updateSnapshotView(msg);
                 }
 
                 else if ( currentStatus === STATUS.error.CHANNEL_NOT_FOUND ) {
@@ -1354,7 +1430,8 @@ class Chat extends Component {
                          selectedChannel={this.state.selectedChannel} selectedMsgs={this.state.selectedMessages}
                          onSendMsg={this.onSendMessage} onSelect={this.onChannelSelect} onImgFail={this.onImgLoadFail}
                          recentChannels={this.state.recentChannels} onRemoveRecentChannel={this.onRemoveRecentChannel} 
-                         joinedChannels={this.state.joinedChannels} onRemoveCategory={this.onRemoveCategory} allMessages={this.allMessages} logout={this.onLogout} />
+                         joinedChannels={this.state.joinedChannels} onRemoveCategory={this.onRemoveCategory} allMessages={this.allMessages}
+                         snapshot={this.state.messagesSnapshot} logout={this.onLogout} />
         );
     }
 }
